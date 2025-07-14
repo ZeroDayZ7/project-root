@@ -23,7 +23,7 @@ Lista najczęściej spotykanych kształtów i ich typowego znaczenia w projektow
 
 ---
 
-## Legenda użycia kolorów (opcjonalna)
+## Legenda użycia kolorów
 
 | Kolor       | Znaczenie                          |
 |-------------|------------------------------------|
@@ -34,23 +34,3 @@ Lista najczęściej spotykanych kształtów i ich typowego znaczenia w projektow
 | 🔴 Czerwony  | Komponenty krytyczne lub alertowe  |
 
 ---
-
-## Przykładowy flow
-
-```plaintext
-🧍‍♂️ Obywatel
-    |
-    v
-🔲 Portal Obywatelski (Next.js)
-    |
-    v
-🔲 AuthService
-    |
-    v
-📀 Users DB
-    |
-    v
-🔄 Generowanie TOTP
-    |
-    v
-📱 Google Authenticator
