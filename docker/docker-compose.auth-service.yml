@@ -1,0 +1,45 @@
+services:
+  auth-service:
+    build:
+      context: ../..  
+      dockerfile: ./project-root/services/auth-service/Dockerfile
+    container_name: auth-service
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../services/auth-service:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgres://postgres:password@auth-db:5432/authdb
+      REDIS_URL: redis://redis:6379
+    env_file:
+      - ../services/auth-service/.env
+    depends_on:
+      - auth-db
+    networks:
+      - shared
+    command: pnpm run nodemon
+
+  auth-db:
+    image: postgres:15-alpine
+    container_name: auth-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - shared
+
+volumes:
+  auth-db-data:
+
+networks:
+  shared:
+    external: true

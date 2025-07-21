@@ -1,9 +1,8 @@
-FROM node:24
+FROM node:24-alpine
 
 WORKDIR /app
 
-COPY ../../pnpm-lock.yaml ../../package.json ./
-COPY ./package.json ./services/auth/package.json ./
+COPY ./pnpm-lock.yaml ./package.json ./
 
 RUN npm install -g pnpm && pnpm install --filter ./services/auth...
 

@@ -1,12 +1,18 @@
-FROM node:24
+FROM node:24-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY ../../pnpm-lock.yaml ../../package.json ./
-COPY ./package.json ./services/auth/package.json ./
+# Kopiuj lockfile i root package.json (potrzebne do pnpm)
+COPY pnpm-lock.yaml package.json ./
 
-RUN npm install -g pnpm && pnpm install --filter ./services/auth...
+# Kopiuj package.json i tsconfig.json serwisu auth-service
+COPY services/auth-service/package.json ./package.json
+COPY services/auth-service/tsconfig.json ./tsconfig.json
 
-COPY . .
+# Instaluj pnpm i zależności tylko dla auth-service
+RUN npm install -g pnpm && pnpm install --filter ./services/auth-service...
 
-CMD ["pnpm", "dev"]
+# Kopiuj cały kod serwisu auth-service
+COPY services/auth-service ./ 
+
+CMD ["pnpm", "run", "nodemon"]

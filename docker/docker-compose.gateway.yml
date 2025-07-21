@@ -1,0 +1,28 @@
+services:
+  gateway:
+    build:
+      context: ../..  # root folder (czyli project-root)
+      dockerfile: ./project-root/apps/gateway/Dockerfile
+    container_name: gateway
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    volumes:
+      - ../apps/gateway:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ../apps/gateway/.env
+    # depends_on:
+    #   - redis
+    #   - auth-service
+    #   - auth-db
+    networks:
+      - shared
+    command: pnpm run nodemon
+
+networks:
+  shared:
+    external: true
