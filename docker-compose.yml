@@ -1,0 +1,197 @@
+version: '3.9'
+
+services:
+  reverse-proxy:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: nginx:stable-alpine
+    container_name: reverse-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      # - "443:443" # opcjonalnie, jeśli robisz TLS
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
+    depends_on:
+      - web
+      - gateway
+    networks:
+      - internal
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: web
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./apps/web:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./apps/web/.env
+    networks:
+      - internal
+    command: pnpm dev
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  gateway:
+    build:
+      context: ./apps/gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./apps/gateway:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./apps/gateway/.env
+    depends_on:
+      - redis
+      - auth-service
+      - postgres
+    networks:
+      - internal
+    command: pnpm run nodemon
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./services/auth-service:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:password@auth-db:5432/authdb
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./services/auth-service/.env
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - internal
+    command: pnpm run nodemon
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  redis:
+    image: redis:7.4.0-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  auth-db:
+    container_name: auth-db
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authdb
+    ports:
+      - '5432:5432'
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - internal
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmindata:/var/lib/pgadmin
+    networks:
+      - internal
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+ # Monitoring 
+  prometheus: 
+    image: prom/prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - internal
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    volumes:
+    - grafana-data:/var/lib/grafana
+    - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
+    - ./monitoring/grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+    - ./monitoring/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    env_file:
+      - ./monitoring/grafana/.env
+    networks:
+      - internal
+# sieci
+networks:
+  internal:
+    driver: bridge
+  public:
+    driver: bridge
+# Wolumeny
+volumes:
+  auth-db-data:
+  pgadmindata:
+  redis-data:

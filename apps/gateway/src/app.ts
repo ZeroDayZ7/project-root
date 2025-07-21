@@ -6,10 +6,13 @@ import { corsMiddleware } from './middleware/cors.middleware.js';
 import swaggerMiddleware from './middleware/swagger.middleware.js';
 import { requestLoggerDev } from './middleware/requestLogger.middleware.js';
 
-import healthRouter from './routes/health.js';
+// import healthRouter from './routes/health.route.js';
+// import metricsRouter from './routes/metrics.route.js';
+
 import logger from './utils/logger.js';
 
 import authProxyRouter from './proxies/authProxy.js';
+import { loadRoutes } from './loaders/routerLoader.js';
 
 const app = express();
 
@@ -32,8 +35,17 @@ app.use((req, res, next) => {
 
 
 app.use('/api-docs', ...swaggerMiddleware);
-app.use('/health', healthRouter);
+// await loadRoutes(app); // dynamiczne ładowanie tras
+// app.use('/health', healthRouter);
+// app.use('/metrics', metricsRouter);
 app.use('/api/auth', authProxyRouter);
+
+await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes
+
+// loadRoutes(app).then(() => {
+//   console.log('All routes loaded');
+// });
+
 
 // Obsługa błędów
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
