@@ -1,9 +1,11 @@
 import 'dotenv/config';
+// import dotenv from 'dotenv';
 import app from './app.js';
 import logger from './utils/logger.js';
 
 async function startServer() {
   try {
+    // dotenv.config();
     logger.info(`Application starting...`);
 
     const PORT = process.env.PORT || 3000;

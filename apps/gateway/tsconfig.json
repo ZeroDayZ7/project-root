@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "ES2020",                  // Nowoczesny JavaScript
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",     // Poprawna obsługa rozszerzeń i ESM
+    "moduleResolution": "NodeNext",
+    // "types": ["node"],                   // Poprawna obsługa rozszerzeń i ESM
     "rootDir": "./src",                  // Źródła TypeScript
     "outDir": "./dist",                  // Kompilowane pliki JS
     "strict": true,                      // Wymuszaj poprawność typów
