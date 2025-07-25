@@ -38,13 +38,17 @@ export const useEqualizer = ({
     const ctx = canvas?.getContext('2d');
 
     if (!canvas || !ctx || !analyser) {
-      console.warn('useEqualizer: Missing canvas, context, or analyser for animation.');
+      console.warn(
+        'useEqualizer: Missing canvas, context, or analyser for animation.',
+      );
       return;
     }
 
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
-    const barWidth = Math.floor((canvas.width - (numBars - 1) * barSpacing) / numBars);
+    const barWidth = Math.floor(
+      (canvas.width - (numBars - 1) * barSpacing) / numBars,
+    );
 
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
     gradient.addColorStop(0, '#a855f7');
@@ -79,19 +83,18 @@ export const useEqualizer = ({
         // Użyj logarytmicznego skalowania dla lepszej wizualizacji niskich częstotliwości
         // const freqIndex = Math.floor(i * (bufferLength / numBars));
         const freqIndex = Math.floor(Math.pow(i / numBars, 2) * bufferLength);
-
         
+        // Alternatywnie, jeśli chcesz użyć logarytmicznego skalowania:
+        // const logScale = (index: number, totalBars: number, bufferLength: number) => {
+        //   const minLog = Math.log10(1);
+        //   const maxLog = Math.log10(bufferLength);
+        //   const scale = (index / totalBars) * (maxLog - minLog) + minLog;
+        //   return Math.floor(Math.pow(10, scale));
+        // };
 
-const logScale = (index: number, totalBars: number, bufferLength: number) => {
-  const minLog = Math.log10(1);
-  const maxLog = Math.log10(bufferLength);
-  const scale = (index / totalBars) * (maxLog - minLog) + minLog;
-  return Math.floor(Math.pow(10, scale));
-};
+        // const freqIndex = logScale(i, numBars, bufferLength);
 
-// const freqIndex = logScale(i, numBars, bufferLength);
-
-const dataValue = dataArray[freqIndex] || 0;
+        const dataValue = dataArray[freqIndex] || 0;
 
         // Normalizacja i skalowanie wysokości pasków
         const scaledValue = Math.pow(dataValue / 255, 0.9) * 255;
@@ -126,7 +129,16 @@ const dataValue = dataArray[freqIndex] || 0;
 
     // console.log('useEqualizer: Starting animation frame loop.');
     animationFrameId.current = requestAnimationFrame(renderFrame);
-  }, [analyser, isPlaying, canvasWidth, canvasHeight, numBars, barSpacing, drawStaticBars, frameInterval]); // Zależności dla useCallback
+  }, [
+    analyser,
+    isPlaying,
+    canvasWidth,
+    canvasHeight,
+    numBars,
+    barSpacing,
+    drawStaticBars,
+    frameInterval,
+  ]); // Zależności dla useCallback
 
   // Cleanup effect: Anuluj animację przy odmontowaniu lub zmianie isPlaying
   useEffect(() => {

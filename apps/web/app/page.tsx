@@ -157,12 +157,6 @@ export default function HomePage() {
               </h3>
               <div className="space-y-2 text-sm">
                 <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
-                  • Portal gov.pl
-                </Link>
-                <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
-                  • Ministerstwo Cyfryzacji
-                </Link>
-                <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
                   • Centrum Bezpieczeństwa
                 </Link>
                 <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
@@ -184,10 +178,10 @@ export default function HomePage() {
                   audioSrc="/project-root/music/m1.mp3" 
                   className="w-full text-left"
                 />
-{/* <AudioPlayer 
-  audioSrc="/music/m1.mp3" 
-  className="w-full text-left"
-/> */}
+                {/* <AudioPlayer 
+                  audioSrc="/music/m1.mp3" 
+                  className="w-full text-left"
+                /> */}
 
 
                 {/* <button className="w-full text-left bg-green-400/10 hover:bg-green-400/20 border border-green-400/30 rounded p-2 text-sm transition-colors">

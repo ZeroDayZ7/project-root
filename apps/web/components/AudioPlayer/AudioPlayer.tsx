@@ -15,29 +15,25 @@ interface AudioPlayerProps {
 
 export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   audioSrc,
-  className = "",
+  className = '',
   playerHeightPx = 150, // Domyślna wysokość odtwarzacza
-  canvasHeightPx = 40,  // Domyślna wysokość canvas
+  canvasHeightPx = 40, // Domyślna wysokość canvas
 }) => {
   const canvasWidth = 300; // Szerokość canvas może być stała lub konfigurowalna
   const numBars = 24;
   const barSpacing = 2;
 
-  const {
-    isPlaying,
-    volume,
-    setVolume,
-    isInitialized,
-    togglePlay,
-    analyser,
-  } = useAudio({ audioSrc, initialVolume: 20 });
+  const { isPlaying, volume, setVolume, isInitialized, togglePlay, analyser } = useAudio({
+    audioSrc,
+    initialVolume: 20,
+  });
 
   // Użyj AnalyserNode i AudioContext jako zależności dla useEqualizer
   const { canvasRef, drawStaticBars } = useCanvas({
     canvasWidth,
     canvasHeight: canvasHeightPx, // Przekazujemy stałą wysokość canvas
     numBars,
-    barSpacing
+    barSpacing,
   });
 
   const { animateEqualizer } = useEqualizer({
@@ -54,7 +50,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   // Uruchom animację, gdy odtwarzanie się zaczyna
   useEffect(() => {
     if (isPlaying && analyser) {
-    //   console.log('AudioPlayer: Starting equalizer animation.');
+      //   console.log('AudioPlayer: Starting equalizer animation.');
       animateEqualizer();
     }
   }, [isPlaying, analyser, animateEqualizer]);
@@ -78,9 +74,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           <button
-  onClick={togglePlay}
-  disabled={!isInitialized}
-  className="
+            onClick={togglePlay}
+            disabled={!isInitialized}
+            className="
     flex items-center space-x-2 px-3 py-1
     bg-purple-500/20 hover:bg-purple-500/30
     border border-purple-400/50 hover:border-purple-400/70
@@ -89,22 +85,17 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     disabled:opacity-50 disabled:cursor-not-allowed
     group relative overflow-hidden
   "
->
-    <span className="relative text-purple-400 text-sm">🎵</span>
-  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-  <span className="relative z-10 w-24">
-    {isPlaying ? 'ZATRZYMAJ' : 'ODTWÓRZ'}
-  </span>
+          >
+            <span className="relative text-purple-400 text-sm">🎵</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            <span className="relative z-10 w-24">{isPlaying ? 'ZATRZYMAJ' : 'ODTWÓRZ'}</span>
 
-  <div
-    className={`w-2 h-2 bg-purple-400 rounded-full relative z-10 ${
-      isPlaying ? 'animate-pulse' : ''
-    }`}
-  />
-</button>
-
+            <div className={`w-2 h-2 bg-purple-400 rounded-full relative z-10 ${isPlaying ? 'animate-pulse' : ''}`} />
+          </button>
         </div>
-        <div className="flex items-center space-x-4"> {/* Zwiększony odstęp */}
+        <div className="flex items-center space-x-4">
+          {' '}
+          {/* Zwiększony odstęp */}
           <div className="flex items-center space-x-2">
             <span className="text-xs text-purple-400/70">VOL:</span>
             <input
