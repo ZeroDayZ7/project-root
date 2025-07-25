@@ -36,7 +36,6 @@ export function AppBrand() {
               alt="System Logo"
               width={80}
               height={80}
-              className="rounded-full brightness-110"
               priority
               className="rounded-full grayscale brightness-75 transition-all duration-500 group-hover/logo:grayscale-0 group-hover/logo:brightness-110"
             />
