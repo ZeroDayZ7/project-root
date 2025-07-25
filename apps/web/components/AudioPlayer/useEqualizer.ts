@@ -1,3 +1,6 @@
+// components/useEqualizer.ts
+'use client';
+
 import { useEffect, useRef, useCallback } from 'react';
 
 interface UseEqualizerProps {
@@ -8,7 +11,6 @@ interface UseEqualizerProps {
   canvasHeight: number;
   numBars: number;
   barSpacing: number;
-  drawStaticBars: () => void;
 }
 
 interface EqualizerState {
@@ -23,26 +25,34 @@ export const useEqualizer = ({
   canvasHeight,
   numBars,
   barSpacing,
-  drawStaticBars,
 }: UseEqualizerProps): EqualizerState => {
   const animationFrameId = useRef<number | undefined>(undefined);
   const lastFrameTime = useRef<DOMHighResTimeStamp>(0);
   const previousDataRef = useRef<number[]>([]);
 
-  const targetFps = 30;
-  const frameInterval = 200 / targetFps;
+  const targetFps = 30; // Docelowa liczba klatek na sekundę
+  const frameInterval = 200 / targetFps; // Interwał w milisekundach
+  const decay = 10; // Szybkość opadania pasków
 
   const animateEqualizer = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
 
     if (!canvas || !ctx || !analyser) {
-      console.warn('useEqualizer: Missing canvas, context, or analyser for animation.');
+      console.warn('useEqualizer: Brak canvas, kontekstu lub analizatora dla animacji.');
       return;
     }
 
     const bufferLength = analyser.frequencyBinCount;
-    const barWidth = Math.floor((canvas.width - (numBars - 1) * barSpacing) / numBars);
+    const dataArray = new Uint8Array(bufferLength);
+    // Dynamiczne obliczanie szerokości paska, aby wypełnić całą szerokość
+    const totalSpacing = (numBars - 1) * barSpacing;
+    const barWidth = (canvas.width - totalSpacing) / numBars; // Usunięto Math.floor
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#a855f7');
+    gradient.addColorStop(0.5, '#8b5cf6');
+    gradient.addColorStop(1, '#7c3aed');
 
     const renderFrame = (currentTime: DOMHighResTimeStamp) => {
       if (currentTime - lastFrameTime.current < frameInterval) {
@@ -51,52 +61,29 @@ export const useEqualizer = ({
       }
       lastFrameTime.current = currentTime;
 
-      const dataArray = new Uint8Array(bufferLength);
-
       if (isPlaying) {
         analyser.getByteFrequencyData(dataArray);
         previousDataRef.current = Array.from(dataArray);
-
-        // const decay = 20; // im wyższe, tym szybciej opadają (np. 10–20)
-
-       
-
-        // for (let i = 0; i < bufferLength; i++) {
-        //   const current = dataArray[i];
-        //   const previous = previousDataRef.current[i] ?? 0;
-
-        //   // Jeśli nowa wartość jest wyższa – aktualizuj od razu
-        //   if (current > previous) {
-        //     previousDataRef.current[i] = current;
-        //   } else {
-        //     // Jeśli niższa – stopniowo zmniejsz
-        //     previousDataRef.current[i] = Math.max(0, previous - decay);
-        //   }
-
-        //   // Aktualizuj dataArray tym, co narysujesz
-        //   dataArray[i] = previousDataRef.current[i];
-        // }
       } else {
-        const current = previousDataRef.current;
         for (let i = 0; i < bufferLength; i++) {
-          dataArray[i] = Math.max(0, (current?.[i] ?? 0) - 4);
+          const currentValue = previousDataRef.current[i] ?? 0;
+          previousDataRef.current[i] = Math.max(0, currentValue - decay);
+          dataArray[i] = previousDataRef.current[i];
         }
-        previousDataRef.current = Array.from(dataArray);
       }
 
       const allZero = dataArray.every((v) => v <= 0);
       if (!isPlaying && allZero) {
-        cancelAnimationFrame(animationFrameId.current!);
-        animationFrameId.current = undefined;
+        if (animationFrameId.current) {
+          cancelAnimationFrame(animationFrameId.current);
+          animationFrameId.current = undefined;
+          console.log('useEqualizer: Animacja zatrzymana, wszystkie paski na dole.');
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         return;
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#a855f7');
-      gradient.addColorStop(0.5, '#8b5cf6');
-      gradient.addColorStop(1, '#7c3aed');
       ctx.fillStyle = gradient;
 
       for (let i = 0; i < numBars; i++) {
@@ -124,21 +111,26 @@ export const useEqualizer = ({
       animationFrameId.current = requestAnimationFrame(renderFrame);
     };
 
+    console.log('useEqualizer: Rozpoczynanie pętli animacji.');
+    lastFrameTime.current = performance.now();
     animationFrameId.current = requestAnimationFrame(renderFrame);
-  }, [analyser, isPlaying, canvasRef, numBars, barSpacing, canvasWidth, canvasHeight, frameInterval]);
+  }, [analyser, isPlaying, canvasRef, numBars, barSpacing, canvasWidth, canvasHeight]);
 
   useEffect(() => {
-    if (!isPlaying && animationFrameId.current) {
-      cancelAnimationFrame(animationFrameId.current);
-      animationFrameId.current = undefined;
+    if (isPlaying) {
+      previousDataRef.current = new Array(analyser?.frequencyBinCount || 64).fill(0);
+      console.log('useEqualizer: Reset previousDataRef przy wznowieniu odtwarzania.');
     }
+  }, [isPlaying, analyser]);
 
+  useEffect(() => {
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
+        console.log('useEqualizer: Czyszczenie animacji.');
       }
     };
-  }, [isPlaying]);
+  }, []);
 
   return { animateEqualizer };
 };
