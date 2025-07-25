@@ -25,9 +25,8 @@ jobs:
 
       - name: Build Next.js static export
         working-directory: apps/web
-        run: |
+        run: | 
           pnpm run build
-          pnpm run export  # generuje folder out/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
