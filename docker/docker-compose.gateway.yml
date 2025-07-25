@@ -21,7 +21,7 @@ services:
     #   - auth-db
     networks:
       - shared
-    command: pnpm run nodemon
+    command: pnpm run dev
 
 networks:
   shared:

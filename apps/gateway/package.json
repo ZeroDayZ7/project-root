@@ -8,9 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsx src/server.ts",
+    "dev": "tsx src/index.ts",
     "nodemon": "nodemon",
-    "server": "nodemon --exec tsx src/server.ts"
+    "server": "nodemon --exec tsx src/index.ts"
   },
   "keywords": [],
   "author": "ZeroDayZ7",
