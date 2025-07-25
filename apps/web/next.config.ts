@@ -1,14 +1,15 @@
 import type { NextConfig } from 'next';
 
 const isGithubPages = process.env.GITHUB_PAGES === 'true'
+const repo = 'project-root'; // <-- nazwę repozytorium wpisz tu
 
 const nextConfig: NextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
   },
-  basePath: isGithubPages ? '/project-root' : '',
-  assetPrefix: isGithubPages ? '/project-root/' : '',
+  basePath: isGithubPages ? `/${repo}` : '',
+  assetPrefix: isGithubPages ? `/${repo}/` : '',
   // reactStrictMode: true,
 };
 

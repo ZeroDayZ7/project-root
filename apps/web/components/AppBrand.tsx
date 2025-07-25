@@ -11,7 +11,7 @@ export function AppBrand() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIsGlitching(true);
-      const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~`';
+      const glitchChars = '你好世界こんにちは世界';
       const originalText = 'SYSTEM KASANDRA';
       let iterations = 0;
       
