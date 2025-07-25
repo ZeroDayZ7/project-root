@@ -32,10 +32,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3 # <--- ZMIENIONO AKCJĘ!
-        with:
-          version: 9 # Możesz określić konkretną wersję pnpm, np. 8 lub 9
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Setup Node
         uses: actions/setup-node@v4
