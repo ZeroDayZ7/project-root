@@ -180,14 +180,14 @@ export default function HomePage() {
                 <span className="mr-2">{'>'}</span> SZYBKIE AKCJE
               </h3>
               <div className="space-y-3">
-               {/* <AudioPlayer 
-  audioSrc="/project-root/music/m1.mp3" 
+               <AudioPlayer 
+                  audioSrc="/project-root/music/m1.mp3" 
+                  className="w-full text-left"
+                />
+{/* <AudioPlayer 
+  audioSrc="/music/m1.mp3" 
   className="w-full text-left"
 /> */}
-<AudioPlayer 
-  audioSrc="/project-root/music/m1.mp3" 
-  className="w-full text-left"
-/>
 
 
                 {/* <button className="w-full text-left bg-green-400/10 hover:bg-green-400/20 border border-green-400/30 rounded p-2 text-sm transition-colors">

@@ -33,19 +33,19 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
 
   // Inicjalizacja audio
   useEffect(() => {
-    console.log('useAudio: Inicjalizacja audio', { audioSrc });
+    // console.log('useAudio: Inicjalizacja audio', { audioSrc });
     audioRef.current = new Audio(audioSrc);
     audioRef.current.loop = true;
     audioRef.current.crossOrigin = 'anonymous';
     audioRef.current.volume = volume / 100;
 
     audioRef.current.addEventListener('canplaythrough', () => {
-      console.log('useAudio: Audio gotowe do odtwarzania');
+      // console.log('useAudio: Audio gotowe do odtwarzania');
       setIsInitialized(true);
     });
 
     audioRef.current.addEventListener('ended', () => {
-      console.log('useAudio: Audio zakończone');
+      // console.log('useAudio: Audio zakończone');
       setIsPlaying(false);
     });
 
@@ -77,7 +77,7 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
   // Inicjalizacja Web Audio API
   const initializeAudioContext = () => {
     if (!audioRef.current || audioContext) {
-      console.log('useAudio: AudioContext już zainicjalizowany lub brak audioRef');
+      // console.log('useAudio: AudioContext już zainicjalizowany lub brak audioRef');
       return;
     }
 
@@ -87,11 +87,11 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
     }
 
     try {
-  console.log('useAudio: Inicjalizacja AudioContext');
+  // console.log('useAudio: Inicjalizacja AudioContext');
   const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
   const analyserNode = ctx.createAnalyser();
 
-  analyserNode.fftSize = 256;
+  analyserNode.fftSize = 128;
   // analyserNode.fftSize = 512;
   analyserNode.smoothingTimeConstant = 0.8;
 
@@ -118,34 +118,34 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
   // Przełączanie play/pause
   const togglePlay = async () => {
     if (!audioRef.current || !isInitialized) {
-      console.warn('useAudio: Audio nie zainicjalizowane lub brak audioRef:', { audioRef: audioRef.current, isInitialized });
+      // console.warn('useAudio: Audio nie zainicjalizowane lub brak audioRef:', { audioRef: audioRef.current, isInitialized });
       return;
     }
 
     try {
       if (isPlaying) {
-        console.log('useAudio: Pauzowanie audio');
+        // console.log('useAudio: Pauzowanie audio');
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
-        console.log('useAudio: Rozpoczynanie odtwarzania');
+        // console.log('useAudio: Rozpoczynanie odtwarzania');
         if (!audioContext) {
           initializeAudioContext();
         }
         
         if (!analyser) {
-          console.log('useAudio: Oczekiwanie na AnalyserNode');
+          // console.log('useAudio: Oczekiwanie na AnalyserNode');
           await new Promise((resolve) => setTimeout(resolve, 100));
         }
 
         if (audioContext && audioContext.state === 'suspended') {
           await audioContext.resume();
-          console.log('useAudio: AudioContext wznowiony, stan:', audioContext.state);
+          // console.log('useAudio: AudioContext wznowiony, stan:', audioContext.state);
         }
         
         await audioRef.current.play();
         setIsPlaying(true);
-        console.log('useAudio: Odtwarzanie rozpoczęte');
+        // console.log('useAudio: Odtwarzanie rozpoczęte');
       }
     } catch (error) {
       console.error('useAudio: Błąd odtwarzania:', error);

@@ -67,7 +67,7 @@ export const useCanvas = ({ canvasWidth, canvasHeight, numBars, barSpacing }: Us
       return;
     }
 
-    console.log('useCanvas: Initializing canvas dimensions.', { canvasWidth, canvasHeight });
+    // console.log('useCanvas: Initializing canvas dimensions.', { canvasWidth, canvasHeight });
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     drawStaticBars(); // Narysuj statyczne paski po zmianie wymiarów

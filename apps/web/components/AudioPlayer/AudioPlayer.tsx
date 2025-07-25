@@ -23,18 +23,13 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const numBars = 24;
   const barSpacing = 2;
 
-  // Stan dla czułości wizualizera (nowa kontrola)
-  const [visualizerGain, setVisualizerGain] = useState(50); // Domyślna czułość 50%
-
   const {
     isPlaying,
     volume,
     setVolume,
     isInitialized,
     togglePlay,
-    initializeAudioContext,
     analyser,
-    audioContext, // Potrzebujemy dostępu do audioContext, aby tworzyć GainNode
   } = useAudio({ audioSrc, initialVolume: 20 });
 
   // Użyj AnalyserNode i AudioContext jako zależności dla useEqualizer
@@ -54,7 +49,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     numBars,
     barSpacing,
     drawStaticBars,
-    visualizerGain, // Przekazujemy czułość wizualizera
   });
 
   // Uruchom animację, gdy odtwarzanie się zaczyna
@@ -72,13 +66,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     setVolume(newVolume);
   };
 
-  // Zmiana czułości wizualizera
-  const handleVisualizerGainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newGain = parseInt(e.target.value, 10);
-    // console.log('AudioPlayer: Changing visualizer gain:', newGain);
-    setVisualizerGain(newGain);
-  };
-
   if (!isInitialized) {
     return <Loader className={className} />;
   }
@@ -91,29 +78,31 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           <button
-            onClick={togglePlay}
-            disabled={!isInitialized}
-            className="
-              flex items-center space-x-2 px-3 py-1
-              bg-purple-500/20 hover:bg-purple-500/30
-              border border-purple-400/50 hover:border-purple-400/70
-              rounded text-sm font-medium text-purple-300
-              transition-all duration-300
-              disabled:opacity-50 disabled:cursor-not-allowed
-              group relative overflow-hidden
-            "
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-            <span className="text-base relative z-10">
-              {isPlaying ? '⏸️' : '▶️'}
-            </span>
-            <span className="relative z-10">
-              {isPlaying ? 'ZATRZYMAJ' : 'ODTWÓRZ'}
-            </span>
-            {isPlaying && (
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse relative z-10" />
-            )}
-          </button>
+  onClick={togglePlay}
+  disabled={!isInitialized}
+  className="
+    flex items-center space-x-2 px-3 py-1
+    bg-purple-500/20 hover:bg-purple-500/30
+    border border-purple-400/50 hover:border-purple-400/70
+    rounded text-sm font-medium text-purple-300
+    transition-all duration-300
+    disabled:opacity-50 disabled:cursor-not-allowed
+    group relative overflow-hidden
+  "
+>
+    <span className="relative text-purple-400 text-sm">🎵</span>
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+  <span className="relative z-10 w-24">
+    {isPlaying ? 'ZATRZYMAJ' : 'ODTWÓRZ'}
+  </span>
+
+  <div
+    className={`w-2 h-2 bg-purple-400 rounded-full relative z-10 ${
+      isPlaying ? 'animate-pulse' : ''
+    }`}
+  />
+</button>
+
         </div>
         <div className="flex items-center space-x-4"> {/* Zwiększony odstęp */}
           <div className="flex items-center space-x-2">
@@ -143,7 +132,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           style={{ imageRendering: 'pixelated', height: `${canvasHeightPx}px` }} // Ustawienie stałej wysokości canvas w CSS
         />
       </div>
-      <div className="mt-2 text-xs text-purple-400/50 text-center">
+      <div className="mt-2 text-xs text-purple-400 text-center">
         KASANDRA AUDIO SYSTEM • {isPlaying ? 'STREAMING' : 'STANDBY'}
       </div>
     </div>

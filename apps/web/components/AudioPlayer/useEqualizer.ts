@@ -9,7 +9,6 @@ interface UseEqualizerProps {
   numBars: number;
   barSpacing: number;
   drawStaticBars: () => void;
-  visualizerGain: number; // Nowa prop: czułość wizualizera
 }
 
 interface EqualizerState {
@@ -25,14 +24,13 @@ export const useEqualizer = ({
   numBars,
   barSpacing,
   drawStaticBars,
-  visualizerGain, // Używamy tej prop do skalowania wysokości pasków
 }: UseEqualizerProps): EqualizerState => {
   const animationFrameId = useRef<number | undefined>(undefined);
   const lastFrameTime = useRef<DOMHighResTimeStamp>(0);
 
   // Optymalizacja: Regulacja FPS
-  const targetFps = 60; // Docelowa liczba klatek na sekundę
-  const frameInterval = 200 / targetFps; // Interwał w milisekundach
+  const targetFps = 30; // Docelowa liczba klatek na sekundę
+  const frameInterval = 100 / targetFps; // Interwał w milisekundach
 
   // Animacja Equalizera - memoizowana funkcja
   const animateEqualizer = useCallback(() => {
@@ -79,12 +77,26 @@ export const useEqualizer = ({
       for (let i = 0; i < numBars; i++) {
         // Mapowanie indeksów częstotliwości do pasków wizualizera
         // Użyj logarytmicznego skalowania dla lepszej wizualizacji niskich częstotliwości
-        const freqIndex = Math.floor(i * (bufferLength / numBars));
-        const dataValue = dataArray[freqIndex] || 0;
+        // const freqIndex = Math.floor(i * (bufferLength / numBars));
+        const freqIndex = Math.floor(Math.pow(i / numBars, 2) * bufferLength);
+
+        
+
+const logScale = (index: number, totalBars: number, bufferLength: number) => {
+  const minLog = Math.log10(1);
+  const maxLog = Math.log10(bufferLength);
+  const scale = (index / totalBars) * (maxLog - minLog) + minLog;
+  return Math.floor(Math.pow(10, scale));
+};
+
+// const freqIndex = logScale(i, numBars, bufferLength);
+
+const dataValue = dataArray[freqIndex] || 0;
 
         // Normalizacja i skalowanie wysokości pasków
-        // Skalowanie przez visualizerGain - to jest klucz do kontroli czułości
-        const scaledValue = dataValue * (visualizerGain / 100); // Skalujemy od 0 do 255
+        const scaledValue = Math.pow(dataValue / 255, 0.9) * 255;
+
+        // const scaledValue = dataValue; // Skalujemy od 0 do 255
         const height = Math.max(2, (scaledValue / 255) * canvas.height); // Minimalna wysokość paska
 
         const x = i * (barWidth + barSpacing);
@@ -114,7 +126,7 @@ export const useEqualizer = ({
 
     // console.log('useEqualizer: Starting animation frame loop.');
     animationFrameId.current = requestAnimationFrame(renderFrame);
-  }, [analyser, isPlaying, canvasWidth, canvasHeight, numBars, barSpacing, drawStaticBars, visualizerGain, frameInterval]); // Zależności dla useCallback
+  }, [analyser, isPlaying, canvasWidth, canvasHeight, numBars, barSpacing, drawStaticBars, frameInterval]); // Zależności dla useCallback
 
   // Cleanup effect: Anuluj animację przy odmontowaniu lub zmianie isPlaying
   useEffect(() => {
