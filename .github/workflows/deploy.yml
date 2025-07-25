@@ -22,6 +22,7 @@ jobs:
       - name: Install dependencies
         working-directory: apps/web # Prawidłowo instaluje zależności w `apps/web`
         run: pnpm install
+        pnpm ls -r --depth=-1
 
       - name: Build Next.js static export
         working-directory: apps/web # <--- DODAJ TĘ LINIĘ! Uruchamia build w `apps/web`
