@@ -135,7 +135,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             <span className="text-xs text-purple-400/70 w-8">{volume}%</span>
           </div>
 
-          {/* Nowy suwak do kontroli czułości wizualizera */}
+          {/* Nowy suwak do kontroli czułości wizualizera
           <div className="flex items-center space-x-2">
             <span className="text-xs text-purple-400/70">VIS:</span>
             <input
@@ -153,7 +153,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               "
             />
             <span className="text-xs text-purple-400/70 w-8">{visualizerGain}%</span>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="bg-black/40 border border-purple-400/20 rounded p-2">

@@ -181,7 +181,7 @@ export default function HomePage() {
               </h3>
               <div className="space-y-3">
                <AudioPlayer 
-  audioSrc="/music/m1.mp3" 
+  audioSrc="/project-root/music/m1.mp3" 
   className="w-full text-left"
 />
 
