@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Project Poland – Nowoczesny Portal Obywatelski",
+  title: "SYSTEM KASANDRA – STRATEGIC SECURITY CENTER",
   description:
-    "Project Poland to innowacyjna platforma cyfrowa dla obywateli Polski – zarządzaj dokumentami, komunikuj się z urzędami, korzystaj z usług publicznych w jednym miejscu.",
+    "SYSTEM KASANDRA to innowacyjna platforma cyfrowa dla obywateli Polski – zarządzaj dokumentami, komunikuj się z urzędami, korzystaj z usług publicznych w jednym miejscu.",
   keywords: [
     "Polska",
     "portal obywatelski",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   creator: "Project Poland Team",
   publisher: "Rzeczpospolita Polska",
   openGraph: {
-    title: "Project Poland - Portal Nowej Generacji",
+    title: "SYSTEM KASANDRA - Portal Nowej Generacji",
     description:
       "Cyfrowa transformacja administracji publicznej. Sprawdź, co Project Poland może zaoferować każdemu obywatelowi.",
     url: "https://projectpoland.gov.pl",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Project Poland - Nowoczesny Portal Dla Obywateli",
+    title: "SYSTEM KASANDRA - Nowoczesny Portal Dla Obywateli",
     description:
       "Korzystaj z usług publicznych online, zarządzaj swoją tożsamością cyfrową - wszystko w jednym miejscu.",
     site: "@projectpoland",
