@@ -1,6 +1,5 @@
 import express from 'express';
 // import morgan from 'morgan';
-import rateLimitMiddleware from './middleware/rateLimit.middleware.js';
 import helmetMiddleware from './middleware/helmet.middleware.js';
 import { corsMiddleware } from './middleware/cors.middleware.js';
 import swaggerMiddleware from './middleware/swagger.middleware.js';
@@ -11,7 +10,7 @@ import { requestLoggerDev } from './middleware/requestLogger.middleware.js';
 
 import logger from './utils/logger.js';
 import env from './config/env.js';
-import { loginRateLimiter, registerRateLimiter } from './config/rateLimiters.config.js';
+import { globalRateLimiter, loginRateLimiter, registerRateLimiter } from './config/rateLimiters.config.js';
 
 import authProxyRouter from './proxies/authProxy.js';
 import { loadRoutes } from './loaders/routerLoader.js';
@@ -25,7 +24,7 @@ const app = express();
 
 // Middleware
 app.use(helmetMiddleware);        // bezpieczeństwo nagłówków
-app.use(rateLimitMiddleware); // ograniczenie liczby żądań
+app.use(globalRateLimiter); // globalny rate limiter
 app.use(corsMiddleware); // obsługa CORS
 app.use(express.json({ limit: '1mb' })); // parsowanie JSON w body z limitem
 // app.use(morgan('combined')); // logowanie requestów (opcjonalnie)
