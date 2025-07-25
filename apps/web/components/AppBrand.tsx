@@ -88,7 +88,7 @@ export function AppBrand() {
           {/* Logo */}
           <div className="relative bg-black/80 rounded-full p-2 border border-green-400/30 group-hover/logo:border-green-400/60 transition-all duration-300">
             <Image
-              src="/images/logo.png"
+              src="/project-root/images/logo.png"
               alt="Kasandra System Logo"
               className="rounded-full filter brightness-110 contrast-125 hue-rotate-90 group-hover/logo:brightness-125 group-hover/logo:contrast-150 transition-all duration-300"
               width={77}
