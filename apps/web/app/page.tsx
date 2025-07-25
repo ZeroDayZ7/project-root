@@ -162,7 +162,7 @@ export default function HomePage() {
               </h3>
               <div className="space-y-3">
                 <AudioPlayer
-                  audioSrc="/music/m1.mp3"
+                  audioSrc="/project-root/music/m1.mp3"
                   className="w-full text-left"
                 />
                 <button className="w-full text-left bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 rounded p-2 text-sm transition-colors">
