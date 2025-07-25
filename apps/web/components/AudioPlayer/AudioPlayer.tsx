@@ -134,26 +134,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             />
             <span className="text-xs text-purple-400/70 w-8">{volume}%</span>
           </div>
-
-          {/* Nowy suwak do kontroli czułości wizualizera
-          <div className="flex items-center space-x-2">
-            <span className="text-xs text-purple-400/70">VIS:</span>
-            <input
-              type="range"
-              min="1" // Minimalne wzmocnienie, żeby paski były widoczne
-              max="200" // Maksymalne wzmocnienie (możesz dostosować)
-              value={visualizerGain}
-              onChange={handleVisualizerGainChange}
-              className="
-                w-16 h-1 bg-purple-400/20 rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
-                [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer
-                [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:bg-purple-400
-                [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:cursor-pointer
-              "
-            />
-            <span className="text-xs text-purple-400/70 w-8">{visualizerGain}%</span>
-          </div> */}
         </div>
       </div>
       <div className="bg-black/40 border border-purple-400/20 rounded p-2">

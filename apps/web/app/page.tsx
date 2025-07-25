@@ -180,24 +180,24 @@ export default function HomePage() {
                 <span className="mr-2">{'>'}</span> SZYBKIE AKCJE
               </h3>
               <div className="space-y-3">
-               <AudioPlayer 
+               {/* <AudioPlayer 
+  audioSrc="/project-root/music/m1.mp3" 
+  className="w-full text-left"
+/> */}
+<AudioPlayer 
   audioSrc="/project-root/music/m1.mp3" 
   className="w-full text-left"
 />
 
 
-
-                <button className="w-full text-left bg-green-400/10 hover:bg-green-400/20 border border-green-400/30 rounded p-2 text-sm transition-colors">
+                {/* <button className="w-full text-left bg-green-400/10 hover:bg-green-400/20 border border-green-400/30 rounded p-2 text-sm transition-colors">
                   📋 Zgłoś sprawę
-                </button>
+                </button> */}
                 <button className="w-full text-left bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 rounded p-2 text-sm transition-colors">
                   🐛 Zgłoś błąd systemu
                 </button>
                 <button className="w-full text-left bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 rounded p-2 text-sm transition-colors">
                   📞 Kontakt techniczny
-                </button>
-                <button className="w-full text-left bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 rounded p-2 text-sm transition-colors">
-                  📄 Dokumentacja API
                 </button>
               </div>
             </div>

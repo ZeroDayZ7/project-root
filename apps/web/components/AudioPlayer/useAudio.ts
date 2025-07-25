@@ -69,7 +69,7 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
   // Aktualizacja głośności
   useEffect(() => {
     if (audioRef.current) {
-      console.log('useAudio: Aktualizacja głośności:', volume);
+      // console.log('useAudio: Aktualizacja głośności:', volume);
       audioRef.current.volume = volume / 100;
     }
   }, [volume]);
@@ -87,24 +87,32 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
     }
 
     try {
-      console.log('useAudio: Inicjalizacja AudioContext');
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const analyserNode = ctx.createAnalyser();
-      
-      analyserNode.fftSize = 128;
-      analyserNode.smoothingTimeConstant = 0.8;
-      
-      const source = ctx.createMediaElementSource(audioRef.current);
-      source.connect(analyserNode);
-      analyserNode.connect(ctx.destination);
-      
-      setAudioContext(ctx);
-      setAnalyser(analyserNode);
-      sourceRef.current = source;
-      console.log('useAudio: AudioContext i AnalyserNode zainicjalizowane');
-    } catch (error) {
-      console.warn('useAudio: Błąd inicjalizacji Web Audio API:', error);
-    }
+  console.log('useAudio: Inicjalizacja AudioContext');
+  const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const analyserNode = ctx.createAnalyser();
+
+  analyserNode.fftSize = 256;
+  // analyserNode.fftSize = 512;
+  analyserNode.smoothingTimeConstant = 0.8;
+
+  const bufferLength = analyserNode.frequencyBinCount;
+  const desiredBars = 24;
+  const numBars = Math.min(desiredBars, bufferLength);
+
+  const source = ctx.createMediaElementSource(audioRef.current);
+  source.connect(analyserNode);
+  analyserNode.connect(ctx.destination);
+
+  setAudioContext(ctx);
+  setAnalyser(analyserNode);
+  sourceRef.current = source;
+
+  // console.log('useAudio: AudioContext i AnalyserNode zainicjalizowane');
+  // console.log('useAudio: Liczba słupków (numBars):', numBars);
+} catch (error) {
+  console.warn('useAudio: Błąd inicjalizacji Web Audio API:', error);
+}
+
   };
 
   // Przełączanie play/pause

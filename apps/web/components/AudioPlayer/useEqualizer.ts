@@ -32,7 +32,7 @@ export const useEqualizer = ({
 
   // Optymalizacja: Regulacja FPS
   const targetFps = 60; // Docelowa liczba klatek na sekundę
-  const frameInterval = 100 / targetFps; // Interwał w milisekundach
+  const frameInterval = 200 / targetFps; // Interwał w milisekundach
 
   // Animacja Equalizera - memoizowana funkcja
   const animateEqualizer = useCallback(() => {
