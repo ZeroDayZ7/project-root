@@ -20,14 +20,16 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: apps/web
+        working-directory: apps/web # Prawidłowo instaluje zależności w `apps/web`
         run: pnpm install
 
       - name: Build Next.js static export
+        working-directory: apps/web # <--- DODAJ TĘ LINIĘ! Uruchamia build w `apps/web`
         run: pnpm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
+          # Zmień ścieżkę do `out` tak, aby wskazywała na `apps/web/out`
+          publish_dir: ./apps/web/out # <--- ZMIEŃ TĘ LINIĘ!
