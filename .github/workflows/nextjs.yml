@@ -29,8 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
 
       - uses: actions/setup-node@v4
         with:
@@ -38,12 +38,6 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm test
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22" # Upewnij się, że to jest wersja Node.js, której używasz
-          cache: 'pnpm' # Zmieniono na pnpm
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
