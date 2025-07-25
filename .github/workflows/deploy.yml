@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # lub inna gałąź, z której chcesz deployować
 
 jobs:
   build-and-deploy:
@@ -20,17 +20,17 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: apps/web # Prawidłowo instaluje zależności w `apps/web`
+        working-directory: apps/web
         run: pnpm install
-        pnpm ls -r --depth=-1
 
       - name: Build Next.js static export
-        working-directory: apps/web # <--- DODAJ TĘ LINIĘ! Uruchamia build w `apps/web`
-        run: pnpm run build
+        working-directory: apps/web
+        run: |
+          pnpm run build
+          pnpm run export  # generuje folder out/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Zmień ścieżkę do `out` tak, aby wskazywała na `apps/web/out`
-          publish_dir: ./apps/web/out # <--- ZMIEŃ TĘ LINIĘ!
+          publish_dir: ./apps/web/out
