@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: isGithubPages ? '/my-app' : '',
-  assetPrefix: isGithubPages ? '/my-app/' : '',
+  basePath: isGithubPages ? '/project-root' : '',
+  assetPrefix: isGithubPages ? '/project-root/' : '',
   // reactStrictMode: true,
 };
 
