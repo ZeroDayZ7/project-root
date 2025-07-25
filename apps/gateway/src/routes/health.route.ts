@@ -1,6 +1,6 @@
-import express from 'express';
-
-const router = express.Router();
+// routes/health.route.ts
+import { Router } from 'express';
+import { getHealthStatus, isShuttingDown } from '../utils/health.js';
 
 /**
  * @openapi
@@ -20,8 +20,18 @@ const router = express.Router();
  *                   type: string
  *                   example: ok
  */
+
+const router = Router();
+
 router.get('/', (req, res) => {
-  res.json({ status: 'ok' });
+  if (isShuttingDown()) {
+    return res.status(503).json({
+      status: 'shutting_down',
+      message: 'Server is shutting down',
+    });
+  }
+
+  res.json(getHealthStatus());
 });
 
 export default router;

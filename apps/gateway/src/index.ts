@@ -1,80 +1,79 @@
+// index.ts
 import 'dotenv/config';
 import app from './app.js';
 import logger from './utils/logger.js';
-import { Server } from 'http';
 import env from './config/env.js';
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { Server } from 'http';
+import { markShuttingDown, getAppVersion } from './utils/health.js';
 
 let server: Server | null = null;
+const SHUTDOWN_TIMEOUT = 30000;
 
-// Pobierz wersję aplikacji z package.json
-function getAppVersion(): string {
+async function startServer() {
   try {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-    const pkgPath = join(__dirname, '../package.json');
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
-    return pkg.version || 'unknown';
-  } catch {
-    return 'unknown';
-  }
-}
-
-// Funkcja uruchamiająca serwer
-async function startServer(): Promise<void> {
-  try {
-    logger.info(`🚀 Gateway starting...`);
-    logger.info(`Mode: ${env.NODE_ENV}`);
-    logger.info(`Version: ${getAppVersion()}`);
-
     server = app.listen(env.PORT, () => {
-      logger.info(`Server running on port ${env.PORT}`);
+      logger.info(`🚀 Gateway running on port ${env.PORT}`);
+      logger.info(`Mode: ${env.NODE_ENV}`);
+      logger.info(`Version: ${getAppVersion()}`);
+      logger.info(`PID: ${process.pid}`);
     });
-  } catch (error: unknown) {
-    logger.error('Failed to start server:', error instanceof Error ? error.stack : error);
+
+    server.on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        logger.error(`Port ${env.PORT} is already in use.`);
+      } else {
+        logger.error('Server error:', err);
+      }
+      process.exit(1);
+    });
+
+    server.on('clientError', (error, socket) => {
+      logger.warn('Client error:', error.message);
+      socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+    });
+  } catch (error) {
+    logger.error('Failed to start server:', error);
     process.exit(1);
-    return;
   }
 }
 
-// Funkcja zamykająca serwer i inne zasoby
-async function shutdown(): Promise<void> {
-  logger.info('Shutting down server...');
+async function shutdown(signal?: string) {
+  markShuttingDown();
+  logger.info(`🛑 Received ${signal || 'shutdown'}, starting graceful shutdown...`);
+
+  const timer = setTimeout(() => {
+    logger.error('Forced shutdown due to timeout');
+    process.exit(1);
+  }, SHUTDOWN_TIMEOUT);
+
   try {
     if (server) {
-      await new Promise<void>((resolve, reject) => {
-        server!.close((err) => {
-          if (err) return reject(err);
-          resolve();
-        });
-      });
-      logger.info('HTTP server closed');
+      await new Promise<void>((resolve, reject) =>
+        server!.close((err) => (err ? reject(err) : resolve()))
+      );
+      logger.info('✅ Server closed');
     }
-    // Gateway nie korzysta z bazy danych ani innych połączeń wymagających zamknięcia
-    logger.info('Server stopped');
+
+    clearTimeout(timer);
     process.exit(0);
-    return;
-  } catch (error: unknown) {
-    logger.error('Error during shutdown:', error instanceof Error ? error.stack : error);
+  } catch (error) {
+    logger.error('Shutdown error:', error);
+    clearTimeout(timer);
     process.exit(1);
-    return;
   }
 }
 
-// Globalna obsługa niezłapanych wyjątków i odrzuconych obietnic
-process.on('unhandledRejection', (reason) => {
+// Obsługa sygnałów
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('uncaughtException', (err) => {
+  logger.error('Uncaught Exception:', err);
+  shutdown('uncaughtException');
+});
+process.on('unhandledRejection', (reason, promise) => {
   logger.error('Unhandled Rejection:', reason);
-  shutdown();
-});
-process.on('uncaughtException', (error) => {
-  logger.error('Uncaught Exception:', error);
-  shutdown();
+  shutdown('unhandledRejection');
 });
 
-// Obsługa sygnałów systemowych
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
-
-startServer();
+await startServer();
+ 

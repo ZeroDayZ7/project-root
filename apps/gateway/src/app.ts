@@ -38,11 +38,8 @@ app.use('/api/auth/login', loginRateLimiter, authProxyRouter);
 app.use('/api/auth/register', registerRateLimiter, authProxyRouter);
 
 app.use('/api-docs', ...swaggerMiddleware);
-// await loadRoutes(app); // dynamiczne ładowanie tras
-// app.use('/health', healthRouter);
-// app.use('/metrics', metricsRouter);
 
-await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes
+await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes 
 
 // loadRoutes(app).then(() => {
 //   console.log('All routes loaded');
