@@ -17,12 +17,12 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build Next.js static export
         run: |
-          npm run build
-          npm run export  # generuje folder out/
+          pnpm run build
+          pnpm run export  # generuje folder out/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
