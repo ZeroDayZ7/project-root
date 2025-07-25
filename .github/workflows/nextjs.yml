@@ -66,6 +66,8 @@ jobs:
 
       - name: Build with Next.js
         working-directory: apps/web # <--- Kluczowe: buduj w katalogu aplikacji
+        env:
+          GITHUB_PAGES: true
         run: pnpm run build # Używamy pnpm run build
 
       - name: Upload artifact
