@@ -27,99 +27,96 @@ export const useEqualizer = ({
 }: UseEqualizerProps): EqualizerState => {
   const animationFrameId = useRef<number | undefined>(undefined);
   const lastFrameTime = useRef<DOMHighResTimeStamp>(0);
+  const previousDataRef = useRef<number[]>([]);
 
-  // Optymalizacja: Regulacja FPS
-  const targetFps = 30; // Docelowa liczba klatek na sekundę
-  const frameInterval = 100 / targetFps; // Interwał w milisekundach
+  const targetFps = 30;
+  const frameInterval = 200 / targetFps;
 
-  // Animacja Equalizera - memoizowana funkcja
   const animateEqualizer = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
 
     if (!canvas || !ctx || !analyser) {
-      console.warn(
-        'useEqualizer: Missing canvas, context, or analyser for animation.',
-      );
+      console.warn('useEqualizer: Missing canvas, context, or analyser for animation.');
       return;
     }
 
     const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    const barWidth = Math.floor(
-      (canvas.width - (numBars - 1) * barSpacing) / numBars,
-    );
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#a855f7');
-    gradient.addColorStop(0.5, '#8b5cf6');
-    gradient.addColorStop(1, '#7c3aed');
+    const barWidth = Math.floor((canvas.width - (numBars - 1) * barSpacing) / numBars);
 
     const renderFrame = (currentTime: DOMHighResTimeStamp) => {
-      // Optymalizacja FPS: Sprawdź, czy minął wystarczający czas od ostatniej klatki
       if (currentTime - lastFrameTime.current < frameInterval) {
         animationFrameId.current = requestAnimationFrame(renderFrame);
         return;
       }
-      lastFrameTime.current = currentTime; // Zaktualizuj czas ostatniej klatki
+      lastFrameTime.current = currentTime;
 
-      if (!isPlaying) {
-        if (animationFrameId.current) {
-          cancelAnimationFrame(animationFrameId.current);
-          animationFrameId.current = undefined; // Resetuj ID
+      const dataArray = new Uint8Array(bufferLength);
+
+      if (isPlaying) {
+        analyser.getByteFrequencyData(dataArray);
+        previousDataRef.current = Array.from(dataArray);
+
+        // const decay = 20; // im wyższe, tym szybciej opadają (np. 10–20)
+
+       
+
+        // for (let i = 0; i < bufferLength; i++) {
+        //   const current = dataArray[i];
+        //   const previous = previousDataRef.current[i] ?? 0;
+
+        //   // Jeśli nowa wartość jest wyższa – aktualizuj od razu
+        //   if (current > previous) {
+        //     previousDataRef.current[i] = current;
+        //   } else {
+        //     // Jeśli niższa – stopniowo zmniejsz
+        //     previousDataRef.current[i] = Math.max(0, previous - decay);
+        //   }
+
+        //   // Aktualizuj dataArray tym, co narysujesz
+        //   dataArray[i] = previousDataRef.current[i];
+        // }
+      } else {
+        const current = previousDataRef.current;
+        for (let i = 0; i < bufferLength; i++) {
+          dataArray[i] = Math.max(0, (current?.[i] ?? 0) - 4);
         }
-        drawStaticBars(); // Rysuj statyczne paski, gdy odtwarzanie jest zatrzymane
-        // console.log('useEqualizer: Animation stopped, drawing static bars.');
+        previousDataRef.current = Array.from(dataArray);
+      }
+
+      const allZero = dataArray.every((v) => v <= 0);
+      if (!isPlaying && allZero) {
+        cancelAnimationFrame(animationFrameId.current!);
+        animationFrameId.current = undefined;
         return;
       }
 
-      analyser.getByteFrequencyData(dataArray);
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#a855f7');
+      gradient.addColorStop(0.5, '#8b5cf6');
+      gradient.addColorStop(1, '#7c3aed');
       ctx.fillStyle = gradient;
 
       for (let i = 0; i < numBars; i++) {
-        // Mapowanie indeksów częstotliwości do pasków wizualizera
-        // Użyj logarytmicznego skalowania dla lepszej wizualizacji niskich częstotliwości
-        // const freqIndex = Math.floor(i * (bufferLength / numBars));
         const freqIndex = Math.floor(Math.pow(i / numBars, 2) * bufferLength);
-        
-        // Alternatywnie, jeśli chcesz użyć logarytmicznego skalowania:
-        // const logScale = (index: number, totalBars: number, bufferLength: number) => {
-        //   const minLog = Math.log10(1);
-        //   const maxLog = Math.log10(bufferLength);
-        //   const scale = (index / totalBars) * (maxLog - minLog) + minLog;
-        //   return Math.floor(Math.pow(10, scale));
-        // };
-
-        // const freqIndex = logScale(i, numBars, bufferLength);
-
         const dataValue = dataArray[freqIndex] || 0;
-
-        // Normalizacja i skalowanie wysokości pasków
         const scaledValue = Math.pow(dataValue / 255, 0.9) * 255;
-
-        // const scaledValue = dataValue; // Skalujemy od 0 do 255
-        const height = Math.max(2, (scaledValue / 255) * canvas.height); // Minimalna wysokość paska
+        const height = Math.max(2, (scaledValue / 255) * canvas.height);
 
         const x = i * (barWidth + barSpacing);
         const y = canvas.height - height;
 
-        // Rysowanie zaokrąglonych pasków
         ctx.beginPath();
         const radius = 2;
-        const topRadius = radius;
-        const bottomRadius = 0; // Dół pasków jest płaski
-
-        ctx.moveTo(x + topRadius, y);
-        ctx.lineTo(x + barWidth - topRadius, y);
-        ctx.quadraticCurveTo(x + barWidth, y, x + barWidth, y + topRadius);
-        ctx.lineTo(x + barWidth, y + height - bottomRadius);
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + barWidth - radius, y);
+        ctx.quadraticCurveTo(x + barWidth, y, x + barWidth, y + radius);
         ctx.lineTo(x + barWidth, y + height);
         ctx.lineTo(x, y + height);
-        ctx.lineTo(x, y + height - bottomRadius);
-        ctx.lineTo(x, y + topRadius);
-        ctx.quadraticCurveTo(x, y, x + topRadius, y);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
         ctx.closePath();
         ctx.fill();
       }
@@ -127,35 +124,21 @@ export const useEqualizer = ({
       animationFrameId.current = requestAnimationFrame(renderFrame);
     };
 
-    // console.log('useEqualizer: Starting animation frame loop.');
     animationFrameId.current = requestAnimationFrame(renderFrame);
-  }, [
-    analyser,
-    isPlaying,
-    canvasWidth,
-    canvasHeight,
-    numBars,
-    barSpacing,
-    drawStaticBars,
-    frameInterval,
-  ]); // Zależności dla useCallback
+  }, [analyser, isPlaying, canvasRef, numBars, barSpacing, canvasWidth, canvasHeight, frameInterval]);
 
-  // Cleanup effect: Anuluj animację przy odmontowaniu lub zmianie isPlaying
   useEffect(() => {
     if (!isPlaying && animationFrameId.current) {
       cancelAnimationFrame(animationFrameId.current);
       animationFrameId.current = undefined;
     }
-    // Rysuj statyczne paski, gdy odtwarzanie jest zatrzymane lub komponent się montuje
-    if (!isPlaying) {
-      drawStaticBars();
-    }
+
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [isPlaying, drawStaticBars]); // Tylko isPlaying i drawStaticBars jako zależności
+  }, [isPlaying]);
 
   return { animateEqualizer };
 };
