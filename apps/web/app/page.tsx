@@ -1,39 +1,31 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { AppBrand } from '@/components/AppBrand';
-// import { AudioPlayer } from '@/components/AudioPlayer';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
 
+// Helper to generate static matrix rain
+function generateMatrixRain(cols = 20, rows = 40) {
+  return Array.from({ length: cols }, () =>
+    Array.from({ length: rows }, () =>
+      String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96))
+    )
+  );
+}
+
 export default function HomePage() {
-  const [loginStep, setLoginStep] = useState('initial'); // initial, email, password, success
+  const [loginStep, setLoginStep] = useState('initial');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
-  const [terminalText, setTerminalText] = useState('');
   const [showMore, setShowMore] = useState(false);
 
-  // Terminal typing effect
-  useEffect(() => {
-    const text = 'ACCESSING KASANDRA NEURAL NETWORK...';
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        setTerminalText(text.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
+  // Generate matrix rain ONCE (static)
+  const matrixRain = generateMatrixRain();
 
   // Email validation
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleEmailSubmit = () => {
     if (validateEmail(email)) {
@@ -69,7 +61,7 @@ export default function HomePage() {
     { date: '2025-07-11', event: 'Nowe procedury weryfikacji', status: 'PLANOWANE', priority: 'MEDIUM' },
   ];
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'CRITICAL': return 'text-red-400';
       case 'HIGH': return 'text-orange-400';
@@ -79,7 +71,7 @@ export default function HomePage() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'AKTYWNE': return 'text-green-400';
       case 'W TRAKCIE': return 'text-yellow-400';
@@ -92,29 +84,23 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono relative overflow-hidden">
-      {/* Matrix rain background */}
-      <div className="absolute inset-0 opacity-10">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute animate-pulse"
-            style={{
-              left: `${i * 5}%`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
-            }}
-          >
-            {[...Array(40)].map((_, j) => (
-              <div
-                key={j}
-                className="text-green-400 text-xs opacity-20"
-                style={{ animationDelay: `${j * 0.1}s` }}
-              >
-                {String.fromCharCode(0x30A0 + Math.random() * 96)}
-              </div>
-            ))}
-          </div>
-        ))}
+      {/* Static Matrix rain background */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none select-none z-0">
+        <div className="flex h-full">
+          {matrixRain.map((col, i) => (
+            <div key={i} className="flex flex-col flex-1 items-center">
+              {col.map((char, j) => (
+                <div
+                  key={j}
+                  className="text-green-400 text-xs opacity-20"
+                  style={{}}
+                >
+                  {char}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
@@ -125,7 +111,6 @@ export default function HomePage() {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
           {/* Left Column - System Info */}
           <div className="space-y-6">
             {/* Terminal Window */}
@@ -140,7 +125,9 @@ export default function HomePage() {
               </div>
               <div className="text-sm">
                 <div className="text-green-400">user@kasandra:~$ status</div>
-                <div className="text-cyan-400 mt-2">{terminalText}<span className="animate-pulse">|</span></div>
+                <div className="text-cyan-400 mt-2">
+                  ACCESSING KASANDRA NEURAL NETWORK...<span className="text-green-400/30">|</span>
+                </div>
                 <div className="text-green-300 mt-4">
                   <div>• System operacyjny: SECURED</div>
                   <div>• Połączenia: 1,247 aktywnych</div>
@@ -174,21 +161,12 @@ export default function HomePage() {
                 <span className="mr-2">{'>'}</span> SZYBKIE AKCJE
               </h3>
               <div className="space-y-3">
-               <AudioPlayer 
-                  audioSrc="/project-root/music/m1.mp3" 
+                <AudioPlayer
+                  audioSrc="/music/m1.mp3"
                   className="w-full text-left"
                 />
-                {/* <AudioPlayer 
-                  audioSrc="/music/m1.mp3" 
-                  className="w-full text-left"
-                /> */}
-
-
-                {/* <button className="w-full text-left bg-green-400/10 hover:bg-green-400/20 border border-green-400/30 rounded p-2 text-sm transition-colors">
-                  📋 Zgłoś sprawę
-                </button> */}
                 <button className="w-full text-left bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 rounded p-2 text-sm transition-colors">
-                  🐛 Zgłoś błąd systemu
+                  🛑 Zgłoś błąd systemu
                 </button>
                 <button className="w-full text-left bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 rounded p-2 text-sm transition-colors">
                   📞 Kontakt techniczny
@@ -230,7 +208,6 @@ export default function HomePage() {
                     className="w-full bg-green-400/20 hover:bg-green-400/30 border border-green-400 rounded p-3 text-green-400 font-bold transition-colors duration-300 relative overflow-hidden group"
                   >
                     <span className="relative z-10">INICJUJ LOGOWANIE</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   </button>
                   <button className="w-full bg-cyan-400/20 hover:bg-cyan-400/30 border border-cyan-400 rounded p-3 text-cyan-400 transition-colors duration-300">
                     REJESTRACJA NOWEGO UŻYTKOWNIKA
@@ -306,12 +283,12 @@ export default function HomePage() {
               {loginStep === 'success' && (
                 <div className="text-center space-y-4">
                   <div className="text-green-400 text-lg">
-                    ✓ DOSTĘP AUTORYZOWANY
+                    ✅ DOSTĘP AUTORYZOWANY
                   </div>
                   <div className="text-sm text-green-400/70">
                     Przekierowanie do panelu głównego...
                   </div>
-                  <div className="animate-pulse text-cyan-400">
+                  <div className="text-cyan-400">
                     ŁADOWANIE INTERFEJSU...
                   </div>
                 </div>
@@ -325,7 +302,6 @@ export default function HomePage() {
               <h3 className="text-lg font-bold text-cyan-400 mb-4 flex items-center">
                 <span className="mr-2">{'>'}</span> OSTATNIE ZMIANY
               </h3>
-              
               <div className="space-y-2 text-xs">
                 {(showMore ? [...lastChanges, ...additionalChanges] : lastChanges).map((item, index) => (
                   <div key={index} className="border-l-2 border-green-400/30 pl-3 py-1">
@@ -346,7 +322,6 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-
               <button
                 onClick={() => setShowMore(!showMore)}
                 className="mt-4 w-full text-center text-cyan-400 hover:text-cyan-300 text-sm border border-cyan-400/30 rounded p-2 transition-colors"
@@ -363,23 +338,23 @@ export default function HomePage() {
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span>Serwery główne:</span>
-                  <span className="text-green-400">ONLINE ●</span>
+                  <span className="text-green-400">ONLINE ✔</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Baza danych:</span>
-                  <span className="text-green-400">ONLINE ●</span>
+                  <span className="text-green-400">ONLINE ✔</span>
                 </div>
                 <div className="flex justify-between">
                   <span>API Gateway:</span>
-                  <span className="text-green-400">ONLINE ●</span>
+                  <span className="text-green-400">ONLINE ✔</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Monitoring:</span>
-                  <span className="text-yellow-400">MAINTENANCE ●</span>
+                  <span className="text-yellow-400">MAINTENANCE ✔</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Backup systemy:</span>
-                  <span className="text-green-400">STANDBY ●</span>
+                  <span className="text-green-400">STANDBY ✔</span>
                 </div>
               </div>
             </div>
