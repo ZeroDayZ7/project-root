@@ -78,7 +78,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               bg-purple-500/20 hover:bg-purple-500/30
               border border-purple-400/50 hover:border-purple-400/70
               rounded text-sm font-medium text-purple-300
-              transition-all duration-300
+              duration-300
               disabled:opacity-50 disabled:cursor-not-allowed
               group relative overflow-hidden
             "

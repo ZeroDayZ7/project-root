@@ -28,10 +28,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   handlePasswordSubmit,
 }) => {
   return (
-    <Card className="max-w-md w-full bg-background text-foreground font-mono">
+    <Card className="max-w-md w-full">
       <CardHeader className="text-center">
-        <CardTitle className="text-cyan">DOSTĘP DO SYSTEMU</CardTitle>
-        <CardDescription className="text-muted">
+        <CardTitle>DOSTĘP DO SYSTEMU</CardTitle>
+        <CardDescription>
           Uwierzytelnianie wielopoziomowe aktywne
         </CardDescription>
       </CardHeader>
@@ -40,14 +40,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           <div className="space-y-4">
             <Button
               variant="outline"
-              className="w-full text-primary border-primary hover-bg-primary"
+              className="w-full"
               onClick={() => setLoginStep('email')}
             >
               INICJUJ LOGOWANIE
             </Button>
             <Button
               variant="outline"
-              className="w-full text-secondary border-secondary cursor-not-allowed opacity-50"
+              className="w-full cursor-not-allowed"
               disabled
             >
               REJESTRACJA NOWEGO UŻYTKOWNIKA
@@ -58,7 +58,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         {loginStep === 'email' && (
           <div className="space-y-4">
             <div>
-              <Label htmlFor="email" className="text-primary">{'> ADRES EMAIL:'}</Label>
+              <Label htmlFor="email">{'> ADRES EMAIL:'}</Label>
               <Input
                 id="email"
                 type="email"
@@ -66,11 +66,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoFocus
-                className="bg-input border-primary text-primary"
+                className="bg-input"
               />
             </div>
             <Button
-              className="w-full text-primary border-primary hover-bg-primary"
+              className="w-full"
               disabled={!validateEmail(email)}
               onClick={handleEmailSubmit}
             >
@@ -78,7 +78,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             </Button>
             <Button
               variant="link"
-              className="w-full text-muted hover:text-primary text-sm"
+              className="w-full text-sm"
               onClick={() => setLoginStep('initial')}
             >
               ← POWRÓT
@@ -92,7 +92,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               Email zweryfikowany: <span className="text-cyan">{email}</span>
             </div>
             <div>
-              <Label htmlFor="password" className="text-primary">{'> HASŁO DOSTĘPU:'}</Label>
+              <Label htmlFor="password">{'> HASŁO DOSTĘPU:'}</Label>
               <Input
                 id="password"
                 type="password"
@@ -100,11 +100,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
-                className="bg-input border-primary text-primary"
+                className="bg-input"
               />
             </div>
             <Button
-              className="w-full text-primary border-primary hover-bg-primary"
+              className="w-full"
               disabled={password.length === 0}
               onClick={handlePasswordSubmit}
             >
@@ -112,7 +112,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             </Button>
             <Button
               variant="link"
-              className="w-full text-muted hover:text-primary text-sm"
+              className="w-full text-sm"
               onClick={() => setLoginStep('email')}
             >
               ← ZMIEŃ EMAIL
@@ -123,8 +123,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         {loginStep === 'success' && (
           <div className="text-center space-y-4 text-primary">
             <div className="text-lg">✅ DOSTĘP AUTORYZOWANY</div>
-            <div className="text-sm text-muted">Przekierowanie do panelu głównego...</div>
-            <div className="text-cyan">ŁADOWANIE INTERFEJSU...</div>
+            <div className="text-sm">Przekierowanie do panelu głównego...</div>
+            <div>ŁADOWANIE INTERFEJSU...</div>
           </div>
         )}
       </CardContent>

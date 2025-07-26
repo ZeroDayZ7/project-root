@@ -518,26 +518,14 @@ function Badge({
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
 import { jsx as jsx11, jsxs as jsxs3 } from "react/jsx-runtime";
-function DropdownMenu({
-  ...props
-}) {
+function DropdownMenu({ ...props }) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });
 }
-function DropdownMenuPortal({
-  ...props
-}) {
+function DropdownMenuPortal({ ...props }) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Portal, { "data-slot": "dropdown-menu-portal", ...props });
 }
-function DropdownMenuTrigger({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx11(
-    DropdownMenuPrimitive.Trigger,
-    {
-      "data-slot": "dropdown-menu-trigger",
-      ...props
-    }
-  );
+function DropdownMenuTrigger({ ...props }) {
+  return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Trigger, { "data-slot": "dropdown-menu-trigger", ...props });
 }
 function DropdownMenuContent({
   className,
@@ -557,9 +545,7 @@ function DropdownMenuContent({
     }
   ) });
 }
-function DropdownMenuGroup({
-  ...props
-}) {
+function DropdownMenuGroup({ ...props }) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Group, { "data-slot": "dropdown-menu-group", ...props });
 }
 function DropdownMenuItem({
@@ -605,16 +591,8 @@ function DropdownMenuCheckboxItem({
     }
   );
 }
-function DropdownMenuRadioGroup({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx11(
-    DropdownMenuPrimitive.RadioGroup,
-    {
-      "data-slot": "dropdown-menu-radio-group",
-      ...props
-    }
-  );
+function DropdownMenuRadioGroup({ ...props }) {
+  return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.RadioGroup, { "data-slot": "dropdown-menu-radio-group", ...props });
 }
 function DropdownMenuRadioItem({
   className,
@@ -647,18 +625,12 @@ function DropdownMenuLabel({
     {
       "data-slot": "dropdown-menu-label",
       "data-inset": inset,
-      className: cn(
-        "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
-        className
-      ),
+      className: cn("px-2 py-1.5 text-sm font-medium data-[inset]:pl-8", className),
       ...props
     }
   );
 }
-function DropdownMenuSeparator({
-  className,
-  ...props
-}) {
+function DropdownMenuSeparator({ className, ...props }) {
   return /* @__PURE__ */ jsx11(
     DropdownMenuPrimitive.Separator,
     {
@@ -668,25 +640,17 @@ function DropdownMenuSeparator({
     }
   );
 }
-function DropdownMenuShortcut({
-  className,
-  ...props
-}) {
+function DropdownMenuShortcut({ className, ...props }) {
   return /* @__PURE__ */ jsx11(
     "span",
     {
       "data-slot": "dropdown-menu-shortcut",
-      className: cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
-        className
-      ),
+      className: cn("text-muted-foreground ml-auto text-xs tracking-widest", className),
       ...props
     }
   );
 }
-function DropdownMenuSub({
-  ...props
-}) {
+function DropdownMenuSub({ ...props }) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Sub, { "data-slot": "dropdown-menu-sub", ...props });
 }
 function DropdownMenuSubTrigger({
@@ -811,13 +775,145 @@ function CardFooter({ className, ...props }) {
   );
 }
 
-// src/features/ThemeToggle.tsx
+// src/components/form.tsx
+import * as React from "react";
+import { Slot as Slot3 } from "@radix-ui/react-slot";
+import {
+  Controller,
+  FormProvider,
+  useFormContext,
+  useFormState
+} from "react-hook-form";
+import { jsx as jsx13 } from "react/jsx-runtime";
+var Form = FormProvider;
+var FormFieldContext = React.createContext(
+  {}
+);
+var FormField = ({
+  ...props
+}) => {
+  return /* @__PURE__ */ jsx13(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx13(Controller, { ...props }) });
+};
+var useFormField = () => {
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
+  const { getFieldState } = useFormContext();
+  const formState = useFormState({ name: fieldContext.name });
+  const fieldState = getFieldState(fieldContext.name, formState);
+  if (!fieldContext) {
+    throw new Error("useFormField should be used within <FormField>");
+  }
+  const { id } = itemContext;
+  return {
+    id,
+    name: fieldContext.name,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState
+  };
+};
+var FormItemContext = React.createContext(
+  {}
+);
+function FormItem({ className, ...props }) {
+  const id = React.useId();
+  return /* @__PURE__ */ jsx13(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ jsx13(
+    "div",
+    {
+      "data-slot": "form-item",
+      className: cn("grid gap-2", className),
+      ...props
+    }
+  ) });
+}
+function FormLabel({
+  className,
+  ...props
+}) {
+  const { error, formItemId } = useFormField();
+  return /* @__PURE__ */ jsx13(
+    Label,
+    {
+      "data-slot": "form-label",
+      "data-error": !!error,
+      className: cn("data-[error=true]:text-destructive", className),
+      htmlFor: formItemId,
+      ...props
+    }
+  );
+}
+function FormControl({ ...props }) {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  return /* @__PURE__ */ jsx13(
+    Slot3,
+    {
+      "data-slot": "form-control",
+      id: formItemId,
+      "aria-describedby": !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
+      "aria-invalid": !!error,
+      ...props
+    }
+  );
+}
+function FormDescription({ className, ...props }) {
+  const { formDescriptionId } = useFormField();
+  return /* @__PURE__ */ jsx13(
+    "p",
+    {
+      "data-slot": "form-description",
+      id: formDescriptionId,
+      className: cn("text-muted-foreground text-sm", className),
+      ...props
+    }
+  );
+}
+function FormMessage({ className, ...props }) {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error?.message ?? "") : props.children;
+  if (!body) {
+    return null;
+  }
+  return /* @__PURE__ */ jsx13(
+    "p",
+    {
+      "data-slot": "form-message",
+      id: formMessageId,
+      className: cn("text-destructive text-sm", className),
+      ...props,
+      children: body
+    }
+  );
+}
+
+// src/components/sonner.tsx
 import { useTheme } from "next-themes";
+import { Toaster as Sonner } from "sonner";
+import { jsx as jsx14 } from "react/jsx-runtime";
+var Toaster = ({ ...props }) => {
+  const { theme = "system" } = useTheme();
+  return /* @__PURE__ */ jsx14(
+    Sonner,
+    {
+      theme,
+      className: "toaster group",
+      style: {
+        "--normal-bg": "var(--popover)",
+        "--normal-text": "var(--popover-foreground)",
+        "--normal-border": "var(--border)"
+      },
+      ...props
+    }
+  );
+};
+
+// src/features/ThemeToggle.tsx
+import { useTheme as useTheme2 } from "next-themes";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
-import { jsx as jsx13, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs4 } from "react/jsx-runtime";
 function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme2();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
@@ -832,44 +928,11 @@ function ThemeToggle() {
       variant: "ghost",
       size: "icon",
       children: [
-        isDark ? /* @__PURE__ */ jsx13(Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ jsx13(Moon, { className: "h-5 w-5" }),
-        /* @__PURE__ */ jsx13("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
+        isDark ? /* @__PURE__ */ jsx15(Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ jsx15(Moon, { className: "h-5 w-5" }),
+        /* @__PURE__ */ jsx15("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
       ]
     }
   );
-}
-
-// src/features/ThemeToggleKasandra.tsx
-import { Moon as Moon2, Sun as Sun2, OrbitIcon, MonitorCog } from "lucide-react";
-import { useTheme as useTheme2 } from "next-themes";
-import { jsx as jsx14, jsxs as jsxs5 } from "react/jsx-runtime";
-function ThemeToggleKasandra() {
-  const { setTheme } = useTheme2();
-  return /* @__PURE__ */ jsxs5(DropdownMenu, { children: [
-    /* @__PURE__ */ jsx14(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs5(Button, { variant: "outline", size: "icon", children: [
-      /* @__PURE__ */ jsx14(Sun2, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
-      /* @__PURE__ */ jsx14(Moon2, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
-      /* @__PURE__ */ jsx14("span", { className: "sr-only", children: "Toggle theme" })
-    ] }) }),
-    /* @__PURE__ */ jsxs5(DropdownMenuContent, { align: "end", children: [
-      /* @__PURE__ */ jsxs5(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
-        /* @__PURE__ */ jsx14(Sun2, {}),
-        " Light"
-      ] }),
-      /* @__PURE__ */ jsxs5(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
-        /* @__PURE__ */ jsx14(Moon2, {}),
-        " Dark"
-      ] }),
-      /* @__PURE__ */ jsxs5(DropdownMenuItem, { onClick: () => setTheme("kasandra"), children: [
-        /* @__PURE__ */ jsx14(OrbitIcon, {}),
-        " Kasandra"
-      ] }),
-      /* @__PURE__ */ jsxs5(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
-        /* @__PURE__ */ jsx14(MonitorCog, {}),
-        " System"
-      ] })
-    ] })
-  ] });
 }
 export {
   AlertDialog,
@@ -917,6 +980,13 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -929,7 +999,8 @@ export {
   Separator,
   Switch,
   ThemeToggle,
-  ThemeToggleKasandra,
+  Toaster,
   badgeVariants,
-  buttonVariants
+  buttonVariants,
+  useFormField
 };

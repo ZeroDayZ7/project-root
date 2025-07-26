@@ -1,0 +1,12 @@
+{
+  "NavUser": {
+    "greeting": "Witaj",
+    "role": "Rola",
+    "upgrade": "Ulepsz do wersji Pro",
+    "account": "Konto",
+    "administration": "Administracja",
+    "settings": "Ustawienia",
+    "notifications": "Powiadomienia",
+    "logout": "Wyloguj się"
+  }
+}

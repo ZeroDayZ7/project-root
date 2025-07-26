@@ -1,0 +1,12 @@
+[
+  {
+    "email": "user@example.com",
+    "password": "Password123!",
+    "TOTP": "123456"
+  },
+  {
+    "email": "test@example.com",
+    "password": "Test456!",
+    "TOTP": "123456"
+  }
+]

@@ -1,51 +1,24 @@
-// MainPage.tsx
 'use client';
 
-import { useState } from 'react';
-import { LoginForm } from './LoginForm';
-import { SystemStatus } from './SystemStatus';
-import { AppBrand } from '@/components/AppBrand';
-import { ThemeToggleKasandra } from '@neo/ui';
+import { LoginFlow } from './authentication/LoginFlow';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
-const MainPage = () => {
-  const [loginStep, setLoginStep] = useState<'initial' | 'email' | 'password' | 'success'>('initial');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  // Email validation function
-  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  // Handlers for login steps
-  const handleEmailSubmit = () => {
-    if (validateEmail(email)) {
-      setLoginStep('password');
-    }
-  };
-
-  const handlePasswordSubmit = () => {
-    if (password.length > 0) {
-      setLoginStep('success');
-    }
-  };
+export default function Home() {
+  const t = useTranslations('LoginPage');
 
   return (
-    <>
-      <ThemeToggleKasandra />
-      <AppBrand />
-      <LoginForm
-        loginStep={loginStep}
-        setLoginStep={setLoginStep}
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        validateEmail={validateEmail}
-        handleEmailSubmit={handleEmailSubmit}
-        handlePasswordSubmit={handlePasswordSubmit}
-      />
-      <SystemStatus />
-    </>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+      <LoginFlow />
+      <div className="mt-4 text-center text-sm text-gray-500">
+        <Link href="/" className="hover:underline">
+          {t('homePage')}
+        </Link>
+        {' | '}
+        <Link href="/register" className="hover:underline">
+          {t('register')}
+        </Link>
+      </div>
+    </div>
   );
-};
-
-export default MainPage;
+}

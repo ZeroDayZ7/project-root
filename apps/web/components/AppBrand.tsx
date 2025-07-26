@@ -6,15 +6,18 @@ import { prefix } from '@/lib/prefix';
 
 export function AppBrand() {
   return (
-    <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 p-4 min-h-[120px] w-full max-w-[800px] mx-auto">
+    <Link
+      href="/"
+      className="group relative flex flex-col sm:flex-row items-center justify-center gap-4 p-4 min-h-[120px] w-full max-w-[800px] mx-auto"
+    >
       {/* Subtelne tło */}
       <div className="absolute inset-0 bg-background rounded-lg opacity-90" />
 
-      {/* Ramka */}
+      {/* Ramka pojawiająca się przy hover */}
       <div className="absolute inset-0 border border-primary/20 rounded-lg" />
 
       {/* Zawartość */}
-      <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+      <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 w-full">
         {/* Lewy tekst */}
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
           <h1 className="text-xl sm:text-2xl font-mono font-bold tracking-wide text-primary">
@@ -25,19 +28,19 @@ export function AppBrand() {
           </div>
         </div>
 
-        {/* Logo z linkiem i animacją */}
-        <Link href="/" className="group/logo relative">
-          <div className="relative bg-background/80 rounded-full p-1 border border-primary/30 transition-transform duration-500 group-hover/logo:scale-105 group-hover/logo:rotate-2">
+        {/* Logo */}
+        <div className="relative group/logo">
+          <div className="relative bg-background/80 rounded-full p-1 border border-primary/30">
             <Image
               src={`${prefix}/images/logo1.png`}
               alt="System Logo"
               width={64}
               height={64}
               priority
-              className="rounded-full border-2 border-transparent group-hover/logo:border-primary group-hover/logo:shadow-[0_0_12px_var(--primary)] transition-all duration-500"
+              className="rounded-full border-2 border-transparent hover:border-primary hover:shadow-[0_0_8px_var(--primary)] duration-500"
             />
           </div>
-        </Link>
+        </div>
 
         {/* Prawy tekst */}
         <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
@@ -50,11 +53,11 @@ export function AppBrand() {
         </div>
       </div>
 
-      {/* Narożniki */}
+      {/* Narożniki - tylko wizualne */}
       <div className="absolute top-3 left-3 w-3 h-3 border-l border-t border-primary/40" />
       <div className="absolute top-3 right-3 w-3 h-3 border-r border-t border-primary/40" />
       <div className="absolute bottom-3 left-3 w-3 h-3 border-l border-b border-primary/40" />
       <div className="absolute bottom-3 right-3 w-3 h-3 border-r border-b border-primary/40" />
-    </div>
+    </Link>
   );
 }

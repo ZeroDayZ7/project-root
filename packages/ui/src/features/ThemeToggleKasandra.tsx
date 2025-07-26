@@ -1,42 +1,62 @@
-"use client"
+'use client'; // WAŻNE: To musi być pierwsza linia!
 
-import { Moon, Sun, OrbitIcon, MonitorCog } from "lucide-react"
-import { useTheme } from "next-themes"
+import * as React from 'react';
+import { Moon, Sun, OrbitIcon, MonitorCog } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
-import { Button } from "@/components/button"
+import { Button } from '../components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/dropdown-menu"
+} from '../components/dropdown-menu'; // Upewnij się, że ścieżka jest poprawna
 
 export function ThemeToggleKasandra() {
-  const { setTheme } = useTheme()
+  // Destrukturyzujemy 'setTheme' i 'theme' z useTheme.
+  // 'theme' jest potrzebne do warunkowego renderowania ikon w triggerze.
+  const { theme, setTheme } = useTheme();
 
-  return (
+  // Stan do zarządzania "zamontowaniem" komponentu, aby uniknąć błędów hydracji.
+  // Jest to standardowa praktyka przy użyciu useTheme w Next.js App Router.
+  const [mounted, setMounted] = React.useState(false);
+
+  // Ustawiamy mounted na true po pierwszym renderowaniu po stronie klienta.
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Jeśli komponent nie jest jeszcze zamontowany po stronie klienta, nie renderujemy nic.
+  // Zapobiega to niezgodnościom między renderowaniem serwerowym a klienckim.
+  if (!mounted) {
+    return null;
+  }
+
+  return ( 
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+            <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100" />
+            <OrbitIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 text-purple-500" />
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun/> Light
+        <DropdownMenuItem onClick={() => setTheme('light')}>
+          Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon/> Dark
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
+          Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("kasandra")}>
-          <OrbitIcon /> Kasandra
+        {/* Opcja dla motywu Kasandra */}
+        <DropdownMenuItem onClick={() => setTheme('kasandra')}>
+          Kasandra
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <MonitorCog /> System
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          System
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

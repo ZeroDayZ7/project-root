@@ -75,6 +75,13 @@ __export(index_exports, {
   DropdownMenuSubContent: () => DropdownMenuSubContent,
   DropdownMenuSubTrigger: () => DropdownMenuSubTrigger,
   DropdownMenuTrigger: () => DropdownMenuTrigger,
+  Form: () => Form,
+  FormControl: () => FormControl,
+  FormDescription: () => FormDescription,
+  FormField: () => FormField,
+  FormItem: () => FormItem,
+  FormLabel: () => FormLabel,
+  FormMessage: () => FormMessage,
   HoverCard: () => HoverCard,
   HoverCardContent: () => HoverCardContent,
   HoverCardTrigger: () => HoverCardTrigger,
@@ -87,9 +94,10 @@ __export(index_exports, {
   Separator: () => Separator,
   Switch: () => Switch,
   ThemeToggle: () => ThemeToggle,
-  ThemeToggleKasandra: () => ThemeToggleKasandra,
+  Toaster: () => Toaster,
   badgeVariants: () => badgeVariants,
-  buttonVariants: () => buttonVariants
+  buttonVariants: () => buttonVariants,
+  useFormField: () => useFormField
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -613,26 +621,14 @@ function Badge({
 var DropdownMenuPrimitive = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
 var import_lucide_react2 = require("lucide-react");
 var import_jsx_runtime11 = require("react/jsx-runtime");
-function DropdownMenu({
-  ...props
-}) {
+function DropdownMenu({ ...props }) {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });
 }
-function DropdownMenuPortal({
-  ...props
-}) {
+function DropdownMenuPortal({ ...props }) {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DropdownMenuPrimitive.Portal, { "data-slot": "dropdown-menu-portal", ...props });
 }
-function DropdownMenuTrigger({
-  ...props
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-    DropdownMenuPrimitive.Trigger,
-    {
-      "data-slot": "dropdown-menu-trigger",
-      ...props
-    }
-  );
+function DropdownMenuTrigger({ ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DropdownMenuPrimitive.Trigger, { "data-slot": "dropdown-menu-trigger", ...props });
 }
 function DropdownMenuContent({
   className,
@@ -652,9 +648,7 @@ function DropdownMenuContent({
     }
   ) });
 }
-function DropdownMenuGroup({
-  ...props
-}) {
+function DropdownMenuGroup({ ...props }) {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DropdownMenuPrimitive.Group, { "data-slot": "dropdown-menu-group", ...props });
 }
 function DropdownMenuItem({
@@ -700,16 +694,8 @@ function DropdownMenuCheckboxItem({
     }
   );
 }
-function DropdownMenuRadioGroup({
-  ...props
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-    DropdownMenuPrimitive.RadioGroup,
-    {
-      "data-slot": "dropdown-menu-radio-group",
-      ...props
-    }
-  );
+function DropdownMenuRadioGroup({ ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DropdownMenuPrimitive.RadioGroup, { "data-slot": "dropdown-menu-radio-group", ...props });
 }
 function DropdownMenuRadioItem({
   className,
@@ -742,18 +728,12 @@ function DropdownMenuLabel({
     {
       "data-slot": "dropdown-menu-label",
       "data-inset": inset,
-      className: cn(
-        "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
-        className
-      ),
+      className: cn("px-2 py-1.5 text-sm font-medium data-[inset]:pl-8", className),
       ...props
     }
   );
 }
-function DropdownMenuSeparator({
-  className,
-  ...props
-}) {
+function DropdownMenuSeparator({ className, ...props }) {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
     DropdownMenuPrimitive.Separator,
     {
@@ -763,25 +743,17 @@ function DropdownMenuSeparator({
     }
   );
 }
-function DropdownMenuShortcut({
-  className,
-  ...props
-}) {
+function DropdownMenuShortcut({ className, ...props }) {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
     "span",
     {
       "data-slot": "dropdown-menu-shortcut",
-      className: cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
-        className
-      ),
+      className: cn("text-muted-foreground ml-auto text-xs tracking-widest", className),
       ...props
     }
   );
 }
-function DropdownMenuSub({
-  ...props
-}) {
+function DropdownMenuSub({ ...props }) {
   return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(DropdownMenuPrimitive.Sub, { "data-slot": "dropdown-menu-sub", ...props });
 }
 function DropdownMenuSubTrigger({
@@ -906,13 +878,140 @@ function CardFooter({ className, ...props }) {
   );
 }
 
-// src/features/ThemeToggle.tsx
+// src/components/form.tsx
+var React = __toESM(require("react"), 1);
+var import_react_slot3 = require("@radix-ui/react-slot");
+var import_react_hook_form = require("react-hook-form");
+var import_jsx_runtime13 = require("react/jsx-runtime");
+var Form = import_react_hook_form.FormProvider;
+var FormFieldContext = React.createContext(
+  {}
+);
+var FormField = ({
+  ...props
+}) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_hook_form.Controller, { ...props }) });
+};
+var useFormField = () => {
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
+  const { getFieldState } = (0, import_react_hook_form.useFormContext)();
+  const formState = (0, import_react_hook_form.useFormState)({ name: fieldContext.name });
+  const fieldState = getFieldState(fieldContext.name, formState);
+  if (!fieldContext) {
+    throw new Error("useFormField should be used within <FormField>");
+  }
+  const { id } = itemContext;
+  return {
+    id,
+    name: fieldContext.name,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState
+  };
+};
+var FormItemContext = React.createContext(
+  {}
+);
+function FormItem({ className, ...props }) {
+  const id = React.useId();
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    "div",
+    {
+      "data-slot": "form-item",
+      className: cn("grid gap-2", className),
+      ...props
+    }
+  ) });
+}
+function FormLabel({
+  className,
+  ...props
+}) {
+  const { error, formItemId } = useFormField();
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    Label,
+    {
+      "data-slot": "form-label",
+      "data-error": !!error,
+      className: cn("data-[error=true]:text-destructive", className),
+      htmlFor: formItemId,
+      ...props
+    }
+  );
+}
+function FormControl({ ...props }) {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    import_react_slot3.Slot,
+    {
+      "data-slot": "form-control",
+      id: formItemId,
+      "aria-describedby": !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
+      "aria-invalid": !!error,
+      ...props
+    }
+  );
+}
+function FormDescription({ className, ...props }) {
+  const { formDescriptionId } = useFormField();
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    "p",
+    {
+      "data-slot": "form-description",
+      id: formDescriptionId,
+      className: cn("text-muted-foreground text-sm", className),
+      ...props
+    }
+  );
+}
+function FormMessage({ className, ...props }) {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error?.message ?? "") : props.children;
+  if (!body) {
+    return null;
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    "p",
+    {
+      "data-slot": "form-message",
+      id: formMessageId,
+      className: cn("text-destructive text-sm", className),
+      ...props,
+      children: body
+    }
+  );
+}
+
+// src/components/sonner.tsx
 var import_next_themes = require("next-themes");
+var import_sonner = require("sonner");
+var import_jsx_runtime14 = require("react/jsx-runtime");
+var Toaster = ({ ...props }) => {
+  const { theme = "system" } = (0, import_next_themes.useTheme)();
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    import_sonner.Toaster,
+    {
+      theme,
+      className: "toaster group",
+      style: {
+        "--normal-bg": "var(--popover)",
+        "--normal-text": "var(--popover-foreground)",
+        "--normal-border": "var(--border)"
+      },
+      ...props
+    }
+  );
+};
+
+// src/features/ThemeToggle.tsx
+var import_next_themes2 = require("next-themes");
 var import_react = require("react");
 var import_lucide_react3 = require("lucide-react");
-var import_jsx_runtime13 = require("react/jsx-runtime");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 function ThemeToggle() {
-  const { resolvedTheme, setTheme } = (0, import_next_themes.useTheme)();
+  const { resolvedTheme, setTheme } = (0, import_next_themes2.useTheme)();
   const [mounted, setMounted] = (0, import_react.useState)(false);
   (0, import_react.useEffect)(() => setMounted(true), []);
   if (!mounted) return null;
@@ -920,51 +1019,18 @@ function ThemeToggle() {
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
     Button,
     {
       onClick: toggleTheme,
       variant: "ghost",
       size: "icon",
       children: [
-        isDark ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react3.Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react3.Moon, { className: "h-5 w-5" }),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
+        isDark ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react3.Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react3.Moon, { className: "h-5 w-5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
       ]
     }
   );
-}
-
-// src/features/ThemeToggleKasandra.tsx
-var import_lucide_react4 = require("lucide-react");
-var import_next_themes2 = require("next-themes");
-var import_jsx_runtime14 = require("react/jsx-runtime");
-function ThemeToggleKasandra() {
-  const { setTheme } = (0, import_next_themes2.useTheme)();
-  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(DropdownMenu, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Button, { variant: "outline", size: "icon", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react4.Sun, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react4.Moon, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "sr-only", children: "Toggle theme" })
-    ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(DropdownMenuContent, { align: "end", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react4.Sun, {}),
-        " Light"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react4.Moon, {}),
-        " Dark"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(DropdownMenuItem, { onClick: () => setTheme("kasandra"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react4.OrbitIcon, {}),
-        " Kasandra"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react4.MonitorCog, {}),
-        " System"
-      ] })
-    ] })
-  ] });
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -1013,6 +1079,13 @@ function ThemeToggleKasandra() {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -1025,7 +1098,8 @@ function ThemeToggleKasandra() {
   Separator,
   Switch,
   ThemeToggle,
-  ThemeToggleKasandra,
+  Toaster,
   badgeVariants,
-  buttonVariants
+  buttonVariants,
+  useFormField
 });
