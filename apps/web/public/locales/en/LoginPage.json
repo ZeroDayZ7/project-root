@@ -1,0 +1,20 @@
+{
+  "loginTitle": "Zaloguj się do systemu",
+  "loginDescription": "Wpisz swoje dane, aby uzyskać dostęp",
+  "email": "Adres email",
+  "password": "Hasło",
+  "twoFactorCode": "Kod 2FA",
+  "verifyEmail": "Weryfikuj email",
+  "verifying": "Weryfikowanie",
+  "login": "Zaloguj się",
+  "loggingIn": "Logowanie",
+  "verify2FA": "Weryfikuj kod 2FA",
+  "success": "Dostęp autoryzowany",
+  "redirecting": "Przekierowanie do panelu głównego...",
+  "loading": "Ładowanie interfejsu...",
+  "csrfError": "Błąd tokenu CSRF. Odśwież stronę.",
+  "verifiedEmail": "Zweryfikowany email",
+  "back": "← Powrót",
+  "homePage": "Strona główna",
+  "register": "Zarejestruj się"
+}

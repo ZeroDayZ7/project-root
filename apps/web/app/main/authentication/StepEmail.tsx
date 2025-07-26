@@ -14,7 +14,7 @@ export function StepEmail({
   isSubmitting,
   csrfTokenReady,
 }: StepEmailProps) {
-  const t = useTranslations('LoginPage');
+//   const t = useTranslations('LoginPage');
   const isDisabled = isSubmitting || !csrfTokenReady;
 
   return (
@@ -25,7 +25,10 @@ export function StepEmail({
         name="email"
         render={() => (
           <FormItem>
-            <FormLabel htmlFor="email">{t('email')}</FormLabel>
+            <FormLabel htmlFor="email">
+                {/* {t('email')} */}
+asdas
+            </FormLabel>
             <FormControl>
               <Input
                 id="email"
@@ -50,14 +53,18 @@ export function StepEmail({
         {isSubmitting ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            {t('verifying')}
+            {/* {t('verifying')} */}asdasd
           </>
         ) : (
-          t('verifyEmail')
+        //   t('verifyEmail')
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         )}
       </Button>
       {!csrfTokenReady && !isSubmitting && (
-        <p className="text-muted-foreground text-center text-xs">{t('csrfError')}</p>
+        <p className="text-muted-foreground text-center text-xs">
+            {/* {t('csrfError')} */}
+            asdsad
+            </p>
       )}
     </div>
   );

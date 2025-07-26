@@ -13,7 +13,7 @@ import { useLogin2FA } from './useLogin2FA';
 import { LoginStep } from './types';
 
 export function LoginFlow() {
-  const t = useTranslations('LoginPage');
+//   const t = useTranslations('LoginPage');
   const [step, setStep] = useState<LoginStep>('email');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +28,10 @@ export function LoginFlow() {
       <CardHeader className="flex flex-col items-center space-y-2">
         <div className="text-2xl font-bold text-blue-600">MyApp</div>
         <CardTitle className="text-xl font-semibold text-gray-800">
-          {t('loginTitle')}
+          {/* {t('loginTitle')} */}qqq
         </CardTitle>
         <CardDescription className="text-sm text-gray-500">
-          {t('loginDescription')}
+          {/* {t('loginDescription')} */}www
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
@@ -72,8 +72,8 @@ export function LoginFlow() {
         {step === 'success' && (
           <div className="text-center space-y-4 text-blue-500">
             <div className="text-lg font-semibold">✅ {t('success')}</div>
-            <div className="text-sm">{t('redirecting')}</div>
-            <div className="animate-pulse">{t('loading')}</div>
+            {/* <div className="text-sm">{t('redirecting')}</div> */}ccc
+            {/* <div className="animate-pulse">{t('loading')}</div> */}vvv
             <Button
               variant="link"
               className="w-full text-sm text-blue-500"
@@ -84,7 +84,7 @@ export function LoginFlow() {
                 setTwoFactorCode('');
               }}
             >
-              {t('back')}
+              {/* {t('back')} */} ccc 
             </Button>
           </div>
         )}

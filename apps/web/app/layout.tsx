@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale } from 'next-intl/server';
 
 import './globals.css';
+import { ClientProviders } from '@/components/ClientProviders';
 
 export const metadata: Metadata = {
   title: 'SYSTEM KASANDRA – STRATEGIC SECURITY CENTER',
@@ -52,20 +51,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://projectpoland.gov.pl'),
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-
-   const locale = await getLocale();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pl" suppressHydrationWarning>
       <body>
-        <NextIntlClientProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <main className='py-4 px-10'>
-          {children}
-          </main>
-        </ThemeProvider>
-        </NextIntlClientProvider>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );

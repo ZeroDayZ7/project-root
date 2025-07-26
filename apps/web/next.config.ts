@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const isGithubPages = process.env.NEXT_PUBLIC_GITHUB_PAGES === 'true';
 const repo = 'project-root'; // <-- nazwę repozytorium wpisz tu
@@ -13,4 +14,5 @@ const nextConfig: NextConfig = {
   // reactStrictMode: true,
 };
 
-module.exports = nextConfig;
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(nextConfig);
