@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@neo/ui';
 import { AppBrand } from '@/components/AppBrand';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
 
@@ -107,6 +107,7 @@ export default function HomePage() {
         {/* Header */}
         <div className="flex justify-center mb-8">
           <AppBrand />
+          <Button>ELOO </Button>
         </div>
 
         {/* Main Content Grid */}
