@@ -30,7 +30,7 @@ export function AppBrand() {
         <div className="relative group/logo">
           <div className="relative bg-black/80 rounded-full p-1 border border-green-400/30">
             <Image
-              src={`${prefix}/images/logo.png`}
+              src={`${prefix}/images/logo1.png`}
               alt="System Logo"
               width={80}
               height={80}
