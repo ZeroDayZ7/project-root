@@ -1,4 +1,11 @@
 node_modules
 .next
-.env
+
 logs/
+
+
+
+
+
+.env
+.env.local

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@neo/ui';
 import { AppBrand } from '@/components/AppBrand';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
+import { prefix } from '@/lib/prefix';
 
 // Helper to generate static matrix rain
 function generateMatrixRain(cols = 20, rows = 40) {
@@ -107,7 +108,6 @@ export default function HomePage() {
         {/* Header */}
         <div className="flex justify-center mb-8">
           <AppBrand />
-          <Button>ELOO </Button>
         </div>
 
         {/* Main Content Grid */}
@@ -163,7 +163,7 @@ export default function HomePage() {
               </h3>
               <div className="space-y-3">
                 <AudioPlayer
-                  audioSrc="/project-root/music/m1.mp3"
+                  audioSrc={`${prefix}/audio/ambient.mp3`}
                   className="w-full text-left"
                 />
                 <button className="w-full text-left bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 rounded p-2 text-sm transition-colors">

@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { prefix } from '@/lib/prefix';
 
 export function AppBrand() {
   return (
@@ -29,7 +30,7 @@ export function AppBrand() {
         <div className="relative group/logo">
           <div className="relative bg-black/80 rounded-full p-1 border border-green-400/30">
             <Image
-              src="/images/logo1.png"
+              src={`${prefix}/images/logo.png`}
               alt="System Logo"
               width={80}
               height={80}
