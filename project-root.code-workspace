@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../skynet-division"
+		},
+		{
+			"path": "../wiki"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
