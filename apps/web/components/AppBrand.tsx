@@ -11,7 +11,11 @@ export function AppBrand() {
       href="/"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       className="group relative flex flex-col sm:flex-row items-center justify-center gap-4 p-4 min-h-[120px] w-full max-w-[800px] mx-auto"
+=======
+      className="group relative flex items-center justify-center p-4 min-h-[120px] w-full max-w-[800px] mx-auto"
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
       className="group relative flex items-center justify-center p-4 min-h-[120px] w-full max-w-[800px] mx-auto"
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
@@ -25,10 +29,16 @@ export function AppBrand() {
       {/* Ramka pojawiająca się przy hover */}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className="absolute inset-0 border border-primary/20 rounded-lg" />
 
       {/* Zawartość */}
       <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 w-full">
+=======
+      <div className="absolute inset-0 border border-green-400/20 rounded-lg" />
+
+      <div className="relative z-10 flex items-center space-x-8 w-full justify-between">
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
       <div className="absolute inset-0 border border-green-400/20 rounded-lg" />
 
@@ -51,7 +61,11 @@ export function AppBrand() {
         <div className="relative group/logo">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <div className="relative bg-background/80 rounded-full p-1 border border-primary/30">
+=======
+          <div className="relative bg-black/80 rounded-full p-1 border border-green-400/30">
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
           <div className="relative bg-black/80 rounded-full p-1 border border-green-400/30">
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
@@ -66,8 +80,11 @@ export function AppBrand() {
               priority
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               className="rounded-full border-2 border-transparent hover:border-primary hover:shadow-[0_0_8px_var(--primary)] duration-500"
 =======
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
               // Delikatne poświata neonowa
@@ -77,6 +94,9 @@ export function AppBrand() {
               // Podświetlona obwódka (border glow)
               className="rounded-full border-2 border-transparent hover:border-[#00ff7f] hover:shadow-[0_0_8px_#00ff7f] duration-500"
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+=======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
@@ -98,6 +118,7 @@ export function AppBrand() {
       {/* Narożniki - tylko wizualne */}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className="absolute top-3 left-3 w-3 h-3 border-l border-t border-primary/40" />
       <div className="absolute top-3 right-3 w-3 h-3 border-r border-t border-primary/40" />
       <div className="absolute bottom-3 left-3 w-3 h-3 border-l border-b border-primary/40" />
@@ -105,11 +126,16 @@ export function AppBrand() {
 =======
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
       <div className="absolute top-3 left-3 w-3 h-3 border-l border-t border-green-400/40" />
       <div className="absolute top-3 right-3 w-3 h-3 border-r border-t border-green-400/40" />
       <div className="absolute bottom-3 left-3 w-3 h-3 border-l border-b border-green-400/40" />
       <div className="absolute bottom-3 right-3 w-3 h-3 border-r border-b border-green-400/40" />
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+=======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)

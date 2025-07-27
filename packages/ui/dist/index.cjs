@@ -44,6 +44,7 @@ __export(index_exports, {
   Button: () => Button,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   Card: () => Card,
   CardAction: () => CardAction,
   CardContent: () => CardContent,
@@ -101,6 +102,9 @@ __export(index_exports, {
   useFormField: () => useFormField
 =======
   Input: () => Input,
+=======
+  Input: () => Input,
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
   Input: () => Input,
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
@@ -316,6 +320,7 @@ function AlertDialogCancel({
     }
   );
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -1065,6 +1070,8 @@ function ThemeToggle() {
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AlertDialog,
@@ -1079,6 +1086,7 @@ function ThemeToggle() {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   Card,
@@ -1138,6 +1146,9 @@ function ThemeToggle() {
   useFormField
 =======
   Input,
+=======
+  Input,
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
   Input,
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)

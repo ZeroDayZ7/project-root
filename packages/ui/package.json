@@ -27,8 +27,11 @@
     "@radix-ui/react-slot": "^1.2.3",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@radix-ui/react-switch": "^1.2.5"
 =======
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
     "class-variance-authority": "^0.7.1",
