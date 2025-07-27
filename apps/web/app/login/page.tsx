@@ -1,11 +1,15 @@
+<<<<<<< HEAD
 'use client';
 
 import { Button } from '@/components/Button1';
 
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 // Strona logowania
 const LoginPage = () => {
   return (
     <div>
+<<<<<<< HEAD
       <Button variant="primary" onClick={() => alert('Klik!')}>
         Zatwierdź
       </Button>
@@ -23,6 +27,10 @@ const LoginPage = () => {
       </Button>
 
       <Button variant="ghost">Więcej opcji</Button>
+=======
+      <h1>Login</h1>
+      {/* Formularz logowania */}
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
     </div>
   );
 };

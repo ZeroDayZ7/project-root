@@ -1,5 +1,6 @@
-// src/components/alert-dialog.tsx
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
+// src/components/button.tsx
+import { Slot } from "@radix-ui/react-slot";
+import { cva } from "class-variance-authority";
 
 // lib/utils.ts
 import { clsx } from "clsx";
@@ -9,8 +10,6 @@ function cn(...inputs) {
 }
 
 // src/components/button.tsx
-import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
 import { jsx } from "react/jsx-runtime";
 var buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
@@ -55,28 +54,48 @@ function Button({
   );
 }
 
+// src/components/input.tsx
+import { jsx as jsx2 } from "react/jsx-runtime";
+function Input({ className, type, ...props }) {
+  return /* @__PURE__ */ jsx2(
+    "input",
+    {
+      type,
+      "data-slot": "input",
+      className: cn(
+        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
 // src/components/alert-dialog.tsx
-import { jsx as jsx2, jsxs } from "react/jsx-runtime";
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
+import { jsx as jsx3, jsxs } from "react/jsx-runtime";
 function AlertDialog({
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(AlertDialogPrimitive.Root, { "data-slot": "alert-dialog", ...props });
+  return /* @__PURE__ */ jsx3(AlertDialogPrimitive.Root, { "data-slot": "alert-dialog", ...props });
 }
 function AlertDialogTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(AlertDialogPrimitive.Trigger, { "data-slot": "alert-dialog-trigger", ...props });
+  return /* @__PURE__ */ jsx3(AlertDialogPrimitive.Trigger, { "data-slot": "alert-dialog-trigger", ...props });
 }
 function AlertDialogPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(AlertDialogPrimitive.Portal, { "data-slot": "alert-dialog-portal", ...props });
+  return /* @__PURE__ */ jsx3(AlertDialogPrimitive.Portal, { "data-slot": "alert-dialog-portal", ...props });
 }
 function AlertDialogOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     AlertDialogPrimitive.Overlay,
     {
       "data-slot": "alert-dialog-overlay",
@@ -93,8 +112,8 @@ function AlertDialogContent({
   ...props
 }) {
   return /* @__PURE__ */ jsxs(AlertDialogPortal, { children: [
-    /* @__PURE__ */ jsx2(AlertDialogOverlay, {}),
-    /* @__PURE__ */ jsx2(
+    /* @__PURE__ */ jsx3(AlertDialogOverlay, {}),
+    /* @__PURE__ */ jsx3(
       AlertDialogPrimitive.Content,
       {
         "data-slot": "alert-dialog-content",
@@ -111,7 +130,7 @@ function AlertDialogHeader({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     "div",
     {
       "data-slot": "alert-dialog-header",
@@ -124,7 +143,7 @@ function AlertDialogFooter({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     "div",
     {
       "data-slot": "alert-dialog-footer",
@@ -140,7 +159,7 @@ function AlertDialogTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     AlertDialogPrimitive.Title,
     {
       "data-slot": "alert-dialog-title",
@@ -153,7 +172,7 @@ function AlertDialogDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     AlertDialogPrimitive.Description,
     {
       "data-slot": "alert-dialog-description",
@@ -166,7 +185,7 @@ function AlertDialogAction({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     AlertDialogPrimitive.Action,
     {
       className: cn(buttonVariants(), className),
@@ -178,7 +197,7 @@ function AlertDialogCancel({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     AlertDialogPrimitive.Cancel,
     {
       className: cn(buttonVariants({ variant: "outline" }), className),
@@ -186,6 +205,7 @@ function AlertDialogCancel({
     }
   );
 }
+<<<<<<< HEAD
 
 // src/components/dialog.tsx
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -934,6 +954,8 @@ function ThemeToggle() {
     }
   );
 }
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 export {
   AlertDialog,
   AlertDialogAction,
@@ -946,8 +968,8 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
-  Badge,
   Button,
+<<<<<<< HEAD
   Card,
   CardAction,
   CardContent,
@@ -1003,4 +1025,8 @@ export {
   badgeVariants,
   buttonVariants,
   useFormField
+=======
+  Input,
+  buttonVariants
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 };

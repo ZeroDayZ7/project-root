@@ -1,9 +1,19 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Button } from '@neo/ui';
 import { AppBrand } from '@/components/AppBrand';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
 import { prefix } from '@/lib/prefix';
+
+// Helper to generate static matrix rain
+function generateMatrixRain(cols = 20, rows = 40) {
+  return Array.from({ length: cols }, () =>
+    Array.from({ length: rows }, () =>
+      String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96))
+    )
+  );
+}
 
 export default function HomePage() {
   const [loginStep, setLoginStep] = useState('initial');
@@ -11,7 +21,10 @@ export default function HomePage() {
   const [password, setPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  
+
+  // Generate matrix rain ONCE (static)
+  const matrixRain = generateMatrixRain();
+
   // Email validation
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -72,11 +85,29 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono relative overflow-hidden">
+      {/* Static Matrix rain background */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none select-none z-0">
+        <div className="flex h-full">
+          {matrixRain.map((col, i) => (
+            <div key={i} className="flex flex-col flex-1 items-center">
+              {col.map((char, j) => (
+                <div
+                  key={j}
+                  className="text-green-400 text-xs opacity-20"
+                  style={{}}
+                >
+                  {char}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="flex justify-center mb-8">
           <AppBrand />
-          
         </div>
 
         {/* Main Content Grid */}
