@@ -43,6 +43,7 @@ __export(index_exports, {
   AlertDialogTrigger: () => AlertDialogTrigger,
   Button: () => Button,
 <<<<<<< HEAD
+<<<<<<< HEAD
   Card: () => Card,
   CardAction: () => CardAction,
   CardContent: () => CardContent,
@@ -100,6 +101,9 @@ __export(index_exports, {
   useFormField: () => useFormField
 =======
   Input: () => Input,
+=======
+  Input: () => Input,
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
   buttonVariants: () => buttonVariants
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 });
@@ -312,6 +316,7 @@ function AlertDialogCancel({
     }
   );
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 // src/components/dialog.tsx
@@ -1058,6 +1063,8 @@ function ThemeToggle() {
 }
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AlertDialog,
@@ -1072,6 +1079,7 @@ function ThemeToggle() {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
+<<<<<<< HEAD
 <<<<<<< HEAD
   Card,
   CardAction,
@@ -1130,6 +1138,9 @@ function ThemeToggle() {
   useFormField
 =======
   Input,
+=======
+  Input,
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
   buttonVariants
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 });

@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-import type { Metadata } from 'next';
-import { ThemeProvider } from '@/components/theme-provider';
-
-import './globals.css';
-import { ClientProviders } from '@/components/ClientProviders';
-=======
 import type { Metadata } from "next";
 import "./globals.css";
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 
 export const metadata: Metadata = {
   title: "SYSTEM KASANDRA – STRATEGIC SECURITY CENTER",
@@ -62,15 +54,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-<<<<<<< HEAD
-    <html lang="pl" suppressHydrationWarning>
-      <body>
-        <ClientProviders>{children}</ClientProviders>
-      </body>
-=======
     <html lang="en">
       <body>{children}</body>
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
     </html>
   );
 }

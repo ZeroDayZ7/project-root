@@ -206,6 +206,7 @@ function AlertDialogCancel({
   );
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 // src/components/dialog.tsx
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -956,6 +957,8 @@ function ThemeToggle() {
 }
 =======
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+=======
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 export {
   AlertDialog,
   AlertDialogAction,
@@ -969,6 +972,7 @@ export {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
+<<<<<<< HEAD
 <<<<<<< HEAD
   Card,
   CardAction,
@@ -1027,6 +1031,9 @@ export {
   useFormField
 =======
   Input,
+=======
+  Input,
+>>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
   buttonVariants
 >>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 };
