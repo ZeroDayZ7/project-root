@@ -11,6 +11,9 @@
 		}
 	],
 	"settings": {
-		"git.ignoreLimitWarning": true
+		"git.ignoreLimitWarning": true,
+		"markdown.extension.completion.enabled": true,
+		"markdown.extension.preview.autoShowPreviewToSide": true,
+		"markdown.extension.print.absoluteImgPath": false
 	}
 }

@@ -812,348 +812,17 @@ function CardFooter({ className, ...props }) {
 }
 
 // src/components/form.tsx
-import * as React2 from "react";
+import * as React from "react";
 import { Slot as Slot3 } from "@radix-ui/react-slot";
-
-// ../../node_modules/.pnpm/react-hook-form@7.61.1_react@19.1.0/node_modules/react-hook-form/dist/index.esm.mjs
-import React from "react";
-var isCheckBoxInput = (element) => element.type === "checkbox";
-var isDateObject = (value) => value instanceof Date;
-var isNullOrUndefined = (value) => value == null;
-var isObjectType = (value) => typeof value === "object";
-var isObject = (value) => !isNullOrUndefined(value) && !Array.isArray(value) && isObjectType(value) && !isDateObject(value);
-var getEventValue = (event) => isObject(event) && event.target ? isCheckBoxInput(event.target) ? event.target.checked : event.target.value : event;
-var getNodeParentName = (name) => name.substring(0, name.search(/\.\d+(\.|$)/)) || name;
-var isNameInFieldArray = (names, name) => names.has(getNodeParentName(name));
-var isPlainObject = (tempObject) => {
-  const prototypeCopy = tempObject.constructor && tempObject.constructor.prototype;
-  return isObject(prototypeCopy) && prototypeCopy.hasOwnProperty("isPrototypeOf");
-};
-var isWeb = typeof window !== "undefined" && typeof window.HTMLElement !== "undefined" && typeof document !== "undefined";
-function cloneObject(data) {
-  let copy;
-  const isArray = Array.isArray(data);
-  const isFileListInstance = typeof FileList !== "undefined" ? data instanceof FileList : false;
-  if (data instanceof Date) {
-    copy = new Date(data);
-  } else if (!(isWeb && (data instanceof Blob || isFileListInstance)) && (isArray || isObject(data))) {
-    copy = isArray ? [] : {};
-    if (!isArray && !isPlainObject(data)) {
-      copy = data;
-    } else {
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          copy[key] = cloneObject(data[key]);
-        }
-      }
-    }
-  } else {
-    return data;
-  }
-  return copy;
-}
-var isKey = (value) => /^\w*$/.test(value);
-var isUndefined = (val) => val === void 0;
-var compact = (value) => Array.isArray(value) ? value.filter(Boolean) : [];
-var stringToPath = (input) => compact(input.replace(/["|']|\]/g, "").split(/\.|\[/));
-var get = (object, path, defaultValue) => {
-  if (!path || !isObject(object)) {
-    return defaultValue;
-  }
-  const result = (isKey(path) ? [path] : stringToPath(path)).reduce((result2, key) => isNullOrUndefined(result2) ? result2 : result2[key], object);
-  return isUndefined(result) || result === object ? isUndefined(object[path]) ? defaultValue : object[path] : result;
-};
-var isBoolean = (value) => typeof value === "boolean";
-var set = (object, path, value) => {
-  let index = -1;
-  const tempPath = isKey(path) ? [path] : stringToPath(path);
-  const length = tempPath.length;
-  const lastIndex = length - 1;
-  while (++index < length) {
-    const key = tempPath[index];
-    let newValue = value;
-    if (index !== lastIndex) {
-      const objValue = object[key];
-      newValue = isObject(objValue) || Array.isArray(objValue) ? objValue : !isNaN(+tempPath[index + 1]) ? [] : {};
-    }
-    if (key === "__proto__" || key === "constructor" || key === "prototype") {
-      return;
-    }
-    object[key] = newValue;
-    object = object[key];
-  }
-};
-var EVENTS = {
-  BLUR: "blur",
-  FOCUS_OUT: "focusout",
-  CHANGE: "change"
-};
-var VALIDATION_MODE = {
-  onBlur: "onBlur",
-  onChange: "onChange",
-  onSubmit: "onSubmit",
-  onTouched: "onTouched",
-  all: "all"
-};
-var HookFormContext = React.createContext(null);
-HookFormContext.displayName = "HookFormContext";
-var useFormContext = () => React.useContext(HookFormContext);
-var FormProvider = (props) => {
-  const { children, ...data } = props;
-  return React.createElement(HookFormContext.Provider, { value: data }, children);
-};
-var getProxyFormState = (formState, control, localProxyFormState, isRoot = true) => {
-  const result = {
-    defaultValues: control._defaultValues
-  };
-  for (const key in formState) {
-    Object.defineProperty(result, key, {
-      get: () => {
-        const _key = key;
-        if (control._proxyFormState[_key] !== VALIDATION_MODE.all) {
-          control._proxyFormState[_key] = !isRoot || VALIDATION_MODE.all;
-        }
-        localProxyFormState && (localProxyFormState[_key] = true);
-        return formState[_key];
-      }
-    });
-  }
-  return result;
-};
-var useIsomorphicLayoutEffect = typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
-function useFormState(props) {
-  const methods = useFormContext();
-  const { control = methods.control, disabled, name, exact } = props || {};
-  const [formState, updateFormState] = React.useState(control._formState);
-  const _localProxyFormState = React.useRef({
-    isDirty: false,
-    isLoading: false,
-    dirtyFields: false,
-    touchedFields: false,
-    validatingFields: false,
-    isValidating: false,
-    isValid: false,
-    errors: false
-  });
-  useIsomorphicLayoutEffect(() => control._subscribe({
-    name,
-    formState: _localProxyFormState.current,
-    exact,
-    callback: (formState2) => {
-      !disabled && updateFormState({
-        ...control._formState,
-        ...formState2
-      });
-    }
-  }), [name, disabled, exact]);
-  React.useEffect(() => {
-    _localProxyFormState.current.isValid && control._setValid(true);
-  }, [control]);
-  return React.useMemo(() => getProxyFormState(formState, control, _localProxyFormState.current, false), [formState, control]);
-}
-var isString = (value) => typeof value === "string";
-var generateWatchOutput = (names, _names, formValues, isGlobal, defaultValue) => {
-  if (isString(names)) {
-    isGlobal && _names.watch.add(names);
-    return get(formValues, names, defaultValue);
-  }
-  if (Array.isArray(names)) {
-    return names.map((fieldName) => (isGlobal && _names.watch.add(fieldName), get(formValues, fieldName)));
-  }
-  isGlobal && (_names.watchAll = true);
-  return formValues;
-};
-var isPrimitive = (value) => isNullOrUndefined(value) || !isObjectType(value);
-function deepEqual(object1, object2, _internal_visited = /* @__PURE__ */ new WeakSet()) {
-  if (isPrimitive(object1) || isPrimitive(object2)) {
-    return object1 === object2;
-  }
-  if (isDateObject(object1) && isDateObject(object2)) {
-    return object1.getTime() === object2.getTime();
-  }
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-  if (_internal_visited.has(object1) || _internal_visited.has(object2)) {
-    return true;
-  }
-  _internal_visited.add(object1);
-  _internal_visited.add(object2);
-  for (const key of keys1) {
-    const val1 = object1[key];
-    if (!keys2.includes(key)) {
-      return false;
-    }
-    if (key !== "ref") {
-      const val2 = object2[key];
-      if (isDateObject(val1) && isDateObject(val2) || isObject(val1) && isObject(val2) || Array.isArray(val1) && Array.isArray(val2) ? !deepEqual(val1, val2, _internal_visited) : val1 !== val2) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-function useWatch(props) {
-  const methods = useFormContext();
-  const { control = methods.control, name, defaultValue, disabled, exact, compute } = props || {};
-  const _defaultValue = React.useRef(defaultValue);
-  const _compute = React.useRef(compute);
-  const _computeFormValues = React.useRef(void 0);
-  _compute.current = compute;
-  const defaultValueMemo = React.useMemo(() => control._getWatch(name, _defaultValue.current), [control, name]);
-  const [value, updateValue] = React.useState(_compute.current ? _compute.current(defaultValueMemo) : defaultValueMemo);
-  useIsomorphicLayoutEffect(() => control._subscribe({
-    name,
-    formState: {
-      values: true
-    },
-    exact,
-    callback: (formState) => {
-      if (!disabled) {
-        const formValues = generateWatchOutput(name, control._names, formState.values || control._formValues, false, _defaultValue.current);
-        if (_compute.current) {
-          const computedFormValues = _compute.current(formValues);
-          if (!deepEqual(computedFormValues, _computeFormValues.current)) {
-            updateValue(computedFormValues);
-            _computeFormValues.current = computedFormValues;
-          }
-        } else {
-          updateValue(formValues);
-        }
-      }
-    }
-  }), [control, disabled, name, exact]);
-  React.useEffect(() => control._removeUnmounted());
-  return value;
-}
-function useController(props) {
-  const methods = useFormContext();
-  const { name, disabled, control = methods.control, shouldUnregister, defaultValue } = props;
-  const isArrayField = isNameInFieldArray(control._names.array, name);
-  const defaultValueMemo = React.useMemo(() => get(control._formValues, name, get(control._defaultValues, name, defaultValue)), [control, name, defaultValue]);
-  const value = useWatch({
-    control,
-    name,
-    defaultValue: defaultValueMemo,
-    exact: true
-  });
-  const formState = useFormState({
-    control,
-    name,
-    exact: true
-  });
-  const _props = React.useRef(props);
-  const _registerProps = React.useRef(control.register(name, {
-    ...props.rules,
-    value,
-    ...isBoolean(props.disabled) ? { disabled: props.disabled } : {}
-  }));
-  _props.current = props;
-  const fieldState = React.useMemo(() => Object.defineProperties({}, {
-    invalid: {
-      enumerable: true,
-      get: () => !!get(formState.errors, name)
-    },
-    isDirty: {
-      enumerable: true,
-      get: () => !!get(formState.dirtyFields, name)
-    },
-    isTouched: {
-      enumerable: true,
-      get: () => !!get(formState.touchedFields, name)
-    },
-    isValidating: {
-      enumerable: true,
-      get: () => !!get(formState.validatingFields, name)
-    },
-    error: {
-      enumerable: true,
-      get: () => get(formState.errors, name)
-    }
-  }), [formState, name]);
-  const onChange = React.useCallback((event) => _registerProps.current.onChange({
-    target: {
-      value: getEventValue(event),
-      name
-    },
-    type: EVENTS.CHANGE
-  }), [name]);
-  const onBlur = React.useCallback(() => _registerProps.current.onBlur({
-    target: {
-      value: get(control._formValues, name),
-      name
-    },
-    type: EVENTS.BLUR
-  }), [name, control._formValues]);
-  const ref = React.useCallback((elm) => {
-    const field2 = get(control._fields, name);
-    if (field2 && elm) {
-      field2._f.ref = {
-        focus: () => elm.focus && elm.focus(),
-        select: () => elm.select && elm.select(),
-        setCustomValidity: (message) => elm.setCustomValidity(message),
-        reportValidity: () => elm.reportValidity()
-      };
-    }
-  }, [control._fields, name]);
-  const field = React.useMemo(() => ({
-    name,
-    value,
-    ...isBoolean(disabled) || formState.disabled ? { disabled: formState.disabled || disabled } : {},
-    onChange,
-    onBlur,
-    ref
-  }), [name, disabled, formState.disabled, onChange, onBlur, ref, value]);
-  React.useEffect(() => {
-    const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
-    control.register(name, {
-      ..._props.current.rules,
-      ...isBoolean(_props.current.disabled) ? { disabled: _props.current.disabled } : {}
-    });
-    const updateMounted = (name2, value2) => {
-      const field2 = get(control._fields, name2);
-      if (field2 && field2._f) {
-        field2._f.mount = value2;
-      }
-    };
-    updateMounted(name, true);
-    if (_shouldUnregisterField) {
-      const value2 = cloneObject(get(control._options.defaultValues, name));
-      set(control._defaultValues, name, value2);
-      if (isUndefined(get(control._formValues, name))) {
-        set(control._formValues, name, value2);
-      }
-    }
-    !isArrayField && control.register(name);
-    return () => {
-      (isArrayField ? _shouldUnregisterField && !control._state.action : _shouldUnregisterField) ? control.unregister(name) : updateMounted(name, false);
-    };
-  }, [name, control, isArrayField, shouldUnregister]);
-  React.useEffect(() => {
-    control._setDisabledField({
-      disabled,
-      name
-    });
-  }, [disabled, name, control]);
-  return React.useMemo(() => ({
-    field,
-    formState,
-    fieldState
-  }), [field, formState, fieldState]);
-}
-var Controller = (props) => props.render(useController(props));
-var defaultOptions = {
-  mode: VALIDATION_MODE.onSubmit,
-  reValidateMode: VALIDATION_MODE.onChange,
-  shouldFocusError: true
-};
-
-// src/components/form.tsx
+import {
+  Controller,
+  FormProvider,
+  useFormContext,
+  useFormState
+} from "react-hook-form";
 import { jsx as jsx13 } from "react/jsx-runtime";
 var Form = FormProvider;
-var FormFieldContext = React2.createContext(
+var FormFieldContext = React.createContext(
   {}
 );
 var FormField = ({
@@ -1162,8 +831,8 @@ var FormField = ({
   return /* @__PURE__ */ jsx13(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx13(Controller, { ...props }) });
 };
 var useFormField = () => {
-  const fieldContext = React2.useContext(FormFieldContext);
-  const itemContext = React2.useContext(FormItemContext);
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
   const { getFieldState } = useFormContext();
   const formState = useFormState({ name: fieldContext.name });
   const fieldState = getFieldState(fieldContext.name, formState);
@@ -1180,11 +849,11 @@ var useFormField = () => {
     ...fieldState
   };
 };
-var FormItemContext = React2.createContext(
+var FormItemContext = React.createContext(
   {}
 );
 function FormItem({ className, ...props }) {
-  const id = React2.useId();
+  const id = React.useId();
   return /* @__PURE__ */ jsx13(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ jsx13(
     "div",
     {
@@ -1253,13 +922,75 @@ function FormMessage({ className, ...props }) {
   );
 }
 
+// src/components/alert.tsx
+import { cva as cva3 } from "class-variance-authority";
+import { jsx as jsx14 } from "react/jsx-runtime";
+var alertVariants = cva3(
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  {
+    variants: {
+      variant: {
+        default: "bg-card text-card-foreground",
+        destructive: "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90"
+      }
+    },
+    defaultVariants: {
+      variant: "default"
+    }
+  }
+);
+function Alert({
+  className,
+  variant,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx14(
+    "div",
+    {
+      "data-slot": "alert",
+      role: "alert",
+      className: cn(alertVariants({ variant }), className),
+      ...props
+    }
+  );
+}
+function AlertTitle({ className, ...props }) {
+  return /* @__PURE__ */ jsx14(
+    "div",
+    {
+      "data-slot": "alert-title",
+      className: cn(
+        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function AlertDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx14(
+    "div",
+    {
+      "data-slot": "alert-description",
+      className: cn(
+        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
 // src/features/Loader.tsx
 import { Loader2 } from "lucide-react";
-import { jsx as jsx14, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs4 } from "react/jsx-runtime";
 function Loader({ message = "", className }) {
   return /* @__PURE__ */ jsxs4("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
-    /* @__PURE__ */ jsx14(Loader2, { className: "h-5 w-5 animate-spin" }),
-    /* @__PURE__ */ jsx14("span", { children: message })
+    /* @__PURE__ */ jsx15(Loader2, { className: "h-5 w-5 animate-spin" }),
+    /* @__PURE__ */ jsx15("span", { children: message })
   ] });
 }
 
@@ -1267,7 +998,7 @@ function Loader({ message = "", className }) {
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
-import { jsx as jsx15, jsxs as jsxs5 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs5 } from "react/jsx-runtime";
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -1284,8 +1015,8 @@ function ThemeToggle() {
       variant: "ghost",
       size: "icon",
       children: [
-        isDark ? /* @__PURE__ */ jsx15(Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ jsx15(Moon, { className: "h-5 w-5" }),
-        /* @__PURE__ */ jsx15("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
+        isDark ? /* @__PURE__ */ jsx16(Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ jsx16(Moon, { className: "h-5 w-5" }),
+        /* @__PURE__ */ jsx16("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
       ]
     }
   );
@@ -1294,36 +1025,38 @@ function ThemeToggle() {
 // src/features/ThemeToggleKasandra.tsx
 import { Moon as Moon2, Sun as Sun2, OrbitIcon, MonitorCog } from "lucide-react";
 import { useTheme as useTheme2 } from "next-themes";
-import { jsx as jsx16, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs6 } from "react/jsx-runtime";
 function ThemeToggleKasandra() {
   const { setTheme } = useTheme2();
   return /* @__PURE__ */ jsxs6(DropdownMenu, { children: [
-    /* @__PURE__ */ jsx16(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs6(Button, { variant: "outline", size: "icon", children: [
-      /* @__PURE__ */ jsx16(Sun2, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
-      /* @__PURE__ */ jsx16(Moon2, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
-      /* @__PURE__ */ jsx16("span", { className: "sr-only", children: "Toggle theme" })
+    /* @__PURE__ */ jsx17(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs6(Button, { variant: "outline", size: "icon", children: [
+      /* @__PURE__ */ jsx17(Sun2, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
+      /* @__PURE__ */ jsx17(Moon2, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
+      /* @__PURE__ */ jsx17("span", { className: "sr-only", children: "Toggle theme" })
     ] }) }),
     /* @__PURE__ */ jsxs6(DropdownMenuContent, { align: "end", children: [
       /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
-        /* @__PURE__ */ jsx16(Sun2, {}),
+        /* @__PURE__ */ jsx17(Sun2, {}),
         " Light"
       ] }),
       /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
-        /* @__PURE__ */ jsx16(Moon2, {}),
+        /* @__PURE__ */ jsx17(Moon2, {}),
         " Dark"
       ] }),
       /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("kasandra"), children: [
-        /* @__PURE__ */ jsx16(OrbitIcon, {}),
+        /* @__PURE__ */ jsx17(OrbitIcon, {}),
         " Kasandra"
       ] }),
       /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
-        /* @__PURE__ */ jsx16(MonitorCog, {}),
+        /* @__PURE__ */ jsx17(MonitorCog, {}),
         " System"
       ] })
     ] })
   ] });
 }
 export {
+  Alert,
+  AlertDescription,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -1335,6 +1068,7 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertTitle,
   Badge,
   Button,
   Card,

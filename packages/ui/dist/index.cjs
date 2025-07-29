@@ -30,6 +30,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  Alert: () => Alert,
+  AlertDescription: () => AlertDescription,
   AlertDialog: () => AlertDialog,
   AlertDialogAction: () => AlertDialogAction,
   AlertDialogCancel: () => AlertDialogCancel,
@@ -41,6 +43,7 @@ __export(index_exports, {
   AlertDialogPortal: () => AlertDialogPortal,
   AlertDialogTitle: () => AlertDialogTitle,
   AlertDialogTrigger: () => AlertDialogTrigger,
+  AlertTitle: () => AlertTitle,
   Badge: () => Badge,
   Button: () => Button,
   Card: () => Card,
@@ -916,360 +919,24 @@ function CardFooter({ className, ...props }) {
 }
 
 // src/components/form.tsx
-var React2 = __toESM(require("react"), 1);
+var React = __toESM(require("react"), 1);
 var import_react_slot3 = require("@radix-ui/react-slot");
-
-// ../../node_modules/.pnpm/react-hook-form@7.61.1_react@19.1.0/node_modules/react-hook-form/dist/index.esm.mjs
-var import_react = __toESM(require("react"), 1);
-var isCheckBoxInput = (element) => element.type === "checkbox";
-var isDateObject = (value) => value instanceof Date;
-var isNullOrUndefined = (value) => value == null;
-var isObjectType = (value) => typeof value === "object";
-var isObject = (value) => !isNullOrUndefined(value) && !Array.isArray(value) && isObjectType(value) && !isDateObject(value);
-var getEventValue = (event) => isObject(event) && event.target ? isCheckBoxInput(event.target) ? event.target.checked : event.target.value : event;
-var getNodeParentName = (name) => name.substring(0, name.search(/\.\d+(\.|$)/)) || name;
-var isNameInFieldArray = (names, name) => names.has(getNodeParentName(name));
-var isPlainObject = (tempObject) => {
-  const prototypeCopy = tempObject.constructor && tempObject.constructor.prototype;
-  return isObject(prototypeCopy) && prototypeCopy.hasOwnProperty("isPrototypeOf");
-};
-var isWeb = typeof window !== "undefined" && typeof window.HTMLElement !== "undefined" && typeof document !== "undefined";
-function cloneObject(data) {
-  let copy;
-  const isArray = Array.isArray(data);
-  const isFileListInstance = typeof FileList !== "undefined" ? data instanceof FileList : false;
-  if (data instanceof Date) {
-    copy = new Date(data);
-  } else if (!(isWeb && (data instanceof Blob || isFileListInstance)) && (isArray || isObject(data))) {
-    copy = isArray ? [] : {};
-    if (!isArray && !isPlainObject(data)) {
-      copy = data;
-    } else {
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          copy[key] = cloneObject(data[key]);
-        }
-      }
-    }
-  } else {
-    return data;
-  }
-  return copy;
-}
-var isKey = (value) => /^\w*$/.test(value);
-var isUndefined = (val) => val === void 0;
-var compact = (value) => Array.isArray(value) ? value.filter(Boolean) : [];
-var stringToPath = (input) => compact(input.replace(/["|']|\]/g, "").split(/\.|\[/));
-var get = (object, path, defaultValue) => {
-  if (!path || !isObject(object)) {
-    return defaultValue;
-  }
-  const result = (isKey(path) ? [path] : stringToPath(path)).reduce((result2, key) => isNullOrUndefined(result2) ? result2 : result2[key], object);
-  return isUndefined(result) || result === object ? isUndefined(object[path]) ? defaultValue : object[path] : result;
-};
-var isBoolean = (value) => typeof value === "boolean";
-var set = (object, path, value) => {
-  let index = -1;
-  const tempPath = isKey(path) ? [path] : stringToPath(path);
-  const length = tempPath.length;
-  const lastIndex = length - 1;
-  while (++index < length) {
-    const key = tempPath[index];
-    let newValue = value;
-    if (index !== lastIndex) {
-      const objValue = object[key];
-      newValue = isObject(objValue) || Array.isArray(objValue) ? objValue : !isNaN(+tempPath[index + 1]) ? [] : {};
-    }
-    if (key === "__proto__" || key === "constructor" || key === "prototype") {
-      return;
-    }
-    object[key] = newValue;
-    object = object[key];
-  }
-};
-var EVENTS = {
-  BLUR: "blur",
-  FOCUS_OUT: "focusout",
-  CHANGE: "change"
-};
-var VALIDATION_MODE = {
-  onBlur: "onBlur",
-  onChange: "onChange",
-  onSubmit: "onSubmit",
-  onTouched: "onTouched",
-  all: "all"
-};
-var HookFormContext = import_react.default.createContext(null);
-HookFormContext.displayName = "HookFormContext";
-var useFormContext = () => import_react.default.useContext(HookFormContext);
-var FormProvider = (props) => {
-  const { children, ...data } = props;
-  return import_react.default.createElement(HookFormContext.Provider, { value: data }, children);
-};
-var getProxyFormState = (formState, control, localProxyFormState, isRoot = true) => {
-  const result = {
-    defaultValues: control._defaultValues
-  };
-  for (const key in formState) {
-    Object.defineProperty(result, key, {
-      get: () => {
-        const _key = key;
-        if (control._proxyFormState[_key] !== VALIDATION_MODE.all) {
-          control._proxyFormState[_key] = !isRoot || VALIDATION_MODE.all;
-        }
-        localProxyFormState && (localProxyFormState[_key] = true);
-        return formState[_key];
-      }
-    });
-  }
-  return result;
-};
-var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_react.default.useLayoutEffect : import_react.default.useEffect;
-function useFormState(props) {
-  const methods = useFormContext();
-  const { control = methods.control, disabled, name, exact } = props || {};
-  const [formState, updateFormState] = import_react.default.useState(control._formState);
-  const _localProxyFormState = import_react.default.useRef({
-    isDirty: false,
-    isLoading: false,
-    dirtyFields: false,
-    touchedFields: false,
-    validatingFields: false,
-    isValidating: false,
-    isValid: false,
-    errors: false
-  });
-  useIsomorphicLayoutEffect(() => control._subscribe({
-    name,
-    formState: _localProxyFormState.current,
-    exact,
-    callback: (formState2) => {
-      !disabled && updateFormState({
-        ...control._formState,
-        ...formState2
-      });
-    }
-  }), [name, disabled, exact]);
-  import_react.default.useEffect(() => {
-    _localProxyFormState.current.isValid && control._setValid(true);
-  }, [control]);
-  return import_react.default.useMemo(() => getProxyFormState(formState, control, _localProxyFormState.current, false), [formState, control]);
-}
-var isString = (value) => typeof value === "string";
-var generateWatchOutput = (names, _names, formValues, isGlobal, defaultValue) => {
-  if (isString(names)) {
-    isGlobal && _names.watch.add(names);
-    return get(formValues, names, defaultValue);
-  }
-  if (Array.isArray(names)) {
-    return names.map((fieldName) => (isGlobal && _names.watch.add(fieldName), get(formValues, fieldName)));
-  }
-  isGlobal && (_names.watchAll = true);
-  return formValues;
-};
-var isPrimitive = (value) => isNullOrUndefined(value) || !isObjectType(value);
-function deepEqual(object1, object2, _internal_visited = /* @__PURE__ */ new WeakSet()) {
-  if (isPrimitive(object1) || isPrimitive(object2)) {
-    return object1 === object2;
-  }
-  if (isDateObject(object1) && isDateObject(object2)) {
-    return object1.getTime() === object2.getTime();
-  }
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-  if (_internal_visited.has(object1) || _internal_visited.has(object2)) {
-    return true;
-  }
-  _internal_visited.add(object1);
-  _internal_visited.add(object2);
-  for (const key of keys1) {
-    const val1 = object1[key];
-    if (!keys2.includes(key)) {
-      return false;
-    }
-    if (key !== "ref") {
-      const val2 = object2[key];
-      if (isDateObject(val1) && isDateObject(val2) || isObject(val1) && isObject(val2) || Array.isArray(val1) && Array.isArray(val2) ? !deepEqual(val1, val2, _internal_visited) : val1 !== val2) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-function useWatch(props) {
-  const methods = useFormContext();
-  const { control = methods.control, name, defaultValue, disabled, exact, compute } = props || {};
-  const _defaultValue = import_react.default.useRef(defaultValue);
-  const _compute = import_react.default.useRef(compute);
-  const _computeFormValues = import_react.default.useRef(void 0);
-  _compute.current = compute;
-  const defaultValueMemo = import_react.default.useMemo(() => control._getWatch(name, _defaultValue.current), [control, name]);
-  const [value, updateValue] = import_react.default.useState(_compute.current ? _compute.current(defaultValueMemo) : defaultValueMemo);
-  useIsomorphicLayoutEffect(() => control._subscribe({
-    name,
-    formState: {
-      values: true
-    },
-    exact,
-    callback: (formState) => {
-      if (!disabled) {
-        const formValues = generateWatchOutput(name, control._names, formState.values || control._formValues, false, _defaultValue.current);
-        if (_compute.current) {
-          const computedFormValues = _compute.current(formValues);
-          if (!deepEqual(computedFormValues, _computeFormValues.current)) {
-            updateValue(computedFormValues);
-            _computeFormValues.current = computedFormValues;
-          }
-        } else {
-          updateValue(formValues);
-        }
-      }
-    }
-  }), [control, disabled, name, exact]);
-  import_react.default.useEffect(() => control._removeUnmounted());
-  return value;
-}
-function useController(props) {
-  const methods = useFormContext();
-  const { name, disabled, control = methods.control, shouldUnregister, defaultValue } = props;
-  const isArrayField = isNameInFieldArray(control._names.array, name);
-  const defaultValueMemo = import_react.default.useMemo(() => get(control._formValues, name, get(control._defaultValues, name, defaultValue)), [control, name, defaultValue]);
-  const value = useWatch({
-    control,
-    name,
-    defaultValue: defaultValueMemo,
-    exact: true
-  });
-  const formState = useFormState({
-    control,
-    name,
-    exact: true
-  });
-  const _props = import_react.default.useRef(props);
-  const _registerProps = import_react.default.useRef(control.register(name, {
-    ...props.rules,
-    value,
-    ...isBoolean(props.disabled) ? { disabled: props.disabled } : {}
-  }));
-  _props.current = props;
-  const fieldState = import_react.default.useMemo(() => Object.defineProperties({}, {
-    invalid: {
-      enumerable: true,
-      get: () => !!get(formState.errors, name)
-    },
-    isDirty: {
-      enumerable: true,
-      get: () => !!get(formState.dirtyFields, name)
-    },
-    isTouched: {
-      enumerable: true,
-      get: () => !!get(formState.touchedFields, name)
-    },
-    isValidating: {
-      enumerable: true,
-      get: () => !!get(formState.validatingFields, name)
-    },
-    error: {
-      enumerable: true,
-      get: () => get(formState.errors, name)
-    }
-  }), [formState, name]);
-  const onChange = import_react.default.useCallback((event) => _registerProps.current.onChange({
-    target: {
-      value: getEventValue(event),
-      name
-    },
-    type: EVENTS.CHANGE
-  }), [name]);
-  const onBlur = import_react.default.useCallback(() => _registerProps.current.onBlur({
-    target: {
-      value: get(control._formValues, name),
-      name
-    },
-    type: EVENTS.BLUR
-  }), [name, control._formValues]);
-  const ref = import_react.default.useCallback((elm) => {
-    const field2 = get(control._fields, name);
-    if (field2 && elm) {
-      field2._f.ref = {
-        focus: () => elm.focus && elm.focus(),
-        select: () => elm.select && elm.select(),
-        setCustomValidity: (message) => elm.setCustomValidity(message),
-        reportValidity: () => elm.reportValidity()
-      };
-    }
-  }, [control._fields, name]);
-  const field = import_react.default.useMemo(() => ({
-    name,
-    value,
-    ...isBoolean(disabled) || formState.disabled ? { disabled: formState.disabled || disabled } : {},
-    onChange,
-    onBlur,
-    ref
-  }), [name, disabled, formState.disabled, onChange, onBlur, ref, value]);
-  import_react.default.useEffect(() => {
-    const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
-    control.register(name, {
-      ..._props.current.rules,
-      ...isBoolean(_props.current.disabled) ? { disabled: _props.current.disabled } : {}
-    });
-    const updateMounted = (name2, value2) => {
-      const field2 = get(control._fields, name2);
-      if (field2 && field2._f) {
-        field2._f.mount = value2;
-      }
-    };
-    updateMounted(name, true);
-    if (_shouldUnregisterField) {
-      const value2 = cloneObject(get(control._options.defaultValues, name));
-      set(control._defaultValues, name, value2);
-      if (isUndefined(get(control._formValues, name))) {
-        set(control._formValues, name, value2);
-      }
-    }
-    !isArrayField && control.register(name);
-    return () => {
-      (isArrayField ? _shouldUnregisterField && !control._state.action : _shouldUnregisterField) ? control.unregister(name) : updateMounted(name, false);
-    };
-  }, [name, control, isArrayField, shouldUnregister]);
-  import_react.default.useEffect(() => {
-    control._setDisabledField({
-      disabled,
-      name
-    });
-  }, [disabled, name, control]);
-  return import_react.default.useMemo(() => ({
-    field,
-    formState,
-    fieldState
-  }), [field, formState, fieldState]);
-}
-var Controller = (props) => props.render(useController(props));
-var defaultOptions = {
-  mode: VALIDATION_MODE.onSubmit,
-  reValidateMode: VALIDATION_MODE.onChange,
-  shouldFocusError: true
-};
-
-// src/components/form.tsx
+var import_react_hook_form = require("react-hook-form");
 var import_jsx_runtime13 = require("react/jsx-runtime");
-var Form = FormProvider;
-var FormFieldContext = React2.createContext(
+var Form = import_react_hook_form.FormProvider;
+var FormFieldContext = React.createContext(
   {}
 );
 var FormField = ({
   ...props
 }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Controller, { ...props }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_hook_form.Controller, { ...props }) });
 };
 var useFormField = () => {
-  const fieldContext = React2.useContext(FormFieldContext);
-  const itemContext = React2.useContext(FormItemContext);
-  const { getFieldState } = useFormContext();
-  const formState = useFormState({ name: fieldContext.name });
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
+  const { getFieldState } = (0, import_react_hook_form.useFormContext)();
+  const formState = (0, import_react_hook_form.useFormState)({ name: fieldContext.name });
   const fieldState = getFieldState(fieldContext.name, formState);
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>");
@@ -1284,11 +951,11 @@ var useFormField = () => {
     ...fieldState
   };
 };
-var FormItemContext = React2.createContext(
+var FormItemContext = React.createContext(
   {}
 );
 function FormItem({ className, ...props }) {
-  const id = React2.useId();
+  const id = React.useId();
   return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
     "div",
     {
@@ -1357,39 +1024,101 @@ function FormMessage({ className, ...props }) {
   );
 }
 
+// src/components/alert.tsx
+var import_class_variance_authority3 = require("class-variance-authority");
+var import_jsx_runtime14 = require("react/jsx-runtime");
+var alertVariants = (0, import_class_variance_authority3.cva)(
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  {
+    variants: {
+      variant: {
+        default: "bg-card text-card-foreground",
+        destructive: "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90"
+      }
+    },
+    defaultVariants: {
+      variant: "default"
+    }
+  }
+);
+function Alert({
+  className,
+  variant,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    "div",
+    {
+      "data-slot": "alert",
+      role: "alert",
+      className: cn(alertVariants({ variant }), className),
+      ...props
+    }
+  );
+}
+function AlertTitle({ className, ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    "div",
+    {
+      "data-slot": "alert-title",
+      className: cn(
+        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function AlertDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    "div",
+    {
+      "data-slot": "alert-description",
+      className: cn(
+        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
 // src/features/Loader.tsx
 var import_lucide_react3 = require("lucide-react");
-var import_jsx_runtime14 = require("react/jsx-runtime");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 function Loader({ message = "", className }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
-    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.Loader2, { className: "h-5 w-5 animate-spin" }),
-    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { children: message })
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
+    /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react3.Loader2, { className: "h-5 w-5 animate-spin" }),
+    /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { children: message })
   ] });
 }
 
 // src/features/ThemeToggle.tsx
 var import_next_themes = require("next-themes");
-var import_react2 = require("react");
+var import_react = require("react");
 var import_lucide_react4 = require("lucide-react");
-var import_jsx_runtime15 = require("react/jsx-runtime");
+var import_jsx_runtime16 = require("react/jsx-runtime");
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = (0, import_next_themes.useTheme)();
-  const [mounted, setMounted] = (0, import_react2.useState)(false);
-  (0, import_react2.useEffect)(() => setMounted(true), []);
+  const [mounted, setMounted] = (0, import_react.useState)(false);
+  (0, import_react.useEffect)(() => setMounted(true), []);
   if (!mounted) return null;
   const isDark = resolvedTheme === "dark";
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
     Button,
     {
       onClick: toggleTheme,
       variant: "ghost",
       size: "icon",
       children: [
-        isDark ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react4.Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react4.Moon, { className: "h-5 w-5" }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
+        isDark ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Moon, { className: "h-5 w-5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
       ]
     }
   );
@@ -1398,30 +1127,30 @@ function ThemeToggle() {
 // src/features/ThemeToggleKasandra.tsx
 var import_lucide_react5 = require("lucide-react");
 var import_next_themes2 = require("next-themes");
-var import_jsx_runtime16 = require("react/jsx-runtime");
+var import_jsx_runtime17 = require("react/jsx-runtime");
 function ThemeToggleKasandra() {
   const { setTheme } = (0, import_next_themes2.useTheme)();
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenu, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Button, { variant: "outline", size: "icon", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.Sun, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.Moon, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "sr-only", children: "Toggle theme" })
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(DropdownMenu, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(Button, { variant: "outline", size: "icon", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.Sun, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.Moon, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { className: "sr-only", children: "Toggle theme" })
     ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenuContent, { align: "end", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.Sun, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(DropdownMenuContent, { align: "end", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.Sun, {}),
         " Light"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.Moon, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.Moon, {}),
         " Dark"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenuItem, { onClick: () => setTheme("kasandra"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.OrbitIcon, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(DropdownMenuItem, { onClick: () => setTheme("kasandra"), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.OrbitIcon, {}),
         " Kasandra"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.MonitorCog, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.MonitorCog, {}),
         " System"
       ] })
     ] })
@@ -1429,6 +1158,8 @@ function ThemeToggleKasandra() {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  Alert,
+  AlertDescription,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -1440,6 +1171,7 @@ function ThemeToggleKasandra() {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertTitle,
   Badge,
   Button,
   Card,

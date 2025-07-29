@@ -122,6 +122,13 @@ declare function FormControl({ ...props }: React.ComponentProps<typeof Slot>): r
 declare function FormDescription({ className, ...props }: React.ComponentProps<"p">): react_jsx_runtime.JSX.Element;
 declare function FormMessage({ className, ...props }: React.ComponentProps<"p">): react_jsx_runtime.JSX.Element | null;
 
+declare const alertVariants: (props?: ({
+    variant?: "default" | "destructive" | null | undefined;
+} & class_variance_authority_dist_types.ClassProp) | undefined) => string;
+declare function Alert({ className, variant, ...props }: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>): react_jsx_runtime.JSX.Element;
+declare function AlertTitle({ className, ...props }: React.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
+declare function AlertDescription({ className, ...props }: React.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
+
 declare function Loader({ message, className }: {
     message?: string;
     className?: string;
@@ -131,4 +138,4 @@ declare function ThemeToggle(): react_jsx_runtime.JSX.Element | null;
 
 declare function ThemeToggleKasandra(): react_jsx_runtime.JSX.Element;
 
-export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HoverCard, HoverCardContent, HoverCardTrigger, Input, Label, Loader, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Separator, Switch, ThemeToggle, ThemeToggleKasandra, badgeVariants, buttonVariants, useFormField };
+export { Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HoverCard, HoverCardContent, HoverCardTrigger, Input, Label, Loader, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Separator, Switch, ThemeToggle, ThemeToggleKasandra, badgeVariants, buttonVariants, useFormField };

@@ -1,0 +1,309 @@
+ 
+ 
+ 
+ 
+───────────── schema.ts ───────────── 
+import { z } from 'zod';
+
+export const loginStep1Schema = z.object({
+  identifier: z.string().min(1, 'Email or username is required'),
+});
+
+export const loginStep2Schema = z.object({
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+export const loginStep3Schema = z.object({
+  totpCode: z.string().length(6, 'TOTP code must be 6 digits'),
+});
+
+export type LoginStep1Form = z.infer<typeof loginStep1Schema>;
+export type LoginStep2Form = z.infer<typeof loginStep2Schema>;
+export type LoginStep3Form = z.infer<typeof loginStep3Schema>; 
+───────────── types.ts ───────────── 
+export interface User {
+  id: number;
+  email: string;
+  username: string;
+  password: string;
+  twoFactorEnabled: boolean;
+  twoFactorSecret?: string;
+}
+
+export type LoginStep = 'step1' | 'step2' | 'step3' | 'success'; 
+───────────── useLogin.ts ───────────── 
+'use client';
+
+import { useState } from 'react';
+import users from './users.json';
+import { User, LoginStep } from './types';
+import { loginStep1Schema, loginStep2Schema, loginStep3Schema } from './schema';
+import { z } from 'zod';
+
+export const useLogin = () => {
+  const [step, setStep] = useState<LoginStep>('step1');
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const validateStep1 = (data: { identifier: string }) => {
+    const result = loginStep1Schema.safeParse(data);
+    if (!result.success) {
+      setError(result.error.issues[0].message); // Change 'errors' to 'issues'
+      return false;
+    }
+
+    const foundUser = users.find(
+      (u: User) => u.email === data.identifier || u.username === data.identifier
+    );
+    if (!foundUser) {
+      setError('User not found');
+      return false;
+    }
+
+    setUser(foundUser);
+    setError(null);
+    setStep('step2');
+    return true;
+  };
+
+  const validateStep2 = (data: { password: string }) => {
+    const result = loginStep2Schema.safeParse(data);
+    if (!result.success) {
+      setError(result.error.issues[0].message); // Change 'errors' to 'issues'
+      return false;
+    }
+
+    if (!user || user.password !== data.password) {
+      setError('Invalid password');
+      return false;
+    }
+
+    setError(null);
+    setStep(user.twoFactorEnabled ? 'step3' : 'success');
+    return true;
+  };
+
+  const validateStep3 = (data: { totpCode: string }) => {
+    const result = loginStep3Schema.safeParse(data);
+    if (!result.success) {
+      setError(result.error.issues[0].message); // Change 'errors' to 'issues'
+      return false;
+    }
+
+    // Symulacja weryfikacji TOTP (w rzeczywistości sprawdzane z secretem)
+    if (data.totpCode !== '123456') {
+      setError('Invalid TOTP code');
+      return false;
+    }
+
+    setError(null);
+    setStep('success');
+    return true;
+  };
+
+  return { step, error, validateStep1, validateStep2, validateStep3 };
+}; 
+───────────── LoginModal.tsx ───────────── 
+'use client';
+
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@neo/ui';
+import { LoginStep1 } from './LoginStep1';
+import { LoginStep2 } from './LoginStep2';
+import { LoginStep3 } from './LoginStep3';
+import { useLogin } from './useLogin';
+import { Alert, AlertDescription } from '@neo/ui';
+
+interface LoginModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+  const { step, error, validateStep1, validateStep2, validateStep3 } = useLogin();
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Login</DialogTitle>
+        </DialogHeader>
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        {step === 'step1' && <LoginStep1 onSubmit={validateStep1} />}
+        {step === 'step2' && <LoginStep2 onSubmit={validateStep2} />}
+        {step === 'step3' && <LoginStep3 onSubmit={validateStep3} />}
+        {step === 'success' && (
+          <div className="text-center">
+            <p className="text-green-600">Successfully logged in!</p>
+            <button onClick={onClose} className="mt-4 text-sm text-blue-600">
+              Close
+            </button>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}; 
+───────────── LoginStep1.tsx ───────────── 
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@neo/ui';
+import { LoginStep1Form, loginStep1Schema } from './schema';
+
+interface LoginStep1Props {
+  onSubmit: (data: LoginStep1Form) => void;
+}
+
+export const LoginStep1 = ({ onSubmit }: LoginStep1Props) => {
+  const form = useForm<LoginStep1Form>({
+    resolver: zodResolver(loginStep1Schema),
+    defaultValues: { identifier: '' },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="identifier"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email or Username</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter email or username" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full">Next</Button>
+      </form>
+    </Form>
+  );
+}; 
+───────────── LoginStep2.tsx ───────────── 
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Input} from '@neo/ui';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@neo/ui';
+import { LoginStep2Form, loginStep2Schema } from './schema';
+
+interface LoginStep2Props {
+  onSubmit: (data: LoginStep2Form) => void;
+}
+
+export const LoginStep2 = ({ onSubmit }: LoginStep2Props) => {
+  const form = useForm<LoginStep2Form>({
+    resolver: zodResolver(loginStep2Schema),
+    defaultValues: { password: '' },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="Enter password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full">Next</Button>
+      </form>
+    </Form>
+  );
+}; 
+───────────── LoginStep3.tsx ───────────── 
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Input } from '@neo/ui';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@neo/ui';
+import { LoginStep3Form, loginStep3Schema } from './schema';
+
+interface LoginStep3Props {
+  onSubmit: (data: LoginStep3Form) => void;
+}
+
+export const LoginStep3 = ({ onSubmit }: LoginStep3Props) => {
+  const form = useForm<LoginStep3Form>({
+    resolver: zodResolver(loginStep3Schema),
+    defaultValues: { totpCode: '' },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="totpCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>TOTP Code</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter 6-digit TOTP code" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full">Login</Button>
+      </form>
+    </Form>
+  );
+}; 
+───────────── page.tsx ───────────── 
+'use client';
+
+import { useState } from 'react';
+import { Button } from '@neo/ui';
+import { LoginModal } from './LoginModal';
+
+export default function LoginPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    console.log('Login button clicked, opening modal'); // Debug log
+    setIsModalOpen(true);
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <Button onClick={handleOpenModal}>Login</Button>
+      <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </div>
+  );
+} 
+───────────── users.json ───────────── 
+[
+  {
+    "id": 1,
+    "email": "user1@example.com",
+    "username": "user1",
+    "password": "password123",
+    "twoFactorEnabled": true,
+    "twoFactorSecret": "secret123"
+  },
+  {
+    "id": 2,
+    "email": "user2@example.com",
+    "username": "user2",
+    "password": "password456",
+    "twoFactorEnabled": false
+  }
+] 

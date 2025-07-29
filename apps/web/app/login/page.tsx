@@ -1,67 +1,26 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@neo/ui';
-import { LoginForm } from './LoginForm';
-import { useLoginForm } from './useLoginForm';
-import { AppBrand } from '@/components/AppBrand';
-import Link from 'next/link';
-
-import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { Button } from '@neo/ui';
+import { LoginModal } from './LoginModal';
 
 export default function LoginPage() {
-  const {
-    form,
-    isLoading,
-    isSubmitting,
-    showPassword,
-    toggleShowPassword,
-    onSubmit,
-    csrfTokenReady,
-  } = useLoginForm();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const t = useTranslations('LoginPage'); // Użyj tłumaczeń z namespace 'LoginPage'
+  const handleOpenModal = () => {
+    console.log('Login button clicked, opening modal'); // Debug log
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center space-y-2">
-      <Card className="w-[330px]">
-        <CardHeader className="flex flex-col items-center space-y-2">
-          <AppBrand />
-          <div className="mt-4">
-            {/* Tłumaczenie tytułu */}
-            <CardTitle>{t('loginTitle')}</CardTitle>
-            <CardDescription>
-              {/* Tłumaczenie opisu */}
-              {t('loginDescription')}
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <LoginForm
-            form={form}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
-            showPassword={showPassword}
-            toggleShowPassword={toggleShowPassword}
-            onSubmit={onSubmit}
-            csrfTokenReady={csrfTokenReady}
-          />
-          <div className="mt-4 text-center text-sm text-gray-500">
-            <Link href="/" className="hover:underline">
-              {t('homePage')}
-            </Link>{' '}
-            |
-            <Link href="/register" className="ml-2 hover:underline">
-              {t('register')}
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="flex min-h-screen items-center justify-center">
+      <Button onClick={() => {
+        console.log('Button clicked'); // Additional debug log
+        handleOpenModal();
+      }}>
+        Login
+      </Button>
+      <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
