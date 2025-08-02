@@ -8,57 +8,49 @@ import { LoginStep } from './types';
 import { useEffect } from 'react';
 import mockData from './mock-data';
 
-const passwordSchema = z.object({
-  password: z.string().min(1, 'Hasło jest wymagane'),
+const twoFactorSchema = z.object({
+  code: z
+    .string()
+    .min(6, 'Kod 2FA musi mieć 6 znaków')
+    .max(6, 'Kod 2FA musi mieć 6 znaków'),
 });
 
-type PasswordForm = z.infer<typeof passwordSchema>;
+type TwoFactorForm = z.infer<typeof twoFactorSchema>;
 
-interface PasswordStepProps {
+interface TwoFactorStepProps {
   email: string;
-  password: string; // Dodano password
-  setPassword: (password: string) => void;
   setLoginStep: (step: LoginStep) => void;
 }
 
-export default function PasswordStep({
+export default function TwoFactorStep({
   email,
-  password,
-  setPassword,
   setLoginStep,
-}: PasswordStepProps) {
+}: TwoFactorStepProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setFocus,
     setError,
-    setValue,
-  } = useForm<PasswordForm>({
-    resolver: zodResolver(passwordSchema),
-    defaultValues: { password },
+  } = useForm<TwoFactorForm>({
+    resolver: zodResolver(twoFactorSchema),
+    defaultValues: { code: '123456' },
   });
 
-  // Synchronizacja wartości password z props
   useEffect(() => {
-    setValue('password', password);
-  }, [password, setValue]);
-
-  useEffect(() => {
-    setFocus('password');
+    setFocus('code');
   }, [setFocus]);
 
-  const onSubmit = (data: PasswordForm) => {
-    const sanitizedPassword = DOMPurify.sanitize(data.password);
+  const onSubmit = (data: TwoFactorForm) => {
+    const sanitizedCode = DOMPurify.sanitize(data.code);
     const user = mockData.find(
-      (u) => u.email === email && u.password === sanitizedPassword,
+      (u) => u.email === email && u.twoFactorCode === sanitizedCode,
     );
     if (!user) {
-      setError('password', { message: 'Nieprawidłowe hasło' });
+      setError('code', { message: 'Nieprawidłowy kod 2FA' });
       return;
     }
-    setPassword(sanitizedPassword);
-    setLoginStep(user.has2FA ? 'twoFactor' : 'success');
+    setLoginStep('success');
   };
 
   return (
@@ -69,43 +61,39 @@ export default function PasswordStep({
       </div>
       <div>
         <label
-          htmlFor="password"
+          htmlFor="code"
           className="block text-sm text-foreground mb-2"
-          aria-describedby={errors.password ? 'password-error' : undefined}
+          aria-describedby={errors.code ? 'code-error' : undefined}
         >
-          {'>'} HASŁO DOSTĘPU:
+          {'>'} KOD 2FA:
         </label>
         <input
-          id="password"
-          type="password"
-          {...register('password')}
+          id="code"
+          type="text"
+          {...register('code')}
           className="w-full bg-black/50 border border-foreground/50 rounded p-3 text-foreground focus:border-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none font-mono"
-          placeholder="••••••••"
-          aria-invalid={errors.password ? 'true' : 'false'}
+          placeholder="123456"
+          aria-invalid={errors.code ? 'true' : 'false'}
         />
-        {errors.password && (
-          <p
-            id="password-error"
-            className="text-red-500 text-xs mt-1"
-            role="alert"
-          >
-            {errors.password.message}
+        {errors.code && (
+          <p id="code-error" className="text-red-500 text-xs mt-1" role="alert">
+            {errors.code.message}
           </p>
         )}
       </div>
       <button
         type="submit"
         className="w-full bg-foreground/20 hover:bg-foreground/30 focus-visible:bg-foreground/30 border border-foreground rounded p-3 text-foreground font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-        disabled={!!errors.password}
+        disabled={!!errors.code}
       >
-        AUTORYZUJ DOSTĘP
+        WERYFIKUJ KOD 2FA
       </button>
       <button
         type="button"
-        onClick={() => setLoginStep('email')}
+        onClick={() => setLoginStep('password')}
         className="w-full text-foreground/70 hover:text-foreground focus-visible:text-foreground text-sm transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
       >
-        ← ZMIEŃ EMAIL
+        ← ZMIEŃ HASŁO
       </button>
     </form>
   );

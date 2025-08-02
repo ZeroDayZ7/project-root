@@ -1,1 +1,6 @@
-export type LoginStep = 'initial' | 'email' | 'password' | 'success';
+export type LoginStep =
+  | 'initial'
+  | 'email'
+  | 'password'
+  | 'twoFactor'
+  | 'success';

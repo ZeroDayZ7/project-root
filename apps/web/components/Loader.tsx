@@ -1,17 +1,47 @@
-// components/Loader.tsx
 'use client';
+
+import { Loader2 } from 'lucide-react';
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface LoaderProps {
-  className?: string;
+  fullscreen?: boolean; // Overlay na cały ekran
+  size?: string; // np. "text-4xl"
+  colorClass?: string; // np. "text-audio-400"
+  className?: string; // Dodatkowe klasy Tailwind
+  message?: string; // Widoczny tekst pod loaderem
+  srMessage?: string; // Tekst tylko dla czytników ekranu
+  heightPx?: number; // Wysokość w pikselach, dopasowana do AudioPlayer
 }
 
-export const Loader: React.FC<LoaderProps> = ({ className = '' }) => {
+export const Loader: React.FC<LoaderProps> = ({
+  fullscreen = false,
+  size = 'text-4xl',
+  colorClass = 'text-accent-foreground',
+  className = '',
+  message,
+  srMessage = 'Ładowanie danych, proszę czekać...',
+  heightPx,
+}) => {
   return (
     <div
-      className={`flex items-center justify-center p-4 border border-foreground/30 rounded-lg ${className}`}
+      className={cn(
+        fullscreen
+          ? 'fixed inset-0 z-50 bg-foreground'
+          : 'flex flex-col items-center justify-center w-full',
+        heightPx && `h-[${heightPx}px]`,
+        'border border-foreground/30 rounded-lg p-3',
+        className,
+      )}
+      role="status"
+      aria-live="polite"
     >
-      <div className="w-8 h-8 border-4 border-foreground border-t-transparent rounded-full animate-spin" />
+      <Loader2
+        className={cn('animate-spin', colorClass, size)}
+        aria-hidden="true"
+      />
+      {message && <p className={cn('mt-3 text-sm', colorClass)}>{message}</p>}
+      <span className="sr-only">{srMessage}</span>
     </div>
   );
 };
