@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           themes={['light', 'dark', 'kasandra']}
         >
           <div className='m-4'>
-            <ThemeSwitcher />
+            {/* <ThemeSwitcher /> */}
           </div>
           {children}
         </NextThemesProvider>
