@@ -6,56 +6,72 @@ export function SystemInfo() {
   return (
     <div className="space-y-6">
       {/* Terminal Window */}
-      <div className="bg-black/80 border border-green-400/30 rounded-lg p-4">
+      <div className="border border-foreground/30 rounded-lg p-4">
         <div className="flex items-center mb-3">
           <div className="flex space-x-2">
             <div className="w-3 h-3 bg-red-500 rounded-full"></div>
             <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
           </div>
-          <span className="ml-4 text-xs text-green-400/70">terminal v2.1.0</span>
+          <span className="ml-4 text-xs text-card-foreground">
+            terminal v2.1.0
+          </span>
         </div>
         <div className="text-sm">
-          <div className="text-green-400">user@kasandra:~$ status</div>
-          <div className="text-cyan-400 mt-2">
-            ACCESSING KASANDRA NEURAL NETWORK...<span className="text-green-400/30">|</span>
+          <div className="text-card-foreground">user@kasandra:~$ status</div>
+          <div className="text-secondary-foreground mt-2">
+            ACCESSING KASANDRA NEURAL NETWORK...
+            <span className="text-green-400/30">|</span>
           </div>
-          <div className="text-green-300 mt-4">
+          <div className="text-primary-foregound/20 mt-4">
             <div>• System operacyjny: SECURED</div>
             <div>• Połączenia: 1,247 aktywnych</div>
             <div>• Ostatnia aktualizacja: 25.07.2025</div>
             <div>
-              • Status bezpieczeństwa: <span className="text-green-400">OPTIMAL</span>
+              • Status bezpieczeństwa:{' '}
+              <span className="text-green-400">OPTIMAL</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Government Links */}
-      <div className="bg-black/80 border border-green-400/30 rounded-lg p-4">
-        <h3 className="text-lg font-bold text-cyan-400 mb-4 flex items-center">
+      <div className="border border-foreground/30 rounded-lg p-4">
+        <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">
           <span className="mr-2">{'>'}</span> ŁĄCZA RZĄDOWE
         </h3>
         <div className="space-y-2 text-sm">
-          <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
+          <Link
+            href="#"
+            className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
+          >
             • Centrum Bezpieczeństwa
           </Link>
-          <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
+          <Link
+            href="#"
+            className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
+          >
             • Urząd Skarbowy
           </Link>
-          <Link href="#" className="block text-green-300 hover:text-green-400 transition-colors">
+          <Link
+            href="#"
+            className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
+          >
             • ZUS Online
           </Link>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-black/80 border border-green-400/30 rounded-lg p-4">
-        <h3 className="text-lg font-bold text-cyan-400 mb-4 flex items-center">
+      <div className="border border-foreground/30 rounded-lg p-4">
+        <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">
           <span className="mr-2">{'>'}</span> SZYBKIE AKCJE
         </h3>
         <div className="space-y-3">
-          <AudioPlayer audioSrc={`${prefix}/audio/ambient.mp3`} className="w-full text-left" />
+          <AudioPlayer
+            audioSrc={`${prefix}/audio/ambient.mp3`}
+            className="w-full text-left"
+          />
           <button className="w-full text-left bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 rounded p-2 text-sm transition-colors">
             🛑 Zgłoś błąd systemu
           </button>

@@ -110,7 +110,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           </div>
         </div>
       </div>
-      <div className="bg-black/40 border border-purple-400/20 rounded p-2">
+      <div className="bg-background/40 border border-purple-400/20 rounded p-2">
         <canvas
           ref={canvasRef}
           className="w-full block"
