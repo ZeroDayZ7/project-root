@@ -39,6 +39,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-mma: var(--mma);
+  --color-audio-400: var(--audio-400);
+  --color-audio-500: var(--audio-500);
 }
 /* Domyślny (light) */
 :root {
@@ -76,6 +78,8 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --mma: red; 
+  --audio-400: #050101;
+  --audio-500: #080808;
 }
 /* Dark mode */
 .dark {
@@ -110,7 +114,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  --mma: rgb(151, 151, 151); 
+  --mma: rgb(151, 151, 151);
+  --audio-400: #d6d6d6;
+  --audio-500: #3b3b3b;
 }
 .kasandra {
   --background: oklch(0% 0 0);
@@ -146,6 +152,9 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --mma: #c7e70f;
+  /* --audio-bg:; */
+  --audio-400: #c084fc;
+  --audio-500: #a855f7;
 }
 
 @layer base {
