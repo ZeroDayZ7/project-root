@@ -1,0 +1,7 @@
+html.kasandra {
+   color-scheme: dark; /* np. albo light, albo możesz wybrać inny */
+  --background: #000000;
+  --foreground: #1cf300;
+  --bg-muted: #df1c1c;
+}
+

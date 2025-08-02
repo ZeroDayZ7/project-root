@@ -253,10 +253,11 @@ export default function HomePage() {
                     Email zweryfikowany: <span className="text-cyan-400">{email}</span>
                   </div>
                   <div>
-                    <label className="block text-sm text-green-400 mb-2">
+                    <label htmlFor='password' className="block text-sm text-green-400 mb-2">
                       {'>'} HASŁO DOSTĘPU:
                     </label>
                     <input
+                      id='password'
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}

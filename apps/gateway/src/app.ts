@@ -46,6 +46,11 @@ await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes
 // });
 
 
+// Obsługa 404
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Not Found' });
+});
+
 // Obsługa błędów
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   logger.error('Error: %o', err); // %o - obiekt z info o błędzie

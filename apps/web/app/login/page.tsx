@@ -1,56 +1,26 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 'use client';
 
-import { Button } from '@/components/Button1';
+import { useState } from 'react';
+import { Button } from '@neo/ui';
+import { LoginModal } from './LoginModal';
 
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-// Strona logowania
-const LoginPage = () => {
+export default function LoginPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    console.log('Login button clicked, opening modal'); // Debug log
+    setIsModalOpen(true);
+  };
+
   return (
-    <div>
-<<<<<<< HEAD
-      <Button variant="primary" onClick={() => alert('Klik!')}>
-        Zatwierdź
+    <div className="flex min-h-screen items-center justify-center">
+      <Button onClick={() => {
+        console.log('Button clicked'); // Additional debug log
+        handleOpenModal();
+      }}>
+        Login
       </Button>
-
-      <Button variant="secondary" aria-label="Zamknij okno">
-        ✖
-      </Button>
-
-      <Button variant="danger" disabled>
-        Usuń
-      </Button>
-
-      <Button variant="success" loading>
-        Wysyłanie...
-      </Button>
-
-      <Button variant="ghost">Więcej opcji</Button>
-=======
-      <h1>Login</h1>
-      {/* Formularz logowania */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+      <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
-};
-
-export default LoginPage;
+}

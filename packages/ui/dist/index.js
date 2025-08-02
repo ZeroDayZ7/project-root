@@ -1,6 +1,5 @@
-// src/components/button.tsx
-import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
+// src/components/alert-dialog.tsx
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
 // lib/utils.ts
 import { clsx } from "clsx";
@@ -10,6 +9,8 @@ function cn(...inputs) {
 }
 
 // src/components/button.tsx
+import { Slot } from "@radix-ui/react-slot";
+import { cva } from "class-variance-authority";
 import { jsx } from "react/jsx-runtime";
 var buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
@@ -54,48 +55,28 @@ function Button({
   );
 }
 
-// src/components/input.tsx
-import { jsx as jsx2 } from "react/jsx-runtime";
-function Input({ className, type, ...props }) {
-  return /* @__PURE__ */ jsx2(
-    "input",
-    {
-      type,
-      "data-slot": "input",
-      className: cn(
-        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        className
-      ),
-      ...props
-    }
-  );
-}
-
 // src/components/alert-dialog.tsx
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
-import { jsx as jsx3, jsxs } from "react/jsx-runtime";
+import { jsx as jsx2, jsxs } from "react/jsx-runtime";
 function AlertDialog({
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(AlertDialogPrimitive.Root, { "data-slot": "alert-dialog", ...props });
+  return /* @__PURE__ */ jsx2(AlertDialogPrimitive.Root, { "data-slot": "alert-dialog", ...props });
 }
 function AlertDialogTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(AlertDialogPrimitive.Trigger, { "data-slot": "alert-dialog-trigger", ...props });
+  return /* @__PURE__ */ jsx2(AlertDialogPrimitive.Trigger, { "data-slot": "alert-dialog-trigger", ...props });
 }
 function AlertDialogPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(AlertDialogPrimitive.Portal, { "data-slot": "alert-dialog-portal", ...props });
+  return /* @__PURE__ */ jsx2(AlertDialogPrimitive.Portal, { "data-slot": "alert-dialog-portal", ...props });
 }
 function AlertDialogOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     AlertDialogPrimitive.Overlay,
     {
       "data-slot": "alert-dialog-overlay",
@@ -112,8 +93,8 @@ function AlertDialogContent({
   ...props
 }) {
   return /* @__PURE__ */ jsxs(AlertDialogPortal, { children: [
-    /* @__PURE__ */ jsx3(AlertDialogOverlay, {}),
-    /* @__PURE__ */ jsx3(
+    /* @__PURE__ */ jsx2(AlertDialogOverlay, {}),
+    /* @__PURE__ */ jsx2(
       AlertDialogPrimitive.Content,
       {
         "data-slot": "alert-dialog-content",
@@ -130,7 +111,7 @@ function AlertDialogHeader({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     "div",
     {
       "data-slot": "alert-dialog-header",
@@ -143,7 +124,7 @@ function AlertDialogFooter({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     "div",
     {
       "data-slot": "alert-dialog-footer",
@@ -159,7 +140,7 @@ function AlertDialogTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     AlertDialogPrimitive.Title,
     {
       "data-slot": "alert-dialog-title",
@@ -172,7 +153,7 @@ function AlertDialogDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     AlertDialogPrimitive.Description,
     {
       "data-slot": "alert-dialog-description",
@@ -185,7 +166,7 @@ function AlertDialogAction({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     AlertDialogPrimitive.Action,
     {
       className: cn(buttonVariants(), className),
@@ -197,7 +178,7 @@ function AlertDialogCancel({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx3(
+  return /* @__PURE__ */ jsx2(
     AlertDialogPrimitive.Cancel,
     {
       className: cn(buttonVariants({ variant: "outline" }), className),
@@ -205,10 +186,6 @@ function AlertDialogCancel({
     }
   );
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 // src/components/dialog.tsx
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -541,14 +518,26 @@ function Badge({
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
 import { jsx as jsx11, jsxs as jsxs3 } from "react/jsx-runtime";
-function DropdownMenu({ ...props }) {
+function DropdownMenu({
+  ...props
+}) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });
 }
-function DropdownMenuPortal({ ...props }) {
+function DropdownMenuPortal({
+  ...props
+}) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Portal, { "data-slot": "dropdown-menu-portal", ...props });
 }
-function DropdownMenuTrigger({ ...props }) {
-  return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Trigger, { "data-slot": "dropdown-menu-trigger", ...props });
+function DropdownMenuTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx11(
+    DropdownMenuPrimitive.Trigger,
+    {
+      "data-slot": "dropdown-menu-trigger",
+      ...props
+    }
+  );
 }
 function DropdownMenuContent({
   className,
@@ -568,7 +557,9 @@ function DropdownMenuContent({
     }
   ) });
 }
-function DropdownMenuGroup({ ...props }) {
+function DropdownMenuGroup({
+  ...props
+}) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Group, { "data-slot": "dropdown-menu-group", ...props });
 }
 function DropdownMenuItem({
@@ -614,8 +605,16 @@ function DropdownMenuCheckboxItem({
     }
   );
 }
-function DropdownMenuRadioGroup({ ...props }) {
-  return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.RadioGroup, { "data-slot": "dropdown-menu-radio-group", ...props });
+function DropdownMenuRadioGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx11(
+    DropdownMenuPrimitive.RadioGroup,
+    {
+      "data-slot": "dropdown-menu-radio-group",
+      ...props
+    }
+  );
 }
 function DropdownMenuRadioItem({
   className,
@@ -648,12 +647,18 @@ function DropdownMenuLabel({
     {
       "data-slot": "dropdown-menu-label",
       "data-inset": inset,
-      className: cn("px-2 py-1.5 text-sm font-medium data-[inset]:pl-8", className),
+      className: cn(
+        "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
+        className
+      ),
       ...props
     }
   );
 }
-function DropdownMenuSeparator({ className, ...props }) {
+function DropdownMenuSeparator({
+  className,
+  ...props
+}) {
   return /* @__PURE__ */ jsx11(
     DropdownMenuPrimitive.Separator,
     {
@@ -663,17 +668,25 @@ function DropdownMenuSeparator({ className, ...props }) {
     }
   );
 }
-function DropdownMenuShortcut({ className, ...props }) {
+function DropdownMenuShortcut({
+  className,
+  ...props
+}) {
   return /* @__PURE__ */ jsx11(
     "span",
     {
       "data-slot": "dropdown-menu-shortcut",
-      className: cn("text-muted-foreground ml-auto text-xs tracking-widest", className),
+      className: cn(
+        "text-muted-foreground ml-auto text-xs tracking-widest",
+        className
+      ),
       ...props
     }
   );
 }
-function DropdownMenuSub({ ...props }) {
+function DropdownMenuSub({
+  ...props
+}) {
   return /* @__PURE__ */ jsx11(DropdownMenuPrimitive.Sub, { "data-slot": "dropdown-menu-sub", ...props });
 }
 function DropdownMenuSubTrigger({
@@ -909,34 +922,85 @@ function FormMessage({ className, ...props }) {
   );
 }
 
-// src/components/sonner.tsx
-import { useTheme } from "next-themes";
-import { Toaster as Sonner } from "sonner";
+// src/components/alert.tsx
+import { cva as cva3 } from "class-variance-authority";
 import { jsx as jsx14 } from "react/jsx-runtime";
-var Toaster = ({ ...props }) => {
-  const { theme = "system" } = useTheme();
+var alertVariants = cva3(
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  {
+    variants: {
+      variant: {
+        default: "bg-card text-card-foreground",
+        destructive: "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90"
+      }
+    },
+    defaultVariants: {
+      variant: "default"
+    }
+  }
+);
+function Alert({
+  className,
+  variant,
+  ...props
+}) {
   return /* @__PURE__ */ jsx14(
-    Sonner,
+    "div",
     {
-      theme,
-      className: "toaster group",
-      style: {
-        "--normal-bg": "var(--popover)",
-        "--normal-text": "var(--popover-foreground)",
-        "--normal-border": "var(--border)"
-      },
+      "data-slot": "alert",
+      role: "alert",
+      className: cn(alertVariants({ variant }), className),
       ...props
     }
   );
-};
+}
+function AlertTitle({ className, ...props }) {
+  return /* @__PURE__ */ jsx14(
+    "div",
+    {
+      "data-slot": "alert-title",
+      className: cn(
+        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function AlertDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx14(
+    "div",
+    {
+      "data-slot": "alert-description",
+      className: cn(
+        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
+// src/features/Loader.tsx
+import { Loader2 } from "lucide-react";
+import { jsx as jsx15, jsxs as jsxs4 } from "react/jsx-runtime";
+function Loader({ message = "", className }) {
+  return /* @__PURE__ */ jsxs4("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
+    /* @__PURE__ */ jsx15(Loader2, { className: "h-5 w-5 animate-spin" }),
+    /* @__PURE__ */ jsx15("span", { children: message })
+  ] });
+}
 
 // src/features/ThemeToggle.tsx
-import { useTheme as useTheme2 } from "next-themes";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
-import { jsx as jsx15, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs5 } from "react/jsx-runtime";
 function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme2();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
@@ -944,28 +1008,55 @@ function ThemeToggle() {
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
-  return /* @__PURE__ */ jsxs4(
+  return /* @__PURE__ */ jsxs5(
     Button,
     {
       onClick: toggleTheme,
       variant: "ghost",
       size: "icon",
       children: [
-        isDark ? /* @__PURE__ */ jsx15(Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ jsx15(Moon, { className: "h-5 w-5" }),
-        /* @__PURE__ */ jsx15("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
+        isDark ? /* @__PURE__ */ jsx16(Sun, { className: "h-5 w-5" }) : /* @__PURE__ */ jsx16(Moon, { className: "h-5 w-5" }),
+        /* @__PURE__ */ jsx16("span", { className: "sr-only", children: "Prze\u0142\u0105cz motyw" })
       ]
     }
   );
 }
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
+
+// src/features/ThemeToggleKasandra.tsx
+import { Moon as Moon2, Sun as Sun2, OrbitIcon, MonitorCog } from "lucide-react";
+import { useTheme as useTheme2 } from "next-themes";
+import { jsx as jsx17, jsxs as jsxs6 } from "react/jsx-runtime";
+function ThemeToggleKasandra() {
+  const { setTheme } = useTheme2();
+  return /* @__PURE__ */ jsxs6(DropdownMenu, { children: [
+    /* @__PURE__ */ jsx17(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs6(Button, { variant: "outline", size: "icon", children: [
+      /* @__PURE__ */ jsx17(Sun2, { className: "h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" }),
+      /* @__PURE__ */ jsx17(Moon2, { className: "absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" }),
+      /* @__PURE__ */ jsx17("span", { className: "sr-only", children: "Toggle theme" })
+    ] }) }),
+    /* @__PURE__ */ jsxs6(DropdownMenuContent, { align: "end", children: [
+      /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
+        /* @__PURE__ */ jsx17(Sun2, {}),
+        " Light"
+      ] }),
+      /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
+        /* @__PURE__ */ jsx17(Moon2, {}),
+        " Dark"
+      ] }),
+      /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("kasandra"), children: [
+        /* @__PURE__ */ jsx17(OrbitIcon, {}),
+        " Kasandra"
+      ] }),
+      /* @__PURE__ */ jsxs6(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
+        /* @__PURE__ */ jsx17(MonitorCog, {}),
+        " System"
+      ] })
+    ] })
+  ] });
+}
 export {
+  Alert,
+  AlertDescription,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -977,11 +1068,9 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertTitle,
+  Badge,
   Button,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   Card,
   CardAction,
   CardContent,
@@ -1026,6 +1115,7 @@ export {
   HoverCardTrigger,
   Input,
   Label,
+  Loader,
   Popover,
   PopoverAnchor,
   PopoverContent,
@@ -1033,21 +1123,8 @@ export {
   Separator,
   Switch,
   ThemeToggle,
-  Toaster,
+  ThemeToggleKasandra,
   badgeVariants,
   buttonVariants,
   useFormField
-=======
-  Input,
-=======
-  Input,
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
-  Input,
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-=======
-  Input,
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
-  buttonVariants
->>>>>>> parent of 894db9a (feat(ui): add new components including Badge, Card, Dialog, DropdownMenu, HoverCard, Label, Popover, Separator, Switch, and ThemeToggle features)
 };

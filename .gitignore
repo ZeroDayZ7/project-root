@@ -6,6 +6,6 @@ logs/
 
 
 
-
+out/
 .env
 .env.local
