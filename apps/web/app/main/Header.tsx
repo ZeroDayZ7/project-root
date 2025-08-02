@@ -1,3 +1,4 @@
+'use client'
 import { AppBrand } from '@/components/AppBrand';
 import SquareTest from '@/components/themes/SquareTest';
 

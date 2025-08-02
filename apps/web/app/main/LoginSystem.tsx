@@ -1,3 +1,4 @@
+'use client';
 import { validateEmail } from './utils';
 import { LoginStep } from './types';
 
@@ -39,12 +40,15 @@ export function LoginSystem({
     <div className="flex flex-col items-center justify-start">
       {/* System Description */}
       <div className="border border-foreground/30 rounded-lg p-6 mb-8 w-full max-w-md">
-        <h2 className="text-xl font-bold text-accent-foreground mb-4 text-center">SYSTEM KASANDRA</h2>
+        <h2 className="text-xl font-bold text-accent-foreground mb-4 text-center">
+          SYSTEM KASANDRA
+        </h2>
         <div className="text-sm text-card-foreground space-y-2 text-center">
           <p>Strategiczne Centrum Bezpieczeństwa</p>
           <p className="text-xs text-foreground/70">
-            Zaawansowany system monitorowania i analizy zagrożeń wykorzystujący sztuczną inteligencję do przewidywania i
-            neutralizacji potencjalnych zagrożeń bezpieczeństwa narodowego.
+            Zaawansowany system monitorowania i analizy zagrożeń wykorzystujący
+            sztuczną inteligencję do przewidywania i neutralizacji potencjalnych
+            zagrożeń bezpieczeństwa narodowego.
           </p>
         </div>
       </div>
@@ -53,7 +57,9 @@ export function LoginSystem({
       <div className="border border-foreground/30 rounded-lg p-6 w-full max-w-md">
         <div className="text-center mb-6">
           <h3 className="text-lg font-bold text-">DOSTĘP DO SYSTEMU</h3>
-          <div className="text-xs text-foreground/70 mt-2">Uwierzytelnianie wielopoziomowe aktywne</div>
+          <div className="text-xs text-foreground/70 mt-2">
+            Uwierzytelnianie wielopoziomowe aktywne
+          </div>
         </div>
 
         {loginStep === 'initial' && (
@@ -73,7 +79,9 @@ export function LoginSystem({
         {loginStep === 'email' && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-foreground mb-2">{'>'} ADRES EMAIL:</label>
+              <label className="block text-sm text-foreground mb-2">
+                {'>'} ADRES EMAIL:
+              </label>
               <input
                 type="email"
                 value={email}
@@ -102,10 +110,14 @@ export function LoginSystem({
         {loginStep === 'password' && (
           <div className="space-y-4">
             <div className="text-sm text-foreground mb-4">
-              Email zweryfikowany: <span className="text-accent-foreground">{email}</span>
+              Email zweryfikowany:{' '}
+              <span className="text-accent-foreground">{email}</span>
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm text-foreground mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm text-foreground mb-2"
+              >
                 {'>'} HASŁO DOSTĘPU:
               </label>
               <input
@@ -136,9 +148,15 @@ export function LoginSystem({
 
         {loginStep === 'success' && (
           <div className="text-center space-y-4">
-            <div className="text-foreground text-lg">✅ DOSTĘP AUTORYZOWANY</div>
-            <div className="text-sm text-foreground/70">Przekierowanie do panelu głównego...</div>
-            <div className="text-accent-foreground">ŁADOWANIE INTERFEJSU...</div>
+            <div className="text-foreground text-lg">
+              ✅ DOSTĘP AUTORYZOWANY
+            </div>
+            <div className="text-sm text-foreground/70">
+              Przekierowanie do panelu głównego...
+            </div>
+            <div className="text-accent-foreground">
+              ŁADOWANIE INTERFEJSU...
+            </div>
           </div>
         )}
       </div>

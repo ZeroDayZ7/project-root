@@ -1,3 +1,4 @@
+'use client'
 export function Footer() {
   return (
     <div className="mt-12 text-center text-xs text-foreground/50">

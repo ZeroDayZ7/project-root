@@ -1,3 +1,4 @@
+'use client';
 export function SystemStatus() {
   return (
     <div className="border border-foreground/30 rounded-lg p-4">

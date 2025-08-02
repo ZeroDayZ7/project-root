@@ -1,3 +1,4 @@
+'use client';
 import { lastChanges, additionalChanges } from './constants';
 import { getPriorityColor, getStatusColor } from './utils';
 
@@ -13,20 +14,29 @@ export function SystemUpdates({ showMore, setShowMore }: SystemUpdatesProps) {
         <span className="mr-2">{'>'}</span> OSTATNIE ZMIANY
       </h3>
       <div className="space-y-2 text-xs">
-        {(showMore ? [...lastChanges, ...additionalChanges] : lastChanges).map((item, index) => (
-          <div key={index} className="border-l-2 border-foreground/30 pl-3 py-1">
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="text-primary-foreground">{item.event}</div>
-                <div className="text-foreground/70 text-xs">{item.date}</div>
-              </div>
-              <div className="text-right ml-2">
-                <div className={`text-xs ${getStatusColor(item.status)}`}>{item.status}</div>
-                <div className={`text-xs ${getPriorityColor(item.priority)}`}>{item.priority}</div>
+        {(showMore ? [...lastChanges, ...additionalChanges] : lastChanges).map(
+          (item, index) => (
+            <div
+              key={index}
+              className="border-l-2 border-foreground/30 pl-3 py-1"
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <div className="text-primary-foreground">{item.event}</div>
+                  <div className="text-foreground/70 text-xs">{item.date}</div>
+                </div>
+                <div className="text-right ml-2">
+                  <div className={`text-xs ${getStatusColor(item.status)}`}>
+                    {item.status}
+                  </div>
+                  <div className={`text-xs ${getPriorityColor(item.priority)}`}>
+                    {item.priority}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ),
+        )}
       </div>
       <button
         onClick={() => setShowMore(!showMore)}
