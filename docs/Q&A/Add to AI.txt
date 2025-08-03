@@ -1,0 +1,12 @@
+Kontekst:  
+- Używam Next.js 15 z App Routerem.  
+- Stosuję React Query (TanStack Query) do fetchowania danych.  
+- Dbam o a11y (accessibility) i chcę, aby komponenty były zgodne z WCAG.  
+- Używam framer-motion do animacji.  
+- Kod ma być w TypeScript, modularny i z zachowaniem best practices.  
+- TailwindCSS jest frameworkiem do stylów.  
+- Staraj się używać `aria-*`, `role`, i semantycznych elementów.  
+- Używaj hooków do logiki, komponentów prezentacyjnych do UI.  
+- Nie zapominaj o SSR/CSR, a tam gdzie trzeba – use client.  
+- Daj przykład użycia, a nie tylko sam komponent.  
+- Wszystkie pliki w jednym folderze

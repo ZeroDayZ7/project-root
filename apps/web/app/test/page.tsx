@@ -1,42 +1,25 @@
-'use client';
+import Link from 'next/link';
 
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, DialogDescription, Input } from '@neo/ui';
-import { Loader } from '@neo/ui';
-import { AlertDemo } from './Alert';
-// import { Button } from '@/components/button';
-import { Button as Button1} from '@neo/ui';
-import { DialogDemo } from './DialogDemo';
+export default function TestIndex() {
+  const tests = [
+    { name: 'Test Button', path: '/test/button' },
+  ];
 
-
-
-export default function TestDialog() {
-  const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <button
-        onClick={() => {
-          console.log('Test button clicked');
-          setIsOpen(true);
-        }}
-        className="rounded bg-blue-600 px-4 py-2 text-white"
-      >
-        Otwórz Dialog
-      </button>
-      {/* <Button variant='default'>LOKALNIE</Button> */}
-      <Button1 variant='default'>Z PACZKI</Button1>
-      <Input></Input>
-      <AlertDemo />
-      <DialogDemo />
-      <Loader />
-      {/* Dialog component from @neo/ui */}
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogTitle>Test Dialog</DialogTitle>
-          <DialogDescription>To jest testowy dialog.</DialogDescription>
-          <p>Treść tutaj</p>
-        </DialogContent>
-      </Dialog>
-    </div>
+    <main className="p-8">
+      <h1 className="text-2xl font-bold mb-4">🧪 Test Playground</h1>
+      <ul className="space-y-2">
+        {tests.map((t) => (
+          <li key={t.path}>
+            <Link
+              href={t.path}
+              className="text-blue-500 underline hover:text-blue-700"
+            >
+              {t.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </main>
   );
 }
