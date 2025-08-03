@@ -1,33 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { NextIntlClientProvider } from 'next-intl';
+import { useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { ThemeProvider } from 'next-themes';
+import { AuthProvider } from '@/context/AuthContext';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
-// Ładujemy tłumaczenia dla polskiego i angielskiego
-// const messagesPl = require('../../public/locales/pl/LoginPage.json');
-// const messagesEn = require('../../public/locales/en/LoginPage.json') || {};
+interface ClientProvidersProps {
+  children: ReactNode;
+}
 
-// Formatujemy tłumaczenia, aby zawierały namespace `LoginPage`
-// const formattedMessagesPl = { LoginPage: messagesPl };
-// const formattedMessagesEn = { LoginPage: messagesEn };
-
-export function ClientProviders({ children }: { children: React.ReactNode }) {
+export default function ClientProviders({ children }: ClientProvidersProps) {
   const pathname = usePathname();
 
   useEffect(() => {
     console.log('Aktualna ścieżka:', pathname);
   }, [pathname]);
 
-    // const [locale, setLocale] = useState('pl');
-    // const messages = locale === 'pl' ? formattedMessagesPl : formattedMessagesEn;
-
   return (
-    // <NextIntlClientProvider locale={locale} messages={messages}>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      {children}
-    </ThemeProvider>
-    // </NextIntlClientProvider>
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="kasandra"
+      enableSystem={false}
+      themes={['light', 'dark', 'kasandra']}
+    >
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </NextThemesProvider>
   );
 }

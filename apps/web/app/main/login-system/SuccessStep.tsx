@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader } from '@/components/Loader';
+import { Loader } from '@/components/ui/Loader';
 import { motion } from 'framer-motion';
 
 export default function SuccessStep() {

@@ -4,7 +4,7 @@ import { Suspense, lazy, useState } from 'react';
 import { motion } from 'framer-motion';
 import SystemDescription from './SystemDescription';
 import { LoginStep } from './types';
-import { Loader } from '@/components/Loader';
+import { Loader } from '@/components/ui/Loader';
 
 const InitialStep = lazy(() => import('./InitialStep'));
 const EmailStep = lazy(() => import('./EmailStep'));

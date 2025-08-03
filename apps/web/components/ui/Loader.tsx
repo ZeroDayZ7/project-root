@@ -5,19 +5,19 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface LoaderProps {
-  fullscreen?: boolean; // Overlay na cały ekran
-  size?: string; // np. "text-4xl"
-  colorClass?: string; // np. "text-audio-400"
-  className?: string; // Dodatkowe klasy Tailwind
-  message?: string; // Widoczny tekst pod loaderem
-  srMessage?: string; // Tekst tylko dla czytników ekranu
-  heightPx?: number; // Wysokość w pikselach, dopasowana do AudioPlayer
+  fullscreen?: boolean;
+  size?: string;
+  colorClass?: string;
+  className?: string;
+  message?: string;
+  srMessage?: string;
+  heightPx?: number;
 }
 
 export const Loader: React.FC<LoaderProps> = ({
   fullscreen = false,
   size = 'text-4xl',
-  colorClass = 'text-accent-foreground',
+  colorClass = 'text-foreground',
   className = '',
   message,
   srMessage = 'Ładowanie danych, proszę czekać...',
@@ -26,11 +26,11 @@ export const Loader: React.FC<LoaderProps> = ({
   return (
     <div
       className={cn(
+        'flex flex-col items-center justify-center', // ✅ zawsze centrowanie
         fullscreen
-          ? 'fixed inset-0 z-50 bg-foreground'
-          : 'flex flex-col items-center justify-center w-full',
-        heightPx && `h-[${heightPx}px]`,
-        'border border-foreground/30 rounded-lg p-3',
+          ? 'fixed inset-0 z-50 bg-background' // fullscreen overlay
+          : 'w-full', // normalny tryb w obrębie kontenera
+        heightPx ? `h-[${heightPx}px]` : fullscreen ? 'h-screen' : 'h-full',
         className,
       )}
       role="status"

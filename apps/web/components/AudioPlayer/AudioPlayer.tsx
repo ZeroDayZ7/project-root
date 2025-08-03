@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { useAudio } from './useAudio';
 import { useCanvas } from './useCanvas';
 import { useEqualizer } from './useEqualizer';
-import { Loader } from '../Loader';
+import { Loader } from '../ui/Loader';
 
 
 interface AudioPlayerProps {
