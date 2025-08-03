@@ -101,10 +101,7 @@ const handlePlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 
   return (
     <div
-      className={cn(
-        'bg-audio-400/10 border border-audio-400/30 rounded-lg p-3',
-        className,
-      )}
+      className={cn('bg-audio-400/10 border border-audio-400/30 rounded-lg p-3', className)}
       style={{ height: `${playerHeightPx}px` }}
     >
       <div className="flex items-center justify-between mb-3">
@@ -126,15 +123,8 @@ const handlePlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
           >
             <span className="relative text-audio-400 text-sm">🎵</span>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-audio-400/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-            <span className="relative z-10 w-24">
-              {isPlaying ? 'ZATRZYMAJ' : 'ODTWÓRZ'}
-            </span>
-            <div
-              className={cn(
-                'w-2 h-2 bg-audio-400 rounded-full relative z-10',
-                isPlaying && 'animate-pulse',
-              )}
-            />
+            <span className="relative z-10 w-24">{isPlaying ? 'ZATRZYMAJ' : 'ODTWÓRZ'}</span>
+            <div className={cn('w-2 h-2 bg-audio-400 rounded-full relative z-10', isPlaying && 'animate-pulse')} />
           </button>
         </div>
         <div className="flex items-center space-x-4">
@@ -152,6 +142,7 @@ const handlePlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
                 '[&::-webkit-slider-thumb]:bg-audio-400 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer',
                 '[&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:bg-audio-400',
                 '[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:cursor-pointer',
+                'focus-visible:bg-audio-500/30 focus-visible:ring-2 focus-visible:ring-audio-400 focus-visible:ring-offset-2 focus-visible:outline-none',
               )}
             />
             <span className="text-xs text-audio-400/70 w-8">{volume}%</span>

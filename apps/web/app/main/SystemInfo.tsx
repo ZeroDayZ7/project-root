@@ -57,11 +57,11 @@ export function SystemInfo() {
             • Urząd Skarbowy
           </Link>
           <Link
-            href="#"
-            onClick={(e) => e.preventDefault()}
+            href="/test/"
+            // onClick={(e) => e.preventDefault()}
             className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
           >
-            • ZUS Online
+            • Test
           </Link>
         </div>
       </div>

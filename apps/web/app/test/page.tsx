@@ -3,6 +3,8 @@ import Link from 'next/link';
 export default function TestIndex() {
   const tests = [
     { name: 'Test Button', path: '/test/button' },
+    { name: 'Test Claude Button', path: '/test/button/claude' },
+    { name: 'Test Shadcn Button', path: '/test/shadcn' },
   ];
 
   return (

@@ -120,11 +120,7 @@ export default function DropdownMenu({
     `Wybierz stację radiową, wybrana: ${selectedItem?.label || 'brak'}`;
 
   return (
-    <div
-      className={cn('relative inline-block text-left font-sans', className)}
-      ref={dropdownRef}
-      role="presentation"
-    >
+    <div className={cn('relative inline-block text-left font-sans', className)} ref={dropdownRef} role="presentation">
       {/* Główny przycisk z natywnym <button> */}
       <button
         id="dropdown-button"
@@ -138,9 +134,24 @@ export default function DropdownMenu({
         }}
         onKeyDown={handleKeyDown}
         className={cn(
-          'flex items-center justify-between gap-2 px-3 py-1.5 w-48 rounded-md border',
-          'bg-background text-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary focus-visible:bg-muted focus-visible:outline-none',
-          'text-sm font-medium transition-colors duration-200',
+          'flex',
+          'items-center',
+          'justify-between',
+          'gap-2',
+          'px-3',
+          'py-1.5',
+          'w-48',
+          'rounded-md',
+          'border',
+          'bg-background',
+          'text-foreground',
+          'hover:bg-muted',
+          // 'focus-visible:ring-2',
+          // 'focus-visible:ring-ring',
+          'text-sm',
+          'font-medium',
+          'transition-colors',
+          'duration-200',
         )}
       >
         <span className="flex items-center gap-2">
@@ -159,11 +170,7 @@ export default function DropdownMenu({
         <ul
           role="listbox"
           aria-labelledby="dropdown-button"
-          aria-activedescendant={
-            open && focusedIndex >= 0
-              ? `dropdown-item-${items[focusedIndex].id}`
-              : undefined
-          }
+          aria-activedescendant={open && focusedIndex >= 0 ? `dropdown-item-${items[focusedIndex].id}` : undefined}
           aria-multiselectable={false}
           className={cn(
             'absolute mt-1 w-48 rounded-md border bg-background shadow-lg z-50 max-h-60 overflow-y-auto',
@@ -173,12 +180,7 @@ export default function DropdownMenu({
           style={{ transformOrigin: 'top' }}
         >
           {items.map(({ id, label, icon: Icon }, index) => (
-            <li
-              key={id}
-              id={`dropdown-item-${id}`}
-              role="option"
-              aria-selected={selectedId === id}
-            >
+            <li key={id} id={`dropdown-item-${id}`} role="option" aria-selected={selectedId === id}>
               <button
                 ref={(el) => {
                   optionRefs.current[index] = el;
@@ -192,7 +194,7 @@ export default function DropdownMenu({
                 onKeyDown={handleKeyDown}
                 className={cn(
                   'flex items-center justify-between gap-2 w-full px-3 py-1.5',
-                  'hover:bg-muted focus-visible:bg-muted focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none',
+                  'hover:bg-muted focus-visible:bg-muted focus-visible:outline-none',
                   'transition-colors duration-200',
                   selectedId === id ? 'font-semibold' : '',
                   index === 0 ? 'rounded-t-md' : '',
@@ -203,12 +205,7 @@ export default function DropdownMenu({
                   {Icon && <Icon size={16} aria-hidden="true" />}
                   {label}
                 </span>
-                {selectedId === id && (
-                  <Check
-                    size={16}
-                    aria-hidden="true"
-                  />
-                )}
+                {selectedId === id && <Check size={16} aria-hidden="true" />}
               </button>
             </li>
           ))}

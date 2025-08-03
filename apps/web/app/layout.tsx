@@ -4,7 +4,7 @@ export { metadata };
 import './globals.css';
 
 import ThemeSwitcher from '@/components/themes/ThemeSwitcher';
-import ClientProviders from '@/components/ClientProviders';
+import ClientProviders from '@/providers/ClientProviders';
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

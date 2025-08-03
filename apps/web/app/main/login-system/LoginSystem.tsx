@@ -19,7 +19,7 @@ export default function LoginSystem() {
   const [isValidEmail, setIsValidEmail] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen">
+    <div className="flex flex-col items-center justify-start">
       <SystemDescription />
       <motion.div
         className="border border-foreground/30 rounded-lg p-6 w-full max-w-md min-h-[300px] max-h-[300px] flex flex-col"
