@@ -65,14 +65,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     setVolume(newVolume);
   };
 
-  const handlePlayClick = (
-    e:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.TouchEvent<HTMLButtonElement>,
-  ) => {
-    e.preventDefault(); // Zapobiega domyślnym akcjom przeglądarki
-    togglePlay();
-  };
+const handlePlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  togglePlay();
+};
 
   if (!isInitialized) {
     return (
@@ -117,7 +112,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           <button
             type="button" // Wyraźnie ustaw type="button"
             onClick={handlePlayClick}
-            onTouchStart={handlePlayClick} // Obsługa zdarzeń dotykowych
             disabled={!isInitialized}
             className={cn(
               'flex items-center space-x-2 px-3 py-1',
