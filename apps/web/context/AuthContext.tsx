@@ -55,7 +55,7 @@ useEffect(() => {
       timer = setTimeout(() => {
         setUser({ id: '1', name: 'Jan Kowalski', email: 'jan@example.com' });
         setLoading(false);
-      }, 1500);
+      }, 700);
     } catch (err) {
       setError('Błąd podczas ładowania danych użytkownika');
       setLoading(false);
