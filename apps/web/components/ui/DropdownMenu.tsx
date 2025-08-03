@@ -45,7 +45,8 @@ export default function DropdownMenu({
       ) {
         setOpen(false);
         setFocusedIndex(-1);
-        // buttonRef.current?.focus();
+        // buttonRef.current?.focus(); // może przewijać,
+        // buttonRef.current?.focus({ preventScroll: true }); //  ustawia focus, ale nie przewija.
       }
     };
     document.addEventListener('mousedown', handleClickOutside);

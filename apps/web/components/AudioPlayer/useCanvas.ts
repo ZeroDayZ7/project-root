@@ -1,4 +1,3 @@
-// components/useCanvas.ts
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -14,10 +13,12 @@ interface CanvasState {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
 }
 
-export const useCanvas = ({ canvasWidth, canvasHeight }: UseCanvasProps): CanvasState => {
+export const useCanvas = ({
+  canvasWidth,
+  canvasHeight,
+}: UseCanvasProps): CanvasState => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Inicjalizacja Canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -25,9 +26,11 @@ export const useCanvas = ({ canvasWidth, canvasHeight }: UseCanvasProps): Canvas
       return;
     }
 
-    console.log('useCanvas: Inicjalizacja wymiarów canvas.', { canvasWidth, canvasHeight });
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+    // Ustaw wymiary tylko, jeśli się zmieniły
+    if (canvas.width !== canvasWidth || canvas.height !== canvasHeight) {
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+    }
   }, [canvasWidth, canvasHeight]);
 
   return { canvasRef };

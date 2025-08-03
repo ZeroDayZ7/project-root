@@ -39,7 +39,9 @@ export const useEqualizer = ({
     const ctx = canvas?.getContext('2d');
 
     if (!canvas || !ctx || !analyser) {
-      console.warn('useEqualizer: Brak canvas, kontekstu lub analizatora dla animacji.');
+      console.warn(
+        'useEqualizer: Brak canvas, kontekstu lub analizatora dla animacji.',
+      );
       return;
     }
 
@@ -47,7 +49,7 @@ export const useEqualizer = ({
     const dataArray = new Uint8Array(bufferLength);
     // Dynamiczne obliczanie szerokości paska, aby wypełnić całą szerokość
     const totalSpacing = (numBars - 1) * barSpacing;
-    const barWidth = (canvas.width - totalSpacing) / numBars; // Usunięto Math.floor
+    const barWidth = (canvas.width - totalSpacing) / numBars;
 
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
     gradient.addColorStop(0, '#a855f7');
@@ -77,7 +79,7 @@ export const useEqualizer = ({
         if (animationFrameId.current) {
           cancelAnimationFrame(animationFrameId.current);
           animationFrameId.current = undefined;
-          console.log('useEqualizer: Animacja zatrzymana, wszystkie paski na dole.');
+          // console.log('useEqualizer: Animacja zatrzymana, wszystkie paski na dole.');
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         return;
@@ -111,15 +113,24 @@ export const useEqualizer = ({
       animationFrameId.current = requestAnimationFrame(renderFrame);
     };
 
-    console.log('useEqualizer: Rozpoczynanie pętli animacji.');
+    // console.log('useEqualizer: Rozpoczynanie pętli animacji.');
     lastFrameTime.current = performance.now();
     animationFrameId.current = requestAnimationFrame(renderFrame);
-  }, [analyser, isPlaying, canvasRef, numBars, barSpacing, canvasWidth, canvasHeight]);
+  }, [
+    analyser,
+    isPlaying,
+    canvasRef,
+    numBars,
+    barSpacing,
+    canvasWidth,
+    canvasHeight,
+  ]);
 
   useEffect(() => {
     if (isPlaying) {
-      previousDataRef.current = new Array(analyser?.frequencyBinCount || 64).fill(0);
-      console.log('useEqualizer: Reset previousDataRef przy wznowieniu odtwarzania.');
+      previousDataRef.current = new Array(
+        analyser?.frequencyBinCount || 64,
+      ).fill(0);
     }
   }, [isPlaying, analyser]);
 
@@ -127,7 +138,6 @@ export const useEqualizer = ({
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
-        console.log('useEqualizer: Czyszczenie animacji.');
       }
     };
   }, []);

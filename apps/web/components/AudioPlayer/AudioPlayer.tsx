@@ -7,7 +7,6 @@ import { useCanvas } from './useCanvas';
 import { useEqualizer } from './useEqualizer';
 import { Loader } from '../ui/Loader';
 
-
 interface AudioPlayerProps {
   audioSrc: string;
   className?: string;
@@ -25,11 +24,18 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const numBars = 24;
   const barSpacing = 2;
 
-  const { isPlaying, volume, setVolume, isInitialized, togglePlay, analyser } =
-    useAudio({
-      audioSrc,
-      initialVolume: 20,
-    });
+  const {
+    isPlaying,
+    volume,
+    setVolume,
+    isInitialized,
+    togglePlay,
+    analyser,
+    error,
+  } = useAudio({
+    audioSrc,
+    initialVolume: 20,
+  });
 
   const { canvasRef } = useCanvas({
     canvasWidth,
@@ -59,6 +65,15 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     setVolume(newVolume);
   };
 
+  const handlePlayClick = (
+    e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.TouchEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault(); // Zapobiega domyślnym akcjom przeglądarki
+    togglePlay();
+  };
+
   if (!isInitialized) {
     return (
       <Loader
@@ -67,6 +82,25 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         message="Ładowanie odtwarzacza..."
         srMessage="Ładowanie odtwarzacza audio, proszę czekać..."
       />
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        className={cn(
+          'bg-audio-400/10 border border-audio-400/30 rounded-lg p-3 flex items-center justify-center',
+          className,
+        )}
+        style={{ height: `${playerHeightPx}px` }}
+      >
+        <div role="alert" className="text-red-500 text-sm">
+          {error}
+          <button onClick={togglePlay} className="ml-4 text-blue-500 underline">
+            Spróbuj ponownie
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -81,7 +115,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           <button
-            onClick={togglePlay}
+            type="button" // Wyraźnie ustaw type="button"
+            onClick={handlePlayClick}
+            onTouchStart={handlePlayClick} // Obsługa zdarzeń dotykowych
             disabled={!isInitialized}
             className={cn(
               'flex items-center space-x-2 px-3 py-1',

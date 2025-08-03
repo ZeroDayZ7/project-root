@@ -43,19 +43,22 @@ export function SystemInfo() {
         </h3>
         <div className="space-y-2 text-sm">
           <Link
-            href="javascript:void(0)"
+            href="#"
+            onClick={(e) => e.preventDefault()}
             className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
           >
             • Centrum Bezpieczeństwa
           </Link>
           <Link
-            href="javascript:void(0)"
+            href="#"
+            onClick={(e) => e.preventDefault()}
             className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
           >
             • Urząd Skarbowy
           </Link>
           <Link
-            href="javascript:void(0)"
+            href="#"
+            onClick={(e) => e.preventDefault()}
             className="block text-card-foreground hover:text-card-foreground/70 transition-colors"
           >
             • ZUS Online

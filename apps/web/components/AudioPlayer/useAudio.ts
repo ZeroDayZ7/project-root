@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface UseAudioProps {
   audioSrc: string;
-  initialVolume: number;
+  initialVolume?: number; // volume opcjonalny
 }
 
 interface AudioState {
@@ -15,142 +15,113 @@ interface AudioState {
   isInitialized: boolean;
   isPlaying: boolean;
   volume: number;
-  setIsPlaying: (value: boolean) => void;
-  setVolume: (value: number) => void;
+  error: string | null;
+  setIsPlaying: (v: boolean) => void;
+  setVolume: (v: number) => void;
   togglePlay: () => Promise<void>;
   initializeAudioContext: () => void;
 }
 
-export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState => {
+export const useAudio = ({
+  audioSrc,
+  initialVolume = 100,
+}: UseAudioProps): AudioState => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(initialVolume);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  
+  const [error, setError] = useState<string | null>(null);
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
 
-  // Inicjalizacja audio
+  /** 🔹 Tworzenie elementu audio */
   useEffect(() => {
-    // console.log('useAudio: Inicjalizacja audio', { audioSrc });
-    audioRef.current = new Audio(audioSrc);
-    audioRef.current.loop = true;
-    audioRef.current.crossOrigin = 'anonymous';
-    audioRef.current.volume = volume / 100;
+    const audio = new Audio(audioSrc);
+    audioRef.current = audio;
+    audio.loop = true;
+    audio.crossOrigin = 'anonymous';
+    audio.volume = initialVolume / 100;
 
-    audioRef.current.addEventListener('canplaythrough', () => {
-      // console.log('useAudio: Audio gotowe do odtwarzania');
-      setIsInitialized(true);
-    });
+    const handleReady = () => setIsInitialized(true);
+    const handleEnded = () => setIsPlaying(false);
+    const handleError = () => {
+      console.error('useAudio: Błąd ładowania audio');
+      setError('Nie udało się załadować audio');
+    };
 
-    audioRef.current.addEventListener('ended', () => {
-      // console.log('useAudio: Audio zakończone');
-      setIsPlaying(false);
-    });
-
-    audioRef.current.addEventListener('error', (e) => {
-      console.error('useAudio: Błąd audio:', e);
-      setIsPlaying(false);
-    });
+    audio.addEventListener('canplaythrough', handleReady);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
 
     return () => {
-      console.log('useAudio: Czyszczenie audio');
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      audio.pause();
+      audioRef.current = null;
+      audio.removeEventListener('canplaythrough', handleReady);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
       if (audioContext) {
-        audioContext.close().catch((error) => console.warn('useAudio: Błąd zamykania AudioContext:', error));
+        audioContext.close().catch(() => {});
       }
     };
   }, [audioSrc]);
 
-  // Aktualizacja głośności
+  /** 🔹 Aktualizacja głośności */
   useEffect(() => {
-    if (audioRef.current) {
-      // console.log('useAudio: Aktualizacja głośności:', volume);
-      audioRef.current.volume = volume / 100;
-    }
+    if (audioRef.current) audioRef.current.volume = volume / 100;
   }, [volume]);
 
-  // Inicjalizacja Web Audio API
-  const initializeAudioContext = () => {
-    if (!audioRef.current || audioContext) {
-      // console.log('useAudio: AudioContext już zainicjalizowany lub brak audioRef');
-      return;
-    }
+  /** 🔹 Inicjalizacja Web Audio API (tylko raz) */
+  const initializeAudioContext = useCallback(() => {
+    if (!audioRef.current || audioContext) return;
 
-    if (!window.AudioContext && !(window as any).webkitAudioContext) {
-      console.warn('useAudio: Web Audio API nie jest wspierane w tej przeglądarce');
+    const AC = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AC) {
+      setError('Web Audio API nie jest wspierane');
       return;
     }
 
     try {
-  // console.log('useAudio: Inicjalizacja AudioContext');
-  const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-  const analyserNode = ctx.createAnalyser();
+      const ctx = new AC();
+      const analyserNode = ctx.createAnalyser();
+      analyserNode.fftSize = 128;
+      analyserNode.smoothingTimeConstant = 0.8;
 
-  analyserNode.fftSize = 128;
-  // analyserNode.fftSize = 512;
-  analyserNode.smoothingTimeConstant = 0.8;
+      const source = ctx.createMediaElementSource(audioRef.current);
+      source.connect(analyserNode);
+      analyserNode.connect(ctx.destination);
 
-  const bufferLength = analyserNode.frequencyBinCount;
-  const desiredBars = 24;
-  const numBars = Math.min(desiredBars, bufferLength);
-
-  const source = ctx.createMediaElementSource(audioRef.current);
-  source.connect(analyserNode);
-  analyserNode.connect(ctx.destination);
-
-  setAudioContext(ctx);
-  setAnalyser(analyserNode);
-  sourceRef.current = source;
-
-  // console.log('useAudio: AudioContext i AnalyserNode zainicjalizowane');
-  // console.log('useAudio: Liczba słupków (numBars):', numBars);
-} catch (error) {
-  console.warn('useAudio: Błąd inicjalizacji Web Audio API:', error);
-}
-
-  };
-
-  // Przełączanie play/pause
-  const togglePlay = async () => {
-    if (!audioRef.current || !isInitialized) {
-      // console.warn('useAudio: Audio nie zainicjalizowane lub brak audioRef:', { audioRef: audioRef.current, isInitialized });
-      return;
+      setAudioContext(ctx);
+      setAnalyser(analyserNode);
+      sourceRef.current = source;
+    } catch (err) {
+      console.error('useAudio: Błąd inicjalizacji Web Audio API:', err);
+      setError('Błąd inicjalizacji audio');
     }
+  }, [audioContext]);
+
+  /** 🔹 Play / Pause */
+  const togglePlay = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio || !isInitialized) return;
 
     try {
       if (isPlaying) {
-        // console.log('useAudio: Pauzowanie audio');
-        audioRef.current.pause();
+        audio.pause();
         setIsPlaying(false);
       } else {
-        // console.log('useAudio: Rozpoczynanie odtwarzania');
-        if (!audioContext) {
-          initializeAudioContext();
-        }
-        
-        if (!analyser) {
-          // console.log('useAudio: Oczekiwanie na AnalyserNode');
-          await new Promise((resolve) => setTimeout(resolve, 100));
-        }
+        if (!audioContext) initializeAudioContext();
+        if (audioContext?.state === 'suspended') await audioContext.resume();
 
-        if (audioContext && audioContext.state === 'suspended') {
-          await audioContext.resume();
-          // console.log('useAudio: AudioContext wznowiony, stan:', audioContext.state);
-        }
-        
-        await audioRef.current.play();
+        await audio.play();
         setIsPlaying(true);
-        // console.log('useAudio: Odtwarzanie rozpoczęte');
       }
-    } catch (error) {
-      console.error('useAudio: Błąd odtwarzania:', error);
+    } catch (err) {
+      console.error('useAudio: Błąd odtwarzania', err);
+      setError('Nie udało się odtworzyć audio');
     }
-  };
+  }, [isPlaying, isInitialized, audioContext, initializeAudioContext]);
 
   return {
     audioRef,
@@ -160,6 +131,7 @@ export const useAudio = ({ audioSrc, initialVolume }: UseAudioProps): AudioState
     isInitialized,
     isPlaying,
     volume,
+    error,
     setIsPlaying,
     setVolume,
     togglePlay,
