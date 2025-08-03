@@ -45,7 +45,7 @@ export default function DropdownMenu({
       ) {
         setOpen(false);
         setFocusedIndex(-1);
-        buttonRef.current?.focus();
+        // buttonRef.current?.focus();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -56,7 +56,7 @@ export default function DropdownMenu({
   useEffect(() => {
     if (open && focusedIndex >= 0) {
       optionRefs.current[focusedIndex]?.focus();
-      optionRefs.current[focusedIndex]?.scrollIntoView({ block: 'nearest' });
+      // optionRefs.current[focusedIndex]?.scrollIntoView({ block: 'nearest' });
     }
   }, [open, focusedIndex]);
 
