@@ -1,8 +1,9 @@
+// app/components/DropdownMenu.tsx
 'use client';
 
-import { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 
 interface DropdownItem {
   id: string;
@@ -14,9 +15,9 @@ interface DropdownMenuProps {
   items: DropdownItem[];
   selectedId: string;
   onSelect: (id: string) => void;
-  buttonLabel: string;
+  buttonLabel?: string;
   buttonIcon?: React.ComponentType<{ size?: number; className?: string }>;
-  ariaLabel: string;
+  ariaLabel?: string;
   className?: string;
 }
 
@@ -51,8 +52,18 @@ export default function DropdownMenu({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Fokus na aktywnej opcji po otwarciu dropdownu i przewijanie
+  useEffect(() => {
+    if (open && focusedIndex >= 0) {
+      optionRefs.current[focusedIndex]?.focus();
+      optionRefs.current[focusedIndex]?.scrollIntoView({ block: 'nearest' });
+    }
+  }, [open, focusedIndex]);
+
   // Obsługa klawiatury
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement | HTMLDivElement>,
+  ) => {
     if (!open && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
       setOpen(true);
@@ -63,7 +74,6 @@ export default function DropdownMenu({
           event.preventDefault();
           setFocusedIndex((prev) => {
             const nextIndex = prev < items.length - 1 ? prev + 1 : 0;
-            optionRefs.current[nextIndex]?.focus();
             return nextIndex;
           });
           break;
@@ -71,7 +81,6 @@ export default function DropdownMenu({
           event.preventDefault();
           setFocusedIndex((prev) => {
             const nextIndex = prev > 0 ? prev - 1 : items.length - 1;
-            optionRefs.current[nextIndex]?.focus();
             return nextIndex;
           });
           break;
@@ -91,49 +100,57 @@ export default function DropdownMenu({
           setFocusedIndex(-1);
           buttonRef.current?.focus();
           break;
+        case 'Tab':
+          // event.preventDefault();
+          setOpen(false);
+          setFocusedIndex(-1);
+          // Fokus przechodzi naturalnie dzięki przeglądarce
+          break;
         default:
           break;
       }
     }
   };
 
-  // Fokus na pierwszej opcji po otwarciu dropdownu
-  useEffect(() => {
-    if (open && focusedIndex === 0) {
-      optionRefs.current[0]?.focus();
-    }
-  }, [open]);
+  const selectedItem = items.find((item) => item.id === selectedId);
+  const displayLabel = buttonLabel || selectedItem?.label || 'Wybierz opcję';
+  const computedAriaLabel =
+    ariaLabel ||
+    `Wybierz stację radiową, wybrana: ${selectedItem?.label || 'brak'}`;
 
   return (
     <div
       className={cn('relative inline-block text-left font-sans', className)}
       ref={dropdownRef}
+      role="presentation"
     >
-      {/* Główny przycisk */}
+      {/* Główny przycisk z natywnym <button> */}
       <button
         id="dropdown-button"
         ref={buttonRef}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={ariaLabel}
+        aria-label={computedAriaLabel}
         onClick={() => {
           setOpen(!open);
           if (!open) setFocusedIndex(0);
         }}
         onKeyDown={handleKeyDown}
         className={cn(
-          'flex items-center justify-between gap-2 px-3 py-1.5 w-32 rounded-md border',
+          'flex items-center justify-between gap-2 px-3 py-1.5 w-48 rounded-md border',
           'bg-background text-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary focus-visible:bg-muted focus-visible:outline-none',
-          'text-xs font-medium transition-colors duration-200',
+          'text-sm font-medium transition-colors duration-200',
         )}
       >
         <span className="flex items-center gap-2">
-          {ButtonIcon && <ButtonIcon size={14} aria-hidden="true" />}
-          {buttonLabel}
+          {ButtonIcon && <ButtonIcon size={16} aria-hidden="true" />}
+          {displayLabel}
         </span>
-        <span className="sr-only">
-          {items.find((item) => item.id === selectedId)?.label}
-        </span>
+        <ChevronDown
+          size={16}
+          className={cn('ml-2 transition-transform', open ? 'rotate-180' : '')}
+          aria-hidden="true"
+        />
       </button>
 
       {/* Dropdown lista */}
@@ -141,13 +158,26 @@ export default function DropdownMenu({
         <ul
           role="listbox"
           aria-labelledby="dropdown-button"
+          aria-activedescendant={
+            open && focusedIndex >= 0
+              ? `dropdown-item-${items[focusedIndex].id}`
+              : undefined
+          }
+          aria-multiselectable={false}
           className={cn(
-            'absolute mt-2 w-32 rounded-md border bg-background shadow-lg z-50',
-            'text-xs font-medium',
+            'absolute mt-1 w-48 rounded-md border bg-background shadow-lg z-50 max-h-60 overflow-y-auto',
+            'text-sm font-medium transition-all duration-200 ease-in-out',
+            open ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-95',
           )}
+          style={{ transformOrigin: 'top' }}
         >
           {items.map(({ id, label, icon: Icon }, index) => (
-            <li key={id} role="option" aria-selected={selectedId === id}>
+            <li
+              key={id}
+              id={`dropdown-item-${id}`}
+              role="option"
+              aria-selected={selectedId === id}
+            >
               <button
                 ref={(el) => {
                   optionRefs.current[index] = el;
@@ -161,21 +191,20 @@ export default function DropdownMenu({
                 onKeyDown={handleKeyDown}
                 className={cn(
                   'flex items-center justify-between gap-2 w-full px-3 py-1.5',
-                  'hover:bg-muted focus-visible:bg-muted focus-visible:ring-3 focus-visible:ring-primary focus-visible:outline-none',
+                  'hover:bg-muted focus-visible:bg-muted focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none',
                   'transition-colors duration-200',
                   selectedId === id ? 'font-semibold' : '',
-                  index === 0 ? 'rounded-t-md' : '', // Zaokrąglenie górne dla pierwszej opcji
+                  index === 0 ? 'rounded-t-md' : '',
                   index === items.length - 1 ? 'rounded-b-md' : '',
                 )}
               >
                 <span className="flex items-center gap-2">
-                  {Icon && <Icon size={14} aria-hidden="true" />}
+                  {Icon && <Icon size={16} aria-hidden="true" />}
                   {label}
                 </span>
                 {selectedId === id && (
                   <Check
-                    size={14}
-                    className="text-green-500"
+                    size={16}
                     aria-hidden="true"
                   />
                 )}
