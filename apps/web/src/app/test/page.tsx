@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
-export default function TestIndex() {
+export default async function TestIndex() {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const tests = [
     { name: 'Test Button', path: '/test/button' },
     { name: 'Test Claude Button', path: '/test/button/claude' },

@@ -2,7 +2,7 @@
 
 import { useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider } from '@context/AuthContext';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 interface ClientProvidersProps {
@@ -15,7 +15,7 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
   useEffect(() => {
     console.log('Aktualna ścieżka:', pathname);
   }, [pathname]);
-
+ 
   return (
     <NextThemesProvider
       attribute="class"

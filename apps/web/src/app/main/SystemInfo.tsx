@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
-import { prefix } from '@/lib/prefix';
+import { prefix } from '@lib/prefix';
 
 export function SystemInfo() {
   return (
@@ -27,7 +27,6 @@ export function SystemInfo() {
           <div className="text-primary-foregound/20 mt-4">
             <div>• System operacyjny: SECURED</div>
             <div>• Połączenia: 1,247 aktywnych</div>
-            <div>• Ostatnia aktualizacja: 25.07.2025</div>
             <div>
               • Status bezpieczeństwa:{' '}
               <span className="text-green-400">OPTIMAL</span>
@@ -39,7 +38,7 @@ export function SystemInfo() {
       {/* Government Links */}
       <div className="border border-foreground/30 rounded-lg p-4">
         <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">
-          <span className="mr-2">{'>'}</span> ŁĄCZA RZĄDOWE
+          <span className="mr-2">{'>'}</span> ŁĄCZA
         </h3>
         <div className="space-y-2 text-sm">
           <Link

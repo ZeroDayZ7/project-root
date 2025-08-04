@@ -1,5 +1,5 @@
 // app/components/Button.tsx
-import { cn } from '@/lib/utils';
+import { cn } from '@lib/utils';
 import React, { ButtonHTMLAttributes, FC, forwardRef } from 'react';
 import { Loader2 } from 'lucide-react'; // Ikona ładowania z lucide-react
 

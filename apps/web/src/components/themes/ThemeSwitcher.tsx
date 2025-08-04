@@ -3,7 +3,7 @@
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { Sun, Moon, Palette } from 'lucide-react';
-import DropdownMenu from '../ui/DropdownMenu';
+import DropdownMenu from '@components/ui/DropdownMenu';
 
 const themes = [
   { id: 'light', label: 'Jasny', icon: Sun },

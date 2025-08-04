@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@lib/utils';
 import { useAudio } from './useAudio';
 import { useCanvas } from './useCanvas';
 import { useEqualizer } from './useEqualizer';

@@ -18,11 +18,16 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"],
+      "@*": ["./*"],
+      "@components/*": ["./components/*"],
+      "@context/*": ["./context/*"],
+      "@config/*": ["./config/*"],
+      "@providers/*": ["./providers/*"],
+      "@lib/*": ["./lib/*"],
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

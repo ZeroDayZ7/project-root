@@ -1,0 +1,21 @@
+{
+  // Wykluczenie z wyszukiwania
+  "search.exclude": {
+    "**/out": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/logs": true,
+    "pnpm-lock.yaml": true,
+    "package.json": true,
+  },
+
+  // Wykluczenie z eksploratora plików
+  "files.exclude": {
+    "**/out": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/logs": true,
+    "pnpm-lock.yaml": true,
+    // "LICENSE": true,
+  }
+}
