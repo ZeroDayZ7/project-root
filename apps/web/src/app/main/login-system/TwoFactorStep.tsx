@@ -1,23 +1,17 @@
 'use client';
 
 import { useTwoFactorStep } from './useTwoFactorStep';
-import { LoginStep } from './types';
+import Button from '@/components/ui/my/Button';
+import Input from '@/components/ui/my/Input';
+import { useAuth } from './AuthContext';
 
-interface TwoFactorStepProps {
-  email: string;
-  setLoginStep: (step: LoginStep) => void;
-}
-
-export default function TwoFactorStep({
-  email,
-  setLoginStep,
-}: TwoFactorStepProps) {
-  const { register, handleSubmit, errors, isSubmitting } = useTwoFactorStep({
-    setLoginStep,
-  });
+export default function TwoFactorStep() {
+  const { setLoginStep, user } = useAuth();
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
+    useTwoFactorStep();
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <div className="flex flex-col">
         <label
           htmlFor="code"
@@ -26,14 +20,16 @@ export default function TwoFactorStep({
         >
           Kod 2FA
         </label>
-        <input
+        <Input
           id="code"
           type="text"
           {...register('code')}
-          className="w-full rounded border border-foreground/50 p-3 font-mono text-foreground transition-colors focus:border-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
           placeholder="Wpisz kod 2FA"
-          aria-invalid={errors.code ? 'true' : 'false'}
+          size="md"
+          variant="primary"
           disabled={isSubmitting}
+          isInvalid={!!errors.code}
+          ariaDescribedBy={errors.code ? 'code-error' : undefined}
         />
         {errors.code && (
           <p id="code-error" className="mt-1 text-xs text-red-500" role="alert">
@@ -41,23 +37,25 @@ export default function TwoFactorStep({
           </p>
         )}
       </div>
-      <p className="text-sm text-foreground/70">E-mail: {email}</p>
-      <button
+      <p className="text-sm text-foreground/70">E-mail: {user?.email}</p>
+      <Button
         type="submit"
-        className="w-full rounded border border-foreground bg-foreground/20 p-3 font-bold text-foreground transition-colors hover:bg-foreground/30 focus-visible:bg-foreground/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-        disabled={isSubmitting || !!errors.code}
-        aria-busy={isSubmitting ? 'true' : 'false'}
+        variant="primary"
+        size="md"
+        disabled={isSubmitting}
+        isLoading={isSubmitting}
       >
-        {isSubmitting ? 'Weryfikowanie...' : 'Weryfikuj kod'}
-      </button>
-      <button
+        Weryfikuj kod
+      </Button>
+      <Button
         type="button"
+        variant="secondary"
+        size="sm"
         onClick={() => setLoginStep('password')}
-        className="w-full text-sm text-foreground/70 transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-        aria-label="Powrót do kroku hasła"
+        ariaLabel="Powrót do kroku hasła"
       >
         ← Powrót
-      </button>
+      </Button>
     </form>
   );
 }

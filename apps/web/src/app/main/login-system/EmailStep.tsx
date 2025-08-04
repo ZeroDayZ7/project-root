@@ -1,30 +1,14 @@
 'use client';
 
 import { useEmailStep } from './useEmailStep';
-import { LoginStep } from './types';
 import Button from '@/components/ui/my/Button';
+import Input from '@/components/ui/my/Input';
+import { useAuth } from './AuthContext';
 
-interface EmailStepProps {
-  email: string;
-  setEmail: (email: string) => void;
-  setIsValidEmail: (isValid: boolean) => void;
-  setLoginStep: (step: LoginStep) => void;
-}
+export default function EmailStep() {
+  const { setLoginStep } = useAuth();
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } = useEmailStep();
 
-export default function EmailStep({
-  email,
-  setEmail,
-  setIsValidEmail,
-  setLoginStep,
-}: EmailStepProps) {
-  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
-    useEmailStep({
-      email,
-      setEmail,
-      setIsValidEmail,
-      setLoginStep,
-    });
-  console.log(`[EmailStep.tsx]`);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <div className="flex flex-col">
@@ -35,14 +19,16 @@ export default function EmailStep({
         >
           Adres e-mail
         </label>
-        <input
+        <Input
           id="email"
           type="email"
           {...register('email')}
-          className="w-full rounded border border-foreground/50 p-3 font-mono text-foreground transition-colors focus:border-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           placeholder="user@example.com"
-          aria-invalid={errors.email ? 'true' : 'false'}
+          size="md"
+          variant="primary"
           disabled={isSubmitting}
+          isInvalid={!!errors.email}
+          ariaDescribedBy={errors.email ? 'email-error' : undefined}
         />
         {errors.email && (
           <p
@@ -58,10 +44,10 @@ export default function EmailStep({
         type="submit"
         variant="primary"
         size="md"
-        disabled={isSubmitting || !!errors.email}
+        disabled={isSubmitting}
         isLoading={isSubmitting}
       >
-        Weryfikuj e-mail
+        Dalej
       </Button>
       <Button
         type="button"

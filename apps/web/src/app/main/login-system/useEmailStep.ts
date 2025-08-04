@@ -3,26 +3,16 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import DOMPurify from 'dompurify';
 import { useEffect } from 'react';
 import { LoginStep } from './types';
-import { ENDPOINTS } from '@/lib/endpoints';
+import { useAuth } from './AuthContext';
 
 const emailSchema = z.object({
   email: z
-    .string()
-    .email('Podaj prawidłowy adres e-mail')
-    .min(1, 'E-mail jest wymagany'),
+    .email('Podaj prawidłowy adres e-mail'),
 });
 
 type EmailForm = z.infer<typeof emailSchema>;
-
-interface EmailStepHookProps {
-  email: string;
-  setEmail: (email: string) => void;
-  setIsValidEmail: (isValid: boolean) => void;
-  setLoginStep: (step: LoginStep) => void;
-}
 
 interface EmailStepHookReturn {
   register: ReturnType<typeof useForm<EmailForm>>['register'];
@@ -32,40 +22,30 @@ interface EmailStepHookReturn {
   onSubmit: (data: EmailForm) => Promise<void>;
 }
 
-export function useEmailStep({
-  email,
-  setEmail,
-  setIsValidEmail,
-  setLoginStep,
-}: EmailStepHookProps): EmailStepHookReturn {
+export function useEmailStep(): EmailStepHookReturn {
+  const { setLoginStep, setEmail, setUser } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
     setFocus,
-    setValue,
   } = useForm<EmailForm>({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email },
+    defaultValues: { email: 'test@test.com' },
+    mode: 'onSubmit',
   });
-
-  useEffect(() => {
-    setValue('email', email);
-  }, [email, setValue]);
 
   useEffect(() => {
     setFocus('email');
   }, [setFocus]);
 
   const onSubmit = async (data: EmailForm) => {
-    const sanitizedEmail = DOMPurify.sanitize(data.email);
     try {
-      const res = await fetch(ENDPOINTS.CHECKEMAIL, {
+      const res = await fetch('/api/check-email', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: sanitizedEmail }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.email }),
       });
 
       if (!res.ok) {
@@ -73,26 +53,19 @@ export function useEmailStep({
       }
 
       const result = await res.json();
-      console.log(`result: ${result}`);
-
-      if (result.exists) {
-        setEmail(sanitizedEmail);
-        setIsValidEmail(true);
-        setLoginStep('password');
-      } else {
-        throw new Error('Taki e-mail nie istnieje');
+      if (!result.exists) {
+        setError('email', { message: 'Taki e-mail nie istnieje' });
+        return;
       }
+
+      setEmail(data.email);
+      setUser({ email: data.email, has2FA: result.has2FA });
+      setLoginStep('password');
     } catch (error) {
       console.error('[Email check failed]', error);
-      // TODO: pokaż błąd użytkownikowi (np. toast, alert itp.)
+      setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
     }
   };
 
-  return {
-    register,
-    handleSubmit,
-    errors,
-    isSubmitting,
-    onSubmit,
-  };
+  return { register, handleSubmit, errors, isSubmitting, onSubmit };
 }

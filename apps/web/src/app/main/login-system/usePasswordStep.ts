@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import DOMPurify from 'dompurify';
 import { useEffect } from 'react';
 import { LoginStep } from './types';
+import { useAuth } from './AuthContext';
 
 const passwordSchema = z.object({
   password: z
@@ -17,60 +17,56 @@ const passwordSchema = z.object({
 
 type PasswordForm = z.infer<typeof passwordSchema>;
 
-interface PasswordStepHookProps {
-  password: string;
-  setPassword: (password: string) => void;
-  setLoginStep: (step: LoginStep) => void;
-  csrfToken: string | null;
-}
-
 interface PasswordStepHookReturn {
   register: ReturnType<typeof useForm<PasswordForm>>['register'];
   handleSubmit: ReturnType<typeof useForm<PasswordForm>>['handleSubmit'];
   errors: ReturnType<typeof useForm<PasswordForm>>['formState']['errors'];
   isSubmitting: boolean;
+  onSubmit: (data: PasswordForm) => Promise<void>;
 }
 
-export function usePasswordStep({
-  password,
-  setPassword,
-  setLoginStep,
-  csrfToken,
-}: PasswordStepHookProps): PasswordStepHookReturn {
+export function usePasswordStep(): PasswordStepHookReturn {
+  const { user, setLoginStep } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
     setFocus,
-    setValue,
   } = useForm<PasswordForm>({
     resolver: zodResolver(passwordSchema),
-    defaultValues: { password },
+    defaultValues: { password: '' },
+    mode: 'onSubmit',
   });
-
-  useEffect(() => {
-    setValue('password', password);
-  }, [password, setValue]);
 
   useEffect(() => {
     setFocus('password');
   }, [setFocus]);
 
   const onSubmit = async (data: PasswordForm) => {
-    if (!csrfToken) {
-      console.error('Brak tokenu CSRF');
-      return;
+    try {
+      const res = await fetch('/api/check-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user?.email, password: data.password }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Błąd serwera przy sprawdzaniu hasła');
+      }
+
+      const result = await res.json();
+      if (!result.valid) {
+        setError('password', { message: 'Nieprawidłowe hasło' });
+        return;
+      }
+
+      setLoginStep(user?.has2FA ? 'twoFactor' : 'success');
+    } catch (error) {
+      console.error('[Password check failed]', error);
+      setError('password', { message: 'Błąd podczas weryfikacji hasła' });
     }
-    const sanitizedPassword = DOMPurify.sanitize(data.password);
-    setPassword(sanitizedPassword);
-    // Tutaj można dodać logikę wysyłania do API z użyciem csrfToken
-    setLoginStep('twoFactor');
   };
 
-  return {
-    register,
-    handleSubmit: handleSubmit(onSubmit),
-    errors,
-    isSubmitting,
-  };
+  return { register, handleSubmit, errors, isSubmitting, onSubmit };
 }
