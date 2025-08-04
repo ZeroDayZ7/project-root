@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   },
   basePath: isGithubPages ? `/${repo}` : '',
   assetPrefix: isGithubPages ? `/${repo}/` : '',
-  // reactStrictMode: true,
+  reactStrictMode: false,
 };
 
 const withNextIntl = createNextIntlPlugin();

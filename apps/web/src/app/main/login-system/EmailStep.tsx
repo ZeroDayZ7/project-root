@@ -1,23 +1,11 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import DOMPurify from 'dompurify';
+import { useEmailStep } from './useEmailStep';
 import { LoginStep } from './types';
-import { useEffect } from 'react';
-
-const emailSchema = z.object({
-  email: z
-    .string()
-    .email('Podaj prawidłowy adres e-mail')
-    .min(1, 'E-mail jest wymagany'),
-});
-
-type EmailForm = z.infer<typeof emailSchema>;
+import Button from '@/components/ui/my/Button';
 
 interface EmailStepProps {
-  email: string; // Dodano email
+  email: string;
   setEmail: (email: string) => void;
   setIsValidEmail: (isValid: boolean) => void;
   setLoginStep: (step: LoginStep) => void;
@@ -29,82 +17,61 @@ export default function EmailStep({
   setIsValidEmail,
   setLoginStep,
 }: EmailStepProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setFocus,
-    setValue,
-  } = useForm<EmailForm>({
-    resolver: zodResolver(emailSchema),
-    defaultValues: {
-      email:
-        email ||
-        (typeof window !== 'undefined'
-          ? localStorage.getItem('lastEmail') || ''
-          : ''),
-    },
-  });
-
-  // Synchronizacja wartości email z props
-  useEffect(() => {
-    setValue('email', email);
-  }, [email, setValue]);
-
-  useEffect(() => {
-    setFocus('email');
-  }, [setFocus]);
-
-  const onSubmit = (data: EmailForm) => {
-    const sanitizedEmail = DOMPurify.sanitize(data.email);
-    setEmail(sanitizedEmail);
-    setIsValidEmail(true);
-    localStorage.setItem('lastEmail', sanitizedEmail);
-    setLoginStep('password');
-  };
-
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
+    useEmailStep({
+      email,
+      setEmail,
+      setIsValidEmail,
+      setLoginStep,
+    });
+  console.log(`[EmailStep.tsx]`);
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+      <div className="flex flex-col">
         <label
           htmlFor="email"
-          className="block text-sm text-foreground mb-2"
+          className="mb-2 block text-sm font-medium text-foreground"
           aria-describedby={errors.email ? 'email-error' : undefined}
         >
-          {'>'} ADRES EMAIL:
+          Adres e-mail
         </label>
         <input
           id="email"
           type="email"
           {...register('email')}
-          className="w-full border border-foreground/50 rounded p-3 text-foreground focus:border-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none font-mono"
+          className="w-full rounded border border-foreground/50 p-3 font-mono text-foreground transition-colors focus:border-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           placeholder="user@example.com"
           aria-invalid={errors.email ? 'true' : 'false'}
+          disabled={isSubmitting}
         />
         {errors.email && (
           <p
             id="email-error"
-            className="text-red-500 text-xs mt-1"
+            className="mt-1 text-xs text-red-500"
             role="alert"
           >
             {errors.email.message}
           </p>
         )}
       </div>
-      <button
+      <Button
         type="submit"
-        className="w-full bg-foreground/20 hover:bg-foreground/30 focus-visible:bg-foreground/30 border border-foreground rounded p-3 text-foreground font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-        disabled={!!errors.email}
+        variant="primary"
+        size="md"
+        disabled={isSubmitting || !!errors.email}
+        isLoading={isSubmitting}
       >
-        WERYFIKUJ EMAIL
-      </button>
-      <button
+        Weryfikuj e-mail
+      </Button>
+      <Button
         type="button"
+        variant="secondary"
+        size="sm"
         onClick={() => setLoginStep('initial')}
-        className="w-full text-foreground/70 hover:text-foreground focus-visible:text-foreground text-sm transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+        ariaLabel="Powrót do ekranu początkowego"
       >
-        ← POWRÓT
-      </button>
+        ← Powrót
+      </Button>
     </form>
   );
 }

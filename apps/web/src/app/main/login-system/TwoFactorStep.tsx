@@ -1,21 +1,7 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import DOMPurify from 'dompurify';
+import { useTwoFactorStep } from './useTwoFactorStep';
 import { LoginStep } from './types';
-import { useEffect } from 'react';
-import mockData from './mock-data';
-
-const twoFactorSchema = z.object({
-  code: z
-    .string()
-    .min(6, 'Kod 2FA musi mieć 6 znaków')
-    .max(6, 'Kod 2FA musi mieć 6 znaków'),
-});
-
-type TwoFactorForm = z.infer<typeof twoFactorSchema>;
 
 interface TwoFactorStepProps {
   email: string;
@@ -26,74 +12,51 @@ export default function TwoFactorStep({
   email,
   setLoginStep,
 }: TwoFactorStepProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setFocus,
-    setError,
-  } = useForm<TwoFactorForm>({
-    resolver: zodResolver(twoFactorSchema),
-    defaultValues: { code: '123456' },
+  const { register, handleSubmit, errors, isSubmitting } = useTwoFactorStep({
+    setLoginStep,
   });
 
-  useEffect(() => {
-    setFocus('code');
-  }, [setFocus]);
-
-  const onSubmit = (data: TwoFactorForm) => {
-    const sanitizedCode = DOMPurify.sanitize(data.code);
-    const user = mockData.find(
-      (u) => u.email === email && u.twoFactorCode === sanitizedCode,
-    );
-    if (!user) {
-      setError('code', { message: 'Nieprawidłowy kod 2FA' });
-      return;
-    }
-    setLoginStep('success');
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="text-sm text-foreground mb-4">
-        Email zweryfikowany:{' '}
-        <span className="text-accent-foreground">{email}</span>
-      </div>
-      <div>
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      <div className="flex flex-col">
         <label
           htmlFor="code"
-          className="block text-sm text-foreground mb-2"
+          className="mb-2 block text-sm font-medium text-foreground"
           aria-describedby={errors.code ? 'code-error' : undefined}
         >
-          {'>'} KOD 2FA:
+          Kod 2FA
         </label>
         <input
           id="code"
           type="text"
           {...register('code')}
-          className="w-full bg-black/50 border border-foreground/50 rounded p-3 text-foreground focus:border-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none font-mono"
-          placeholder="123456"
+          className="w-full rounded border border-foreground/50 p-3 font-mono text-foreground transition-colors focus:border-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+          placeholder="Wpisz kod 2FA"
           aria-invalid={errors.code ? 'true' : 'false'}
+          disabled={isSubmitting}
         />
         {errors.code && (
-          <p id="code-error" className="text-red-500 text-xs mt-1" role="alert">
+          <p id="code-error" className="mt-1 text-xs text-red-500" role="alert">
             {errors.code.message}
           </p>
         )}
       </div>
+      <p className="text-sm text-foreground/70">E-mail: {email}</p>
       <button
         type="submit"
-        className="w-full bg-foreground/20 hover:bg-foreground/30 focus-visible:bg-foreground/30 border border-foreground rounded p-3 text-foreground font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-        disabled={!!errors.code}
+        className="w-full rounded border border-foreground bg-foreground/20 p-3 font-bold text-foreground transition-colors hover:bg-foreground/30 focus-visible:bg-foreground/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        disabled={isSubmitting || !!errors.code}
+        aria-busy={isSubmitting ? 'true' : 'false'}
       >
-        WERYFIKUJ KOD 2FA
+        {isSubmitting ? 'Weryfikowanie...' : 'Weryfikuj kod'}
       </button>
       <button
         type="button"
         onClick={() => setLoginStep('password')}
-        className="w-full text-foreground/70 hover:text-foreground focus-visible:text-foreground text-sm transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="w-full text-sm text-foreground/70 transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+        aria-label="Powrót do kroku hasła"
       >
-        ← ZMIEŃ HASŁO
+        ← Powrót
       </button>
     </form>
   );

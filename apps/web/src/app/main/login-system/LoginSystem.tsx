@@ -1,9 +1,9 @@
 'use client';
 
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import SystemDescription from './SystemDescription';
-import { LoginStep } from './types';
+import { useLoginSystem } from './useLoginSystem';
 import { Loader } from '@/components/ui/Loader';
 
 const InitialStep = lazy(() => import('./InitialStep'));
@@ -13,29 +13,64 @@ const TwoFactorStep = lazy(() => import('./TwoFactorStep'));
 const SuccessStep = lazy(() => import('./SuccessStep'));
 
 export default function LoginSystem() {
-  const [loginStep, setLoginStep] = useState<LoginStep>('initial');
-  const [email, setEmail] = useState('user@example.com');
-  const [password, setPassword] = useState('Password123!');
-  const [isValidEmail, setIsValidEmail] = useState(false);
+  const {
+    loginStep,
+    email,
+    password,
+    csrfToken,
+    isLoading,
+    error,
+    setLoginStep,
+    setEmail,
+    setPassword,
+    setIsValidEmail,
+    resetLogin
+  } = useLoginSystem();
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[300px] items-center justify-center">
+        <Loader aria-label="Ładowanie systemu logowania" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-[300px] items-center justify-center">
+        <p className="text-red-500" role="alert">
+          {error}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-start">
       <SystemDescription />
       <motion.div
-        className="border border-foreground/30 rounded-lg p-6 w-full max-w-md min-h-[300px] max-h-[300px] flex flex-col"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        className="w-full max-w-md rounded-lg border border-foreground/30 p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
+        role="region"
+        aria-labelledby="login-system-title"
       >
-        <div className="text-center mb-6">
-          <h3 className="text-lg font-bold text-foreground">
-            DOSTĘP DO SYSTEMU
+        <div className="mb-6 text-center">
+          <h3
+            id="login-system-title"
+            className="text-lg font-bold text-foreground"
+          >
+            Dostęp do systemu
           </h3>
-          <div className="text-xs text-foreground/70 mt-2">
+          <p className="mt-2 text-xs text-foreground/70">
             Uwierzytelnianie wielopoziomowe aktywne
-          </div>
+          </p>
+          <p>
+            <button onClick={resetLogin}>Resetuj logowanie</button>
+          </p>
         </div>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<Loader aria-label="Ładowanie kroku logowania" />}>
           {loginStep === 'initial' && (
             <InitialStep setLoginStep={setLoginStep} />
           )}
@@ -53,6 +88,7 @@ export default function LoginSystem() {
               password={password}
               setPassword={setPassword}
               setLoginStep={setLoginStep}
+              csrfToken={csrfToken}
             />
           )}
           {loginStep === 'twoFactor' && (

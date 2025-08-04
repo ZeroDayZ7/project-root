@@ -6,7 +6,7 @@
     "**/.next": true,
     "**/logs": true,
     "pnpm-lock.yaml": true,
-    "package.json": true,
+    "package.json": true
   },
 
   // Wykluczenie z eksploratora plików
@@ -15,7 +15,10 @@
     "**/node_modules": true,
     "**/.next": true,
     "**/logs": true,
-    "pnpm-lock.yaml": true,
-    // "LICENSE": true,
-  }
+    "pnpm-lock.yaml": true
+    // "LICENSE": true
+  },
+
+  // Wyłączenie zawijania linii w edytorze
+  "editor.wordWrap": "wordWrapColumn"
 }

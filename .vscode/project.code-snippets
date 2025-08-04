@@ -1,0 +1,7 @@
+{
+  "Console log": {
+    "prefix": "cs", 
+    "body": ["console.log(`$1`);"],
+    "description": "Szybkie console.log"
+  }
+}

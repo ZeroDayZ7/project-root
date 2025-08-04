@@ -22,7 +22,7 @@ export const useCanvas = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      console.warn('useCanvas: Brak elementu canvas.');
+      // console.warn('useCanvas: Brak elementu canvas.');
       return;
     }
 

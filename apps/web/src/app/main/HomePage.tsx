@@ -8,10 +8,6 @@ import { SystemStatus } from './SystemStatus';
 import { Footer } from './Footer';
 
 export default function HomePage() {
-  const [loginStep, setLoginStep] = useState<'initial' | 'email' | 'password' | 'success'>('initial');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isValidEmail, setIsValidEmail] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
   return (
