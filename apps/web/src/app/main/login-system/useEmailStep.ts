@@ -9,6 +9,7 @@ import { useAuth } from './AuthContext';
 
 const emailSchema = z.object({
   email: z
+    .string()
     .email('Podaj prawidłowy adres e-mail'),
 });
 
@@ -32,7 +33,7 @@ export function useEmailStep(): EmailStepHookReturn {
     setFocus,
   } = useForm<EmailForm>({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: 'test@test.com' },
+    defaultValues: { email: '' },
     mode: 'onSubmit',
   });
 

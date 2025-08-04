@@ -17,7 +17,9 @@
     "**/logs": true,
     "**/pnpm-lock.yaml": true,
     "**/LICENSE": true,
-    "**/nginx": true
+    "**/nginx": true,
+    "**/nodemon.json": true,
+    "**/README.md":true
   },
 
   // Wyłączenie zawijania linii w edytorze

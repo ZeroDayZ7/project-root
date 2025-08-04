@@ -7,7 +7,8 @@ import { useAuth } from './AuthContext';
 
 export default function EmailStep() {
   const { setLoginStep } = useAuth();
-  const { register, handleSubmit, errors, isSubmitting, onSubmit } = useEmailStep();
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
+    useEmailStep();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
@@ -24,7 +25,7 @@ export default function EmailStep() {
           type="email"
           {...register('email')}
           placeholder="user@example.com"
-          size="md"
+          inputSize="md" // Zmieniono 'size' na 'inputSize'
           variant="primary"
           disabled={isSubmitting}
           isInvalid={!!errors.email}
