@@ -4,6 +4,7 @@ import { usePasswordStep } from './usePasswordStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
 import { useAuth } from './AuthContext';
+import InputError from '@/components/ui/my/InputError';
 
 export default function PasswordStep() {
   const { setLoginStep, user } = useAuth();
@@ -25,21 +26,13 @@ export default function PasswordStep() {
           type="password"
           {...register('password')}
           placeholder="Wpisz hasło"
-          size="md"
+          inputSize="md"
           variant="primary"
           disabled={isSubmitting}
           isInvalid={!!errors.password}
           ariaDescribedBy={errors.password ? 'password-error' : undefined}
         />
-        {errors.password && (
-          <p
-            id="password-error"
-            className="mt-1 text-xs text-red-500"
-            role="alert"
-          >
-            {errors.password.message}
-          </p>
-        )}
+        <InputError id="password-error" message={errors.password?.message} />
       </div>
       <p className="text-sm text-foreground/70">E-mail: {user?.email}</p>
       <Button

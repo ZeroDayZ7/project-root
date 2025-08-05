@@ -10,7 +10,6 @@ interface AuthContextType {
   setLoginStep: (step: LoginStep) => void;
   setEmail: (email: string) => void;
   setUser: (user: { email: string; has2FA: boolean } | null) => void;
-  resetLogin: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,12 +21,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     null,
   );
 
-  function resetLogin() {
-    setLoginStep('initial');
-    setEmail('');
-    setUser(null);
-  }
-
   return (
     <AuthContext.Provider
       value={{
@@ -37,7 +30,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoginStep,
         setEmail,
         setUser,
-        resetLogin,
       }}
     >
       {children}

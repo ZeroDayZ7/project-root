@@ -4,6 +4,7 @@ import { useTwoFactorStep } from './useTwoFactorStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
 import { useAuth } from './AuthContext';
+import InputError from '@/components/ui/my/InputError';
 
 export default function TwoFactorStep() {
   const { setLoginStep, user } = useAuth();
@@ -25,17 +26,13 @@ export default function TwoFactorStep() {
           type="text"
           {...register('code')}
           placeholder="Wpisz kod 2FA"
-          size="md"
+          inputSize="md"
           variant="primary"
           disabled={isSubmitting}
           isInvalid={!!errors.code}
           ariaDescribedBy={errors.code ? 'code-error' : undefined}
         />
-        {errors.code && (
-          <p id="code-error" className="mt-1 text-xs text-red-500" role="alert">
-            {errors.code.message}
-          </p>
-        )}
+        <InputError id="code-error" message={errors.code?.message} />
       </div>
       <p className="text-sm text-foreground/70">E-mail: {user?.email}</p>
       <Button

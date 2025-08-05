@@ -4,6 +4,7 @@ import { useEmailStep } from './useEmailStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
 import { useAuth } from './AuthContext';
+import InputError from '@/components/ui/my/InputError';
 
 export default function EmailStep() {
   const { setLoginStep } = useAuth();
@@ -31,15 +32,7 @@ export default function EmailStep() {
           isInvalid={!!errors.email}
           ariaDescribedBy={errors.email ? 'email-error' : undefined}
         />
-        {errors.email && (
-          <p
-            id="email-error"
-            className="mt-1 text-xs text-red-500"
-            role="alert"
-          >
-            {errors.email.message}
-          </p>
-        )}
+        <InputError id="email-error" message={errors.email?.message} />
       </div>
       <Button
         type="submit"
