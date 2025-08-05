@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const requestLoggerDev = (req: Request, res: Response, next: NextFunction): void => {
+const requestLoggerDev = (req: Request, res: Response, next: NextFunction): void => {
   const start = process.hrtime();
 
   console.log('\n==================== 📥 REQUEST ====================');
@@ -33,3 +33,4 @@ export const requestLoggerDev = (req: Request, res: Response, next: NextFunction
   next();
 };
  
+export default requestLoggerDev;

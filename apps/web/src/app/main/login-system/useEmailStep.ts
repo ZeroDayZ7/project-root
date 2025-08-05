@@ -4,13 +4,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
-import { LoginStep } from './types';
 import { useAuth } from './AuthContext';
+import { apiFetch } from '@/lib/apiFetch';
 
 const emailSchema = z.object({
-  email: z
-    .string()
-    .email('Podaj prawidłowy adres e-mail'),
+  email: z.string().email('Podaj prawidłowy adres e-mail'),
 });
 
 type EmailForm = z.infer<typeof emailSchema>;
@@ -43,7 +41,8 @@ export function useEmailStep(): EmailStepHookReturn {
 
   const onSubmit = async (data: EmailForm) => {
     try {
-      const res = await fetch('/api/check-email', {
+      // const res = await apiFetch('/check-email', {
+      const res = await fetch('http://localhost:4000/api/check-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: data.email }),
@@ -54,6 +53,7 @@ export function useEmailStep(): EmailStepHookReturn {
       }
 
       const result = await res.json();
+      console.log(`resilt: ${result}`);
       if (!result.exists) {
         setError('email', { message: 'Taki e-mail nie istnieje' });
         return;
@@ -65,6 +65,9 @@ export function useEmailStep(): EmailStepHookReturn {
     } catch (error) {
       console.error('[Email check failed]', error);
       setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
+    } finally {
+      //  console.error('[Email check failed]', error);
+      // setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
     }
   };
 

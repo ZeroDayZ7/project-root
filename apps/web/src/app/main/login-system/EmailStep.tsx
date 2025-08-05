@@ -38,8 +38,8 @@ export default function EmailStep() {
         type="submit"
         variant="primary"
         size="md"
-        disabled={isSubmitting}
-        isLoading={isSubmitting}
+        // disabled={isSubmitting}
+        // isLoading={isSubmitting}
       >
         Dalej
       </Button>

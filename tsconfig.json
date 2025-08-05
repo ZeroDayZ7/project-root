@@ -15,5 +15,5 @@
       "@neo/ui/*": ["packages/ui/src/*"]
     }
   },
-  "include": ["packages/*/src"]
+  "include": ["packages/*/src", "packages/common/tsconfig.json"]
 }

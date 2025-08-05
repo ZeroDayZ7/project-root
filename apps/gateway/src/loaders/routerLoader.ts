@@ -28,6 +28,7 @@ export async function loadRoutes(app: Express) {
     }
 
     app.use(routePath, router);
+    // app.use('/api' + routePath, router);
     logger.info(`✅ Route loaded: [${routePath}] from ${file}`);
   }
 }

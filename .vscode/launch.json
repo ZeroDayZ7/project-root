@@ -1,0 +1,67 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // 🔁 1. Debug z NextJS
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug with NextJs",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}/apps/web",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+
+    // 🔁 2. Debug z NONE-NODEMON
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "PROJECT-ROOT NO-NODEMON",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/apps/gateway/src/index.ts",
+      "cwd": "${workspaceFolder}/apps/gateway",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "runtimeArgs": [
+        "--inspect",
+        // "--verbose",
+        "--exec",
+        "tsx",
+        "-r",
+        "dotenv/config"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+        // "TSX_TRACE": "1"
+      }
+    },
+
+    // ▶️ 2. Debug tylko z node + tsx (bez restartów)
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug with tsx (no nodemon)",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/server/src/server.ts",
+      "cwd": "${workspaceFolder}/server",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "runtimeArgs": ["--require", "dotenv/config", "--import", "tsx"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Frontend + Backend",
+      "configurations": ["Debug with NextJs", "Debug with nodemon + tsx"],
+      "stopAll": true
+    }
+  ]
+}
