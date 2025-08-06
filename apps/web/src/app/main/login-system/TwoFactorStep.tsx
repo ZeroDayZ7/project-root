@@ -3,11 +3,11 @@
 import { useTwoFactorStep } from './useTwoFactorStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
-import { useAuth } from './AuthContext';
+import { useLogin } from './LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function TwoFactorStep() {
-  const { setLoginStep, user } = useAuth();
+  const { setLoginStep, user } = useLogin();
   const { register, handleSubmit, errors, isSubmitting, onSubmit } =
     useTwoFactorStep();
 

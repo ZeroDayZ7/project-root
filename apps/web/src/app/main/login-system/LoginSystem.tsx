@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AuthProvider, useAuth } from './AuthContext';
+import { AuthProvider, useLogin } from './LoginContext';
 import { Loader } from '@/components/ui/Loader';
 import SystemDescription from './SystemDescription';
 import LoginBoxHeader from './LoginBoxHeader';
@@ -28,7 +28,7 @@ const SuccessStep = dynamic(() => import('./SuccessStep'), {
 });
 
 function LoginSystemContent() {
-  const { loginStep } = useAuth();
+  const { loginStep } = useLogin();
 
   return (
     <div className="flex flex-col items-center justify-start">

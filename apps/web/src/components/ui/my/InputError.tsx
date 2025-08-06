@@ -11,7 +11,7 @@ export default function InputError({ id, message }: InputErrorProps) {
   return (
     <p
       id={id}
-      className="mt-1 text-xs text-red-500"
+      className="mt-1 h-[15px] text-xs text-red-500"
       role="alert"
       aria-live="polite"
     >

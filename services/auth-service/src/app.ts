@@ -7,6 +7,8 @@ import { requestLoggerDev } from '@neo/common';
 
 
 const app = express();
+// wyłączenie X-Powered-By
+app.disable('x-powered-by');
 app.use(express.json()); // parsowanie JSON w body
 if (process.env.NODE_ENV === 'development') {
   app.use(requestLoggerDev);
@@ -35,7 +37,7 @@ app.post('/check-email', (req, res) => {
 
 // Obsługa 404
 app.use((req, res, next) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).json({ message: '[Auth-Service] Not Found' });
 });
 
 // Obsługa błędów

@@ -3,7 +3,7 @@
 import { createContext, useContext, useState } from 'react';
 import { LoginStep } from './types';
 
-interface AuthContextType {
+interface LoginContextType {
   loginStep: LoginStep;
   email: string;
   user: { email: string; has2FA: boolean } | null;
@@ -12,7 +12,7 @@ interface AuthContextType {
   setUser: (user: { email: string; has2FA: boolean } | null) => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const LoginContext = createContext<LoginContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loginStep, setLoginStep] = useState<LoginStep>('initial');
@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <AuthContext.Provider
+    <LoginContext.Provider
       value={{
         loginStep,
         email,
@@ -33,12 +33,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </LoginContext.Provider>
   );
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
+export function useLogin() {
+  const context = useContext(LoginContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }

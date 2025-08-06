@@ -17,6 +17,8 @@ import { loadRoutes } from './loaders/routerLoader.js';
 import routes from './routes/index.js';
 
 const app = express();
+// wyłączenie X-Powered-By
+app.disable('x-powered-by');
 
 // if (process.env.NODE_ENV === 'development') {
 //   app.use(requestLoggerDev);
@@ -47,7 +49,7 @@ app.use('/api', routes);
 
 // Obsługa 404
 app.use((req, res, next) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).json({ message: '[Gateway] Not Found' });
 });
 
 // Obsługa błędów

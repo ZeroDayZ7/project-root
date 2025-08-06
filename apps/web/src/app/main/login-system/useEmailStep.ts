@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useLogin } from './LoginContext';
 import { apiFetch } from '@/lib/apiFetch';
 
 const emailSchema = z.object({
@@ -22,7 +22,7 @@ interface EmailStepHookReturn {
 }
 
 export function useEmailStep(): EmailStepHookReturn {
-  const { setLoginStep, setEmail, setUser } = useAuth();
+  const { setLoginStep, setEmail, setUser } = useLogin();
   const {
     register,
     handleSubmit,
@@ -42,7 +42,7 @@ export function useEmailStep(): EmailStepHookReturn {
   const onSubmit = async (data: EmailForm) => {
     try {
       // const res = await apiFetch('/check-email', {
-      const res = await fetch('http://localhost:4000/api/check-email', {
+      const res = await fetch('http://localhost:4000/api/auth/check-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: data.email }),

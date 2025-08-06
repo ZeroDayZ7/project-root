@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { LoginStep } from './types';
-import { useAuth } from './AuthContext';
+import { useLogin } from './LoginContext';
 
 const twoFactorSchema = z.object({
   code: z
@@ -25,7 +25,7 @@ interface TwoFactorStepHookReturn {
 }
 
 export function useTwoFactorStep(): TwoFactorStepHookReturn {
-  const { user, setLoginStep } = useAuth();
+  const { user, setLoginStep } = useLogin();
   const {
     register,
     handleSubmit,

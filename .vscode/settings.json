@@ -14,7 +14,7 @@
     "**/out": true,
     "**/node_modules": true,
     "**/.next": true,
-    "**/logs": true,
+    "**/logs": false,
     "**/pnpm-lock.yaml": true,
     "**/LICENSE": true,
     "**/nginx": true,

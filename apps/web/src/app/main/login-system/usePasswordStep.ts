@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { LoginStep } from './types';
-import { useAuth } from './AuthContext';
+import { useLogin } from './LoginContext';
 
 const passwordSchema = z.object({
   password: z
@@ -26,7 +26,7 @@ interface PasswordStepHookReturn {
 }
 
 export function usePasswordStep(): PasswordStepHookReturn {
-  const { user, setLoginStep } = useAuth();
+  const { user, setLoginStep } = useLogin();
   const {
     register,
     handleSubmit,

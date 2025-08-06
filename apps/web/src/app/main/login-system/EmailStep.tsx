@@ -3,24 +3,21 @@
 import { useEmailStep } from './useEmailStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
-import { useAuth } from './AuthContext';
+import Label from '@/components/ui/my/Label';
+import { useLogin } from './LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function EmailStep() {
-  const { setLoginStep } = useAuth();
-  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
-    useEmailStep();
+  const { setLoginStep } = useLogin();
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } = useEmailStep();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <div className="flex flex-col">
-        <label
-          htmlFor="email"
-          className="mb-2 block text-sm font-medium text-foreground"
-          aria-describedby={errors.email ? 'email-error' : undefined}
-        >
+        <Label htmlFor="email" describedBy={errors.email ? 'email-error' : undefined}>
           Adres e-mail
-        </label>
+        </Label>
+
         <Input
           id="email"
           type="email"
@@ -43,13 +40,7 @@ export default function EmailStep() {
       >
         Dalej
       </Button>
-      <Button
-        type="button"
-        variant="secondary"
-        size="sm"
-        onClick={() => setLoginStep('initial')}
-        ariaLabel="Powrót do ekranu początkowego"
-      >
+      <Button type="button" variant="secondary" size="sm" onClick={() => setLoginStep('initial')} ariaLabel="Powrót do ekranu początkowego">
         ← Powrót
       </Button>
     </form>

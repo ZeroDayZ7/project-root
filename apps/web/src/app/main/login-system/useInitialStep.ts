@@ -1,14 +1,13 @@
 'use client';
 
-import { LoginStep } from './types';
-import { useAuth } from './AuthContext';
+import { useLogin } from './LoginContext';
 
 interface InitialStepHookReturn {
   handleStart: () => void;
 }
 
 export function useInitialStep(): InitialStepHookReturn {
-  const { setLoginStep } = useAuth();
+  const { setLoginStep } = useLogin();
 
   const handleStart = () => {
     setLoginStep('email');
