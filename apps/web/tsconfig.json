@@ -9,12 +9,12 @@
     "jsx": "preserve", // Zachowuje JSX dla Next.js
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@context/*": ["./src/context/*"],
-      "@config/*": ["./src/config/*"],
-      "@providers/*": ["./src/providers/*"],
-      "@lib/*": ["./src/lib/*"],
+      "@/*": ["./*"],
+      "@components/*": ["./components/*"],
+      "@context/*": ["./context/*"],
+      "@config/*": ["./config/*"],
+      "@providers/*": ["./providers/*"],
+      "@lib/*": ["./lib/*"],
       "@mocks/*": ["../mocks/*"],
       "@services/*": ["./src/services/*"]
     },

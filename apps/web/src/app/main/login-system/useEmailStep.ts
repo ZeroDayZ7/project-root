@@ -54,12 +54,12 @@ export function useEmailStep(): EmailStepHookReturn {
       }
 
       const result = await res.json();
-      logger.info(`result: ${JSON.stringify(result), null, 2}`);
+      logger.info(`result: ${JSON.stringify(result, null, 2)}`);
       if (!result.success) {
         setError('email', { message: 'Taki e-mail nie istnieje' });
         return;
       }
-
+      
       setEmail(data.email);
       setUser({ email: data.email, has2FA: false });
       setLoginStep('password');

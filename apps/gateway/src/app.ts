@@ -1,9 +1,10 @@
-import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
+import { globalRateLimiter, setupCommonMiddleware, setupErrorHandling } from '@neo/common';
+import type { HelmetOptions } from '@neo/common';
+
+import { corsOptions } from 'config/cors.config.js';
+import { helmetOptions } from 'config/helmet.config.js';
+
 // import morgan from 'morgan';
-import helmetMiddleware from './middleware/helmet.middleware.js';
-import { corsMiddleware } from './middleware/cors.middleware.js';
-import swaggerMiddleware from './middleware/swagger.middleware.js';
 // import { requestLoggerDev } from '@neo/common';
 
 // import healthRouter from './routes/health.route.js';
@@ -11,26 +12,21 @@ import swaggerMiddleware from './middleware/swagger.middleware.js';
 
 import logger from './utils/logger.js';
 import env from './config/env.js';
-import { globalRateLimiter} from './config/rateLimiters.config.js';
+// import { globalRateLimiter} from './config/rateLimiters.config.js';
 
-import { loadRoutes } from './loaders/routerLoader.js';
+// import { loadRoutes } from './loaders/routerLoader.js';
 import routes from './routes/index.js';
+// import type { HelmetOptions } from '../../../packages/common/dist/setupCommonMiddleware.js';
+// import type { HelmetOptions } from '@neo/common';
+const app = setupCommonMiddleware({
+  cors: corsOptions,
+  helmet: helmetOptions,
+});
 
-const app = express();
-// wyłączenie X-Powered-By
-app.disable('x-powered-by');
-
+app.use(globalRateLimiter);
 // if (process.env.NODE_ENV === 'development') {
 //   app.use(requestLoggerDev);
 // }
-
-// Middleware
-app.use(helmetMiddleware); // bezpieczeństwo nagłówków
-app.use(globalRateLimiter); // globalny rate limiter
-app.use(corsMiddleware); // obsługa CORS
-app.use(express.json({ limit: '1mb' })); // parsowanie JSON w body z limitem
-// app.use(morgan('combined')); // logowanie requestów (opcjonalnie)
-
 app.use((req, res, next) => {
   logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
   next();
@@ -41,11 +37,6 @@ app.use((req, res, next) => {
 
 // app.use('/api-docs', ...swaggerMiddleware);
 app.use('/api', routes);
-// await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes
-
-// loadRoutes(app).then(() => {
-//   console.log('All routes loaded');
-// });
 
 // Obsługa 404
 app.use((req, res, next) => {
@@ -53,16 +44,9 @@ app.use((req, res, next) => {
 });
 
 // Obsługa błędów
-app.use((err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) => {
-  logger.error('Error: %o', err);
-
-  const status = err.status || 500;
-  const isDev = env.NODE_ENV === 'development';
-
-  res.status(status).json({
-    message: err.message || 'Internal Server Error',
-    ...(isDev && { stack: err.stack }),
-  });
+setupErrorHandling(app, {
+  serviceName: 'gateway',
+  isDev: env.NODE_ENV === 'development'
 });
 
 export default app;

@@ -32,3 +32,9 @@ export async function loadRoutes(app: Express) {
     logger.info(`✅ Route loaded: [${routePath}] from ${file}`);
   }
 }
+
+// await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes
+
+// loadRoutes(app).then(() => {
+//   console.log('All routes loaded');
+// });

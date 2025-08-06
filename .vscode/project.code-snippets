@@ -1,7 +1,7 @@
 {
-  "Console log": {
+  "logger NEXT": {
     "prefix": "cs", 
-    "body": ["console.log(`$1`);"],
-    "description": "Szybkie console.log"
+    "body": ["logger.info(`$1`);"],
+    "description": "Szybki logger"
   }
 }

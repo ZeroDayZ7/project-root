@@ -11,10 +11,12 @@
     "forceConsistentCasingInFileNames": true, // Zapobiega problemom z wielkością liter
     "baseUrl": ".", // Bazowy katalog dla paths
     "paths": {
-      "@common/*": ["packages/common/src/*"], // Współdzielone moduły
-      "@types/*": ["packages/common/src/types/*"] // Typy współdzielone
+      "@neo/*": ["./packages/*/src"],
+      "@neo-dist/*": ["./packages/*/dist"],
+      "@common/*": ["./packages/common/src/*"],
+      "@types/*": ["./packages/common/src/types/*"]
     }
   },
-  "include": [],
-  "exclude": ["node_modules", "dist", "**/dist"]
+  "include": ["packages/*/src/**/*", "apps/*/src/**/*", "types/**/*"],
+  "exclude": ["node_modules", "**/dist", "**/build"]
 }
