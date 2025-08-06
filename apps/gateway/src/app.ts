@@ -1,5 +1,4 @@
 import { globalRateLimiter, setupCommonMiddleware, setupErrorHandling } from '@neo/common';
-import type { HelmetOptions } from '@neo/common';
 
 import { corsOptions } from 'config/cors.config.js';
 import { helmetOptions } from 'config/helmet.config.js';
