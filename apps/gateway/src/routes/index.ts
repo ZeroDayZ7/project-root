@@ -22,6 +22,7 @@ router.use(
   createProxyMiddleware({
     target: 'http://localhost:5000',
     changeOrigin: true,
+    xfwd: true, 
     pathRewrite: {
       '^/auth': '', // usuń /auth z początku, żeby przekazać właściwą ścieżkę do serwisu auth
     },

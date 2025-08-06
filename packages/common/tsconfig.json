@@ -1,14 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-    },
+    "rootDir": "./src",
+    "outDir": "./dist",
     "declaration": true,
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "moduleResolution": "node"
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

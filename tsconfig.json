@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "baseUrl": ".",
+    "target": "ES2020", // Nowoczesny JavaScript, kompatybilny z Node.js i przeglądarkami
+    "module": "NodeNext", // ESM dla spójności z Express i Next.js
+    "moduleResolution": "NodeNext", // Poprawna obsługa ESM
+    "strict": true, // Wymuszenie ścisłego typowania
+    "esModuleInterop": true, // Wsparcie dla importów CommonJS
+    "allowSyntheticDefaultImports": true, // Dla importów bez default
+    "resolveJsonModule": true, // Importowanie JSON
+    "skipLibCheck": true, // Pomija sprawdzanie typów w node_modules
+    "forceConsistentCasingInFileNames": true, // Zapobiega problemom z wielkością liter
+    "baseUrl": ".", // Bazowy katalog dla paths
     "paths": {
-      "@neo/ui/*": ["packages/ui/src/*"]
+      "@common/*": ["packages/common/src/*"], // Współdzielone moduły
+      "@types/*": ["packages/common/src/types/*"] // Typy współdzielone
     }
   },
-  "include": ["packages/*/src", "packages/common/tsconfig.json"]
+  "include": [],
+  "exclude": ["node_modules", "dist", "**/dist"]
 }

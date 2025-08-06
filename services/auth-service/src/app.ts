@@ -28,9 +28,23 @@ app.post('/check-email', (req, res) => {
 
   // Prosta logika testowa:
   if (email === 'test@example.com') {
-    return res.json({ exists: true });
+    return res.json({ success: true });
   } else {
-    return res.json({ exists: false });
+    return res.json({ success: false });
+  }
+});
+
+app.post('/check-password', (req, res) => {
+  const { email, password } = req.body;
+
+  // Prosta logika testowa:
+  if (email === 'test@example.com' && password === 'Zaq1@wsx') {
+    return res.json({
+      success: true,
+      has2FA: true, // ustawiasz true, żeby wymusić 2FA dla testów
+    });
+  } else {
+    return res.json({ success: false });
   }
 });
 

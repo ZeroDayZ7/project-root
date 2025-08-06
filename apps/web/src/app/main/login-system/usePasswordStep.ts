@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
-import { LoginStep } from './types';
 import { useLogin } from './LoginContext';
+import { apiFetch } from '@/lib/apiFetch';
+import logger from '@/utils/logger';
 
 const passwordSchema = z.object({
   password: z
@@ -26,7 +27,7 @@ interface PasswordStepHookReturn {
 }
 
 export function usePasswordStep(): PasswordStepHookReturn {
-  const { user, setLoginStep } = useLogin();
+  const { user, setLoginStep, setUser } = useLogin();
   const {
     register,
     handleSubmit,
@@ -35,7 +36,7 @@ export function usePasswordStep(): PasswordStepHookReturn {
     setFocus,
   } = useForm<PasswordForm>({
     resolver: zodResolver(passwordSchema),
-    defaultValues: { password: '' },
+    defaultValues: { password: 'Zaq1@wsx' },
     mode: 'onSubmit',
   });
 
@@ -45,26 +46,44 @@ export function usePasswordStep(): PasswordStepHookReturn {
 
   const onSubmit = async (data: PasswordForm) => {
     try {
-      const res = await fetch('/api/check-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user?.email, password: data.password }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Błąd serwera przy sprawdzaniu hasła');
-      }
-
-      const result = await res.json();
-      if (!result.valid) {
-        setError('password', { message: 'Nieprawidłowe hasło' });
+      if (!user?.email) {
+        setError('password', { message: 'Brak e-maila użytkownika. Wróć do kroku wprowadzania e-maila.' });
+        setLoginStep('initial');
         return;
       }
 
-      setLoginStep(user?.has2FA ? 'twoFactor' : 'success');
-    } catch (error) {
-      console.error('[Password check failed]', error);
-      setError('password', { message: 'Błąd podczas weryfikacji hasła' });
+      const res = await apiFetch('/api/auth/check-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email, password: data.password }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Błąd serwera: ${res.status}`);
+      }
+
+      const result = await res.json();
+      logger.info(`[usePasswordStep] result: ${JSON.stringify(result), null, 2}`);
+      if (!result.success) {
+        setError('password', { message: result.message || 'Nieprawidłowe hasło' });
+        return;
+      }
+
+      setUser({
+        email: user.email,
+        has2FA: result.has2FA as boolean,
+      });
+      logger.info(`[usePasswordStep] result: ${JSON.stringify(result, null, 2)}`);
+      logger.info(`[usePasswordStep] user: ${JSON.stringify(user)}`);
+
+      setLoginStep(result.has2FA ? 'twoFactor' : 'success');
+    } catch (error: any) {
+      logger.error('[Password check failed]', {
+        message: error.message,
+        stack: error.stack,
+      });
+      const errorMessage = error.message.includes('Failed to fetch') ? 'Błąd sieci. Sprawdź połączenie internetowe.' : 'Błąd podczas weryfikacji hasła';
+      setError('password', { message: errorMessage });
     }
   };
 

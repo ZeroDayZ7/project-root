@@ -1,36 +1,29 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "noEmit": true,
-    "incremental": true,
-    "module": "esnext",
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"], // Potrzebne dla React/Next.js
+    "allowJs": true, // Dla plików JS w Next.js
+    "noEmit": true, // Next.js nie emituje kodu, używa własnego kompilatora
+    "incremental": true, // Szybsza kompilacja
+    "isolatedModules": true, // Wymagane przez Next.js
+    "jsx": "preserve", // Zachowuje JSX dla Next.js
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@context/*": ["./src/context/*"],
+      "@config/*": ["./src/config/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@mocks/*": ["../mocks/*"],
+      "@services/*": ["./src/services/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["./*"],
-      "@@/*": ["../*"],
-      "@components/*": ["./components/*"],
-      "@context/*": ["./context/*"],
-      "@config/*": ["./config/*"],
-      "@providers/*": ["./providers/*"],
-      "@lib/*": ["./lib/*"],
-      "@mocks/*": ["../mocks/*"],
-      "@services/*": ["./services/*"]
-    }
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["src/**/*", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useEffect } from 'react';
 import { useLogin } from './LoginContext';
 import { apiFetch } from '@/lib/apiFetch';
+import logger from '@/utils/logger';
 
 const emailSchema = z.object({
   email: z.string().email('Podaj prawidłowy adres e-mail'),
@@ -31,7 +32,7 @@ export function useEmailStep(): EmailStepHookReturn {
     setFocus,
   } = useForm<EmailForm>({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: '' },
+    defaultValues: { email: 'test@example.com' },
     mode: 'onSubmit',
   });
 
@@ -53,17 +54,17 @@ export function useEmailStep(): EmailStepHookReturn {
       }
 
       const result = await res.json();
-      console.log(`resilt: ${result}`);
-      if (!result.exists) {
+      logger.info(`result: ${JSON.stringify(result), null, 2}`);
+      if (!result.success) {
         setError('email', { message: 'Taki e-mail nie istnieje' });
         return;
       }
 
       setEmail(data.email);
-      setUser({ email: data.email, has2FA: result.has2FA });
+      setUser({ email: data.email, has2FA: false });
       setLoginStep('password');
     } catch (error) {
-      console.error('[Email check failed]', error);
+      logger.error('[Email check failed]', error);
       setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
     } finally {
       //  console.error('[Email check failed]', error);
