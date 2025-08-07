@@ -9,6 +9,15 @@
       "presentation": {
         "reveal": "always"
       }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "path": "packages/common",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build - packages/common",
+      "detail": "tsup"
     }
   ]
 }
