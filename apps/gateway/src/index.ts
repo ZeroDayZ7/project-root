@@ -1,24 +1,33 @@
-// index.ts
 import 'dotenv/config';
 import app from './app.js';
 import logger from './utils/logger.js';
 import env from './config/env.js';
+import { AddressInfo } from 'net';
 import { Server } from 'http';
-import { markShuttingDown, getAppVersion } from './utils/health.js';
+import { markShuttingDown, isShuttingDown } from './utils/server/shutdown.js';
+import { getAppVersion } from 'utils/server/getAppVersion.js';
 
 let server: Server | null = null;
+
 const SHUTDOWN_TIMEOUT = 30000;
 
 async function startServer() {
   try {
     server = app.listen(env.PORT, () => {
-      logger.info(`🚀 Gateway running on port ${env.PORT}`);
+      const address = server!.address();
+      if (address && typeof address === 'object') {
+        const port = (address as AddressInfo).port;
+        logger.info(`🚀 Gateway running on port ${port}`);
+      } else {
+        logger.info(`🚀 Gateway running (port unknown)`);
+      }
+
       logger.info(`Mode: ${env.NODE_ENV}`);
       logger.info(`Version: ${getAppVersion()}`);
       logger.info(`PID: ${process.pid}`);
     });
 
-    server.on('error', (err: any) => {
+    server.on('error', (err: NodeJS.ErrnoException) => {
       if (err.code === 'EADDRINUSE') {
         logger.error(`Port ${env.PORT} is already in use.`);
       } else {
@@ -38,6 +47,7 @@ async function startServer() {
 }
 
 async function shutdown(signal?: string) {
+  if (isShuttingDown()) return;
   markShuttingDown();
   logger.info(`🛑 Received ${signal || 'shutdown'}, starting graceful shutdown...`);
 
@@ -48,13 +58,12 @@ async function shutdown(signal?: string) {
 
   try {
     if (server) {
-      await new Promise<void>((resolve, reject) =>
-        server!.close((err) => (err ? reject(err) : resolve()))
-      );
+      await new Promise<void>((resolve, reject) => server!.close((err) => (err ? reject(err) : resolve())));
       logger.info('✅ Server closed');
     }
 
     clearTimeout(timer);
+    logger.info('👋 Graceful shutdown complete. Goodbye!');
     process.exit(0);
   } catch (error) {
     logger.error('Shutdown error:', error);
@@ -76,4 +85,3 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 await startServer();
- 

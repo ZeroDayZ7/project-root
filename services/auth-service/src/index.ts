@@ -5,7 +5,7 @@ import env from './config/env.js';
 import { Server } from 'http';
 
 let server: Server | null = null;
-const SHUTDOWN_TIMEOUT = 3000;
+const SHUTDOWN_TIMEOUT = 30000;
 
 async function startServer() {
   try {
@@ -15,7 +15,7 @@ async function startServer() {
       logger.info(`PID: ${process.pid}`);
     });
 
-    server.on('error', (err: any) => {
+    server.on('error', (err: NodeJS.ErrnoException) => {
       if (err.code === 'EADDRINUSE') {
         logger.error(`Port ${env.PORT} is already in use.`);
       } else {
@@ -44,9 +44,7 @@ async function shutdown(signal?: string) {
 
   try {
     if (server) {
-      await new Promise<void>((resolve, reject) =>
-        server!.close((err) => (err ? reject(err) : resolve()))
-      );
+      await new Promise<void>((resolve, reject) => server!.close((err) => (err ? reject(err) : resolve())));
       logger.info('✅ Auth-service server closed');
     }
 

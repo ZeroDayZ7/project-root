@@ -52,12 +52,11 @@ function requestLoggerDev({ logger, isDev }) {
     const requestId = (0, import_uuid.v4)();
     const start = process.hrtime();
     log(`
-==================== \u{1F4E5} REQUEST [${requestId}] ====================`);
-    log(`\u{1F539} ID: ${requestId}`);
+==================== \u{1F4E5} REQUEST ====================`);
+    log(`\u{1F539} Request ID: ${requestId}`);
     log(`\u{1F539} Method: ${req.method}`);
     log(`\u{1F539} URL: ${req.originalUrl}`);
     log(`\u{1F539} IP: ${req.ip}`);
-    log(`\u{1F539} Request ID: ${requestId}`);
     log("\u{1F539} Headers:", JSON.stringify(req.headers, null, 2));
     log("\u{1F539} Query:", JSON.stringify(req.query, null, 2));
     log("\u{1F539} Params:", JSON.stringify(req.params, null, 2));
@@ -69,10 +68,10 @@ function requestLoggerDev({ logger, isDev }) {
       const diff = process.hrtime(start);
       const timeMs = (diff[0] * 1e3 + diff[1] / 1e6).toFixed(2);
       log(`
-==================== \u{1F4E4} RESPONSE [${requestId}] ====================`);
+==================== \u{1F4E4} RESPONSE  ====================`);
+      log(`\u{1F539} Request ID: ${requestId}`);
       log(`\u{1F539} Status: ${res.statusCode}`);
       log(`\u{1F539} Response Time: ${timeMs}ms`);
-      log(`\u{1F539} Request ID: ${requestId}`);
       log("\u{1F539} Headers:", JSON.stringify(res.getHeaders(), null, 2));
       try {
         const bodyStr = typeof body === "string" ? body : JSON.stringify(body, null, 2);

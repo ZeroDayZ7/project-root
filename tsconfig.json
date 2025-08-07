@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2024", // Nowoczesny JavaScript, kompatybilny z Node.js i przeglądarkami
+     "target": "ES2024", // Nowoczesny JavaScript, kompatybilny z Node.js i przeglądarkami
     "module": "NodeNext", // ESM dla spójności z Express i Next.js
     "moduleResolution": "NodeNext", // Poprawna obsługa ESM
     "strict": true, // Wymuszenie ścisłego typowania

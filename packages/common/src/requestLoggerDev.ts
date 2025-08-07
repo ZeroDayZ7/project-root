@@ -21,15 +21,13 @@ export function requestLoggerDev({ logger, isDev }: RequestLoggerOptions) {
     // (req as any).requestId = requestId; // Tymczasowow
     // req.requestId = requestId;
 
-
     const start = process.hrtime();
 
-    log(`\n==================== 📥 REQUEST [${requestId}] ====================`);
-    log(`🔹 ID: ${requestId}`);
+    log(`\n==================== 📥 REQUEST ====================`);
+    log(`🔹 Request ID: ${requestId}`);
     log(`🔹 Method: ${req.method}`);
     log(`🔹 URL: ${req.originalUrl}`);
     log(`🔹 IP: ${req.ip}`);
-    log(`🔹 Request ID: ${requestId}`);
     log('🔹 Headers:', JSON.stringify(req.headers, null, 2));
     log('🔹 Query:', JSON.stringify(req.query, null, 2));
     log('🔹 Params:', JSON.stringify(req.params, null, 2));
@@ -43,10 +41,10 @@ export function requestLoggerDev({ logger, isDev }: RequestLoggerOptions) {
       const diff = process.hrtime(start);
       const timeMs = (diff[0] * 1e3 + diff[1] / 1e6).toFixed(2);
 
-      log(`\n==================== 📤 RESPONSE [${requestId}] ====================`);
+      log(`\n==================== 📤 RESPONSE  ====================`);
+      log(`🔹 Request ID: ${requestId}`);
       log(`🔹 Status: ${res.statusCode}`);
       log(`🔹 Response Time: ${timeMs}ms`);
-      log(`🔹 Request ID: ${requestId}`);
       log('🔹 Headers:', JSON.stringify(res.getHeaders(), null, 2));
       try {
         const bodyStr = typeof body === 'string' ? body : JSON.stringify(body, null, 2);

@@ -5,7 +5,8 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"],
+      "@/utils": ["./utils*"]
     }
   },
   "include": ["src/**/*"],

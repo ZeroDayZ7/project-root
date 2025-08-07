@@ -21,45 +21,6 @@ router.use('/auth', (req, res, next) => {
   next();
 }, authProxy);
 
-// const checkEmailRateLimiter = rateLimit({
-//   windowMs: 60 * 1000,
-//   max: 20,
-//   message: 'Za dużo prób sprawdzania email, spróbuj za chwilę',
-// });
-
-// Proxy middleware do auth service pod ścieżką /api/auth
-// router.use(
-//   '/auth',
-//   checkEmailRateLimiter,
-//   createProxyMiddleware({
-//     target: 'http://localhost:5000',
-//     changeOrigin: true,
-//     xfwd: true, 
-//     pathRewrite: {
-//       '^/auth': '', // usuń /auth z początku, żeby przekazać właściwą ścieżkę do serwisu auth
-//     },
-//     on: {
-//       proxyReq: (proxyReq, req, res) => {
-//         logger.info(`Proxying request: ${req.method} ${req.url} -> ${proxyReq.path}`);
-//         proxyReq.setHeader('X-Gateway', 'API-Gateway');
-//         // Przekazanie body (ważne, bo domyślnie body może się nie wysłać)
-//         if (req.body) {
-//           const bodyData = JSON.stringify(req.body);
-//           proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-//           proxyReq.setHeader('Content-Type', 'application/json');
-//           proxyReq.write(bodyData);
-//         }
-//       },
-//       proxyRes: (proxyRes, req, res) => {
-//         logger.info(`Received response from auth microservice: Status ${proxyRes.statusCode}`);
-//       },
-//       error: (err, req, res) => {
-//         const response = res as import('express').Response;
-//         response.status(500).json({ message: 'Proxy error', error: err.message });
-//       },
-//     },
-//   }),
-// );
 
 router.use('/health', healthRouter);
 router.use('/metrics', metricsRouter);

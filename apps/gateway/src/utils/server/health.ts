@@ -1,24 +1,4 @@
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import logger from './logger.js';
-
-let shuttingDown = false;
-
-/**
- * Oznacza serwer jako wyłączany (np. podczas SIGINT).
- */
-export function markShuttingDown(): void {
-  shuttingDown = true;
-}
-
-/**
- * Zwraca, czy serwer jest w trakcie wyłączania.
- */
-export function isShuttingDown(): boolean {
-  return shuttingDown;
-}
-
+import { getAppVersion } from "./getAppVersion.js";
 /**
  * Typ zwracanego statusu health checka.
  */
@@ -87,37 +67,4 @@ export function getHealthStatus(): HealthStatus {
       }
     })
   };
-}
-
-// DODANE: Cache dla wersji aplikacji
-let cachedVersion: string | null = null;
-
-/**
- * Pobiera wersję aplikacji z package.json.
- */
-export function getAppVersion(): string {
-  // OPTYMALIZACJA: Cache wersji
-  if (cachedVersion !== null) {
-    return cachedVersion;
-  }
-
-  try {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-    const pkgPath = join(__dirname, '../../package.json');
-    
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
-    cachedVersion = pkg.version || 'unknown';
-    return cachedVersion;
-    
-  } catch (error: unknown) {
-    logger.warn('Failed to read package.json:', error instanceof Error ? error.message : String(error));
-    cachedVersion = 'unknown';
-    return cachedVersion;
-  }
-}
-
-// DODANE: Funkcja do resetowania cache (przydatne w testach)
-export function resetVersionCache(): void {
-  cachedVersion = null;
 }

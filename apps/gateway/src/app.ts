@@ -7,10 +7,6 @@ import {
 
 import { corsOptions } from 'config/cors.config.js';
 import { helmetOptions } from 'config/helmet.config.js';
-// import type { HelmetOptions } from '@neo/common';
-
-// import healthRouter from './routes/health.route.js';
-// import metricsRouter from './routes/metrics.route.js';
 
 import logger from './utils/logger.js';
 import env from './config/env.js';
@@ -22,8 +18,6 @@ const app = setupCommonMiddleware({
 });
 
 app.use(globalRateLimiter);
-
-// Użycie requestLoggerDev z loggerem z aplikacji i flagą isDev
 app.use(
   requestLoggerDev({
     logger,
