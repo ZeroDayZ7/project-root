@@ -19,9 +19,6 @@ if (process.env.NODE_ENV === 'development') {
 //   next();
 // });
  
-// Middleware
-// app.use(morgan('combined')); // logowanie requestów (opcjonalnie)
-
 // Prosty endpoint, który zwraca losową odpowiedź
 app.post('/check-email', (req, res) => {
   const { email } = req.body;

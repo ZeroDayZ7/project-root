@@ -2,7 +2,7 @@
   "name": "@neo/common",
   "version": "1.0.0",
   "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     }
@@ -36,6 +36,7 @@
     "compression": "^1.8.1",
     "cors": "^2.8.5",
     "express-rate-limit": "^7.3.0",
-    "helmet": "^8.1.0"
+    "helmet": "^8.1.0",
+    "uuid": "^11.1.0"
   }
 }

@@ -32,7 +32,7 @@ export async function loadRoutes(app: Express) {
     logger.info(`✅ Route loaded: [${routePath}] from ${file}`);
   }
 }
-
+// import { loadRoutes } from './loaders/routerLoader.js';
 // await loadRoutes(app); // Automatyczne ładowanie wszystkiego z /routes
 
 // loadRoutes(app).then(() => {
