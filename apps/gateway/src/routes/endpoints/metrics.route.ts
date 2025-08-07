@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { client } from '../metrics/metrics.js';
+import { client } from '../../metrics/metrics.js';
 
 const router = Router();
 

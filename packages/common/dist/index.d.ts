@@ -18,4 +18,27 @@ declare function setupErrorHandling(app: Application, config?: {
 
 declare const globalRateLimiter: express_rate_limit.RateLimitRequestHandler;
 
-export { globalRateLimiter, requestLoggerDev, setupCommonMiddleware, setupErrorHandling };
+interface MinimalLogger {
+    error?: (...args: any[]) => void;
+    warn?: (...args: any[]) => void;
+    info?: (...args: any[]) => void;
+    debug?: (...args: any[]) => void;
+}
+
+interface ErrorHandlerOptions {
+    serviceName?: string;
+    isDev?: boolean;
+    logger?: MinimalLogger;
+}
+declare function globalErrorHandler(options?: ErrorHandlerOptions): (err: Error & {
+    status?: number;
+}, req: Request, res: Response, _next: NextFunction) => void;
+
+interface NotFoundHandlerOptions {
+    serviceName?: string;
+    isDev?: boolean;
+    logger?: MinimalLogger;
+}
+declare function notFoundHandler(options?: NotFoundHandlerOptions): (_req: Request, res: Response, _next: NextFunction) => void;
+
+export { globalErrorHandler, globalRateLimiter, notFoundHandler, requestLoggerDev, setupCommonMiddleware, setupErrorHandling };

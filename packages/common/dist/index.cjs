@@ -30,8 +30,10 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  globalErrorHandler: () => globalErrorHandler,
   globalRateLimiter: () => globalRateLimiter,
-  requestLoggerDev: () => requestLoggerDev_default,
+  notFoundHandler: () => notFoundHandler,
+  requestLoggerDev: () => requestLoggerDev,
   setupCommonMiddleware: () => setupCommonMiddleware,
   setupErrorHandling: () => setupErrorHandling
 });
@@ -64,7 +66,6 @@ var requestLoggerDev = (req, res, next) => {
   };
   next();
 };
-var requestLoggerDev_default = requestLoggerDev;
 
 // src/setupCommonMiddleware.ts
 var import_express = __toESM(require("express"), 1);
@@ -127,9 +128,37 @@ var registerRateLimiter = (0, import_express_rate_limit.default)({
   standardHeaders: true,
   legacyHeaders: false
 });
+
+// src/middleware/globalErrorHandler.ts
+function globalErrorHandler(options = {}) {
+  const { serviceName = "", isDev = false, logger } = options;
+  const safeLogger = logger ?? {
+    error: console.error.bind(console)
+  };
+  return (err, req, res, _next) => {
+    safeLogger.error?.(`[${serviceName || "service"}] Error:`, err);
+    const status = err.status || 500;
+    res.status(status).json({
+      message: err.message || "Internal Server Error",
+      ...isDev ? { stack: err.stack } : {}
+    });
+  };
+}
+
+// src/middleware/notFoundHandler.ts
+function notFoundHandler(options = {}) {
+  const { serviceName = "", isDev = false, logger = console } = options;
+  return (_req, res, _next) => {
+    const message = isDev && serviceName ? `[${serviceName}] Not Found` : "Not Found";
+    logger.warn?.(`[${serviceName || "service"}] 404 - ${_req.method} ${_req.originalUrl} - IP: ${_req.ip}`);
+    res.status(404).json({ message });
+  };
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  globalErrorHandler,
   globalRateLimiter,
+  notFoundHandler,
   requestLoggerDev,
   setupCommonMiddleware,
   setupErrorHandling

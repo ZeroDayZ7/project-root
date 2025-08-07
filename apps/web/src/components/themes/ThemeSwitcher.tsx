@@ -21,13 +21,14 @@ export default function ThemeSwitcher() {
   }, []);
 
   if (!mounted) return null;
+  // if (!theme) return null;
 
   const currentTheme = themes.find((t) => t.id === theme) || themes[0];
 
   return (
     <DropdownMenu
       items={themes}
-      selectedId={theme}
+      selectedId={currentTheme.id}
       onSelect={setTheme}
       buttonLabel="Motyw"
       buttonIcon={currentTheme.icon}

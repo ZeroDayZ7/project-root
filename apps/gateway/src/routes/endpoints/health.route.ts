@@ -1,6 +1,6 @@
 // routes/health.route.ts
 import { Router } from 'express';
-import { getHealthStatus, isShuttingDown } from '../utils/health.js';
+import { getHealthStatus, isShuttingDown } from '../../utils/health.js';
 
 const router = Router();
 

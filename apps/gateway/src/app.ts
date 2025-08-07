@@ -1,4 +1,4 @@
-import { globalRateLimiter, setupCommonMiddleware, setupErrorHandling } from '@neo/common';
+import { globalErrorHandler, globalRateLimiter, notFoundHandler, setupCommonMiddleware, setupErrorHandling } from '@neo/common';
 
 import { corsOptions } from 'config/cors.config.js';
 import { helmetOptions } from 'config/helmet.config.js';
@@ -38,14 +38,19 @@ app.use((req, res, next) => {
 app.use('/api', routes);
 
 // Obsługa 404
-app.use((req, res, next) => {
-  res.status(404).json({ message: '[Gateway] Not Found' });
-});
-
-// Obsługa błędów
-setupErrorHandling(app, {
-  serviceName: 'gateway',
-  isDev: env.NODE_ENV === 'development'
-});
+app.use(
+  notFoundHandler({
+    serviceName: 'gateway',
+    isDev: env.NODE_ENV === 'development',
+    logger,
+}));
+// Obsługa globalna błędów
+app.use(
+  globalErrorHandler({
+    serviceName: 'gateway',
+    isDev: process.env.NODE_ENV === 'development',
+    logger
+  })
+);
 
 export default app;
