@@ -1,11 +1,9 @@
 import { Request, Response, NextFunction, Application } from 'express';
+import { MinimalLogger as MinimalLogger$1 } from 'types/logger.js';
 import { CorsOptions } from 'cors';
 import { HelmetOptions } from 'helmet';
 import * as express_rate_limit from 'express-rate-limit';
 
-interface MinimalLogger$1 {
-    info: (...args: any[]) => void;
-}
 interface RequestLoggerOptions {
     logger: MinimalLogger$1;
     isDev: boolean;

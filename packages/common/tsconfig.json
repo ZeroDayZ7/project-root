@@ -6,6 +6,7 @@
     "declaration": true,
     "emitDeclarationOnly": false,
     "baseUrl": "./src",
+    // "typeRoots": ["./types", "./node_modules/types"],
     "paths": {
       "@/*": ["./src/*"]
     }

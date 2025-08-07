@@ -40,6 +40,7 @@ __export(index_exports, {
 module.exports = __toCommonJS(index_exports);
 
 // src/requestLoggerDev.ts
+var import_uuid = require("uuid");
 function requestLoggerDev({ logger, isDev }) {
   if (!isDev) {
     return (req, res, next) => {
@@ -48,24 +49,30 @@ function requestLoggerDev({ logger, isDev }) {
   }
   const log = logger.info ? logger.info.bind(logger) : console.log;
   return (req, res, next) => {
+    const requestId = (0, import_uuid.v4)();
     const start = process.hrtime();
-    log("\n==================== \u{1F4E5} REQUEST ====================");
+    log(`
+==================== \u{1F4E5} REQUEST [${requestId}] ====================`);
+    log(`\u{1F539} ID: ${requestId}`);
     log(`\u{1F539} Method: ${req.method}`);
     log(`\u{1F539} URL: ${req.originalUrl}`);
     log(`\u{1F539} IP: ${req.ip}`);
+    log(`\u{1F539} Request ID: ${requestId}`);
     log("\u{1F539} Headers:", JSON.stringify(req.headers, null, 2));
     log("\u{1F539} Query:", JSON.stringify(req.query, null, 2));
     log("\u{1F539} Params:", JSON.stringify(req.params, null, 2));
     log("\u{1F539} Body:", JSON.stringify(req.body, null, 2));
-    log("\u{1F539} Session:", req.session || "No session");
+    log("\u{1F539} Session:", req.session ?? "No session");
     log("====================================================");
     const originalSend = res.send;
     res.send = function(body) {
       const diff = process.hrtime(start);
       const timeMs = (diff[0] * 1e3 + diff[1] / 1e6).toFixed(2);
-      log("\n==================== \u{1F4E4} RESPONSE ====================");
+      log(`
+==================== \u{1F4E4} RESPONSE [${requestId}] ====================`);
       log(`\u{1F539} Status: ${res.statusCode}`);
       log(`\u{1F539} Response Time: ${timeMs}ms`);
+      log(`\u{1F539} Request ID: ${requestId}`);
       log("\u{1F539} Headers:", JSON.stringify(res.getHeaders(), null, 2));
       try {
         const bodyStr = typeof body === "string" ? body : JSON.stringify(body, null, 2);

@@ -13,7 +13,7 @@ while ($true) {
     $choice = Read-Host "Twoj wybor (1-5)"
 
     switch ($choice) {
-        "1" { $email = "test@example.pl" }
+        "1" { $email = "test@example.com" }
         "2" { $email = "user1@example.com" }
         "3" { $email = "admin@example.com" }
         "4" {
@@ -34,7 +34,7 @@ while ($true) {
     if ($email) {
         $body = @{ email = $email } | ConvertTo-Json
         try {
-            Invoke-RestMethod -Uri "http://localhost:4000/check-email" -Method Post -Body $body -ContentType "application/json"
+            Invoke-RestMethod -Uri "http://localhost:5000/check-email" -Method Post -Body $body -ContentType "application/json"
         } catch {
             Write-Host "Blad podczas wysylania zapytania:" -ForegroundColor Red
             Write-Host $_.Exception.Message

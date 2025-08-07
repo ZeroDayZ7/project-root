@@ -15,7 +15,7 @@ import { helmetOptions } from 'config/helmet.config.js';
 import logger from './utils/logger.js';
 import env from './config/env.js';
 import routes from './routes/index.js';
-
+ 
 const app = setupCommonMiddleware({
   cors: corsOptions,
   helmet: helmetOptions,

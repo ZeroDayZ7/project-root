@@ -14,10 +14,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(requestLoggerDev);
 }
 
-// app.use((req, res, next) => {
-//   logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
-//   next();
-// });
+app.use((req, res, next) => {
+  logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
+  next();
+});
  
 // Prosty endpoint, który zwraca losową odpowiedź
 app.post('/check-email', (req, res) => {

@@ -5,7 +5,7 @@ import env from './config/env.js';
 import { Server } from 'http';
 
 let server: Server | null = null;
-const SHUTDOWN_TIMEOUT = 30000;
+const SHUTDOWN_TIMEOUT = 3000;
 
 async function startServer() {
   try {
