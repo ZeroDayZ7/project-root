@@ -2,10 +2,12 @@ import 'dotenv/config';
 import { AddressInfo } from 'net';
 import { Server } from 'http';
 import app from './app.js';
-// import logger from './utils/logger.js';
 import env from './config/env.js';
 import { markShuttingDown, isShuttingDown } from './utils/server/shutdown.js';
 import { logger } from '@neo/common';
+import { initRedis, closeRedis } from './config/redis.config.js';
+import sessionManager from '@/config/session.config.js';
+
 
 let server: Server | null = null;
 
@@ -24,16 +26,13 @@ function logServerInfo(server: Server) {
 }
 
 async function startServer(): Promise<void> {
-  if (!env.PORT) {
-    logger.error('PORT is not defined in environment variables.');
-    process.exit(1);
-  }
-
   try {
+    await initRedis(); // Initialize Redis connection
+    sessionManager(app);
     server = app.listen(env.PORT, () => logServerInfo(server!));
 
     server.keepAliveTimeout = 61_000; // 61s keep-alive
-    server.headersTimeout = 65_000;   // 65s total headers timeout
+    server.headersTimeout = 65_000; // 65s total headers timeout
 
     server.on('error', (err: NodeJS.ErrnoException) => {
       if (err.code === 'EADDRINUSE') {
@@ -71,6 +70,7 @@ async function shutdown(signal?: string) {
       );
       logger.info('✅ Server closed');
     }
+    await closeRedis();
     clearTimeout(timer);
     logger.info('👋 Graceful shutdown complete. Goodbye!');
     process.exit(0);
@@ -97,3 +97,4 @@ process.on('unhandledRejection', (reason) => {
 });
 
 await startServer();
+ 

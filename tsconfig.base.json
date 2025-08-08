@@ -19,5 +19,5 @@
     }
   },
   "include": ["packages/*/src/**/*", "apps/*/src/**/*", "types/**/*"],
-  "exclude": ["node_modules", "**/dist", "**/build"]
+  "exclude": ["node_modules", "**/dist", "**/build", "**/logs", "**/scripts"]
 }

@@ -8,10 +8,10 @@ import {
 import { corsOptions } from 'config/cors.config.js';
 import { helmetOptions } from 'config/helmet.config.js';
 
-import logger from './utils/logger.js';
+import { logger } from '@neo/common';
 import env from './config/env.js';
 import routes from './routes/index.js';
- 
+
 const app = setupCommonMiddleware({
   cors: corsOptions,
   helmet: helmetOptions,
