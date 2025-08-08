@@ -2,11 +2,12 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"], // Potrzebne dla React/Next.js
-    "allowJs": true, // Dla plików JS w Next.js
     "noEmit": true, // Next.js nie emituje kodu, używa własnego kompilatora
     "incremental": true, // Szybsza kompilacja
     "isolatedModules": true, // Wymagane przez Next.js
-    "jsx": "preserve", // Zachowuje JSX dla Next.js
+    // "jsx": "react-jsx", // Zachowuje JSX dla Next.js
+    "jsx": "react-jsxdev",
+    "allowImportingTsExtensions": true,
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"],

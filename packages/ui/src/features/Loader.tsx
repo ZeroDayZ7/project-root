@@ -1,6 +1,6 @@
 // components/ui/loader.tsx
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils.ts";
 
 export function Loader({ message = "", className }: { message?: string; className?: string }) {
   return (

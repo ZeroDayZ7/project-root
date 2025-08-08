@@ -1,5 +1,3 @@
-'use client';
-
 export default function LoginBoxHeader() {
   return (
     <div className="mb-6 text-center">

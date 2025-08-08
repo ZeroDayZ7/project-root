@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
 import { prefix } from '@lib/prefix';
 
-export function SystemInfo() {
+export default function SystemInfo() {
   return (
     <div className="space-y-6">
       {/* Terminal Window */}
-      <div className="border border-foreground/30 rounded-lg p-4">
+      {/* <div className="border border-foreground/30 rounded-lg p-4">
         <div className="flex items-center mb-3">
           <div className="flex space-x-2">
             <div className="w-3 h-3 bg-red-500 rounded-full"></div>
@@ -33,10 +33,10 @@ export function SystemInfo() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Government Links */}
-      <div className="border border-foreground/30 rounded-lg p-4">
+      {/* <div className="border border-foreground/30 rounded-lg p-4">
         <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">
           <span className="mr-2">{'>'}</span> ŁĄCZA
         </h3>
@@ -63,17 +63,13 @@ export function SystemInfo() {
             • Test
           </Link>
         </div>
-      </div>
+      </div> */}
 
       {/* Quick Actions */}
       <div className="border border-foreground/30 rounded-lg p-4">
-        <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">
-          <span className="mr-2">{'>'}</span> SZYBKIE AKCJE
-        </h3>
         <div className="space-y-3">
           <AudioPlayer
             audioSrc={`${prefix}/audio/ambient.mp3`}
-            className="w-full text-left"
           />
           <button className="w-full text-left bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 rounded p-2 text-sm transition-colors">
             🛑 Zgłoś błąd systemu

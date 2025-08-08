@@ -1,5 +1,3 @@
-'use client';
-
 export default function SystemDescription() {
   return (
     <div className="border border-foreground/30 rounded-lg p-6 mb-8 w-full max-w-md">
@@ -17,3 +15,4 @@ export default function SystemDescription() {
     </div>
   );
 }
+ 

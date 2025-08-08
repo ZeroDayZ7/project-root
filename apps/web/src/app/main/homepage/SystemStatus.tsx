@@ -1,5 +1,4 @@
-'use client';
-export function SystemStatus() {
+export default function SystemStatus() {
   return (
     <div className="border border-foreground/30 rounded-lg p-4">
       <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">

@@ -1,13 +1,11 @@
 'use client';
+import { useState } from 'react';
 import { lastChanges, additionalChanges } from './constants';
 import { getPriorityColor, getStatusColor } from './utils';
 
-interface SystemUpdatesProps {
-  showMore: boolean;
-  setShowMore: (show: boolean) => void;
-}
+export default function SystemUpdates() {
+  const [showMore, setShowMore] = useState(false);
 
-export function SystemUpdates({ showMore, setShowMore }: SystemUpdatesProps) {
   return (
     <div className="border rounded-lg p-4">
       <h3 className="text-lg font-bold text-accent-foreground mb-4 flex items-center">

@@ -1,7 +1,6 @@
-'use client'
-import { AppBrand } from '@/components/layout/AppBrand';
+import AppBrand from '@/components/layout/AppBrand';
 
-export function Header() {
+export default function Header() {
   return (
     <div className="mb-8">
       <AppBrand />

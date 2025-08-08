@@ -1,16 +1,17 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["*"],
-      "@/components/*": ["src/components/*"]
-    },
+    "rootDir": ".",
+    "outDir": "./dist",
     "declaration": true,
-    "outDir": "dist",
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "moduleResolution": "node"
+    "baseUrl": "./src",
+    // "paths": {
+    //   "@/components/*": ["./components/*"],
+    //   "@/lib/*": ["../lib/*"]
+    // }
   },
-  "include": ["src", "lib"]
+  "include": ["src/**/*"]
 }

@@ -1,21 +1,17 @@
-'use client';
+import Link from 'next/link';
+import Button from '@/components/ui/my/Button'; // ścieżka zależna od twojej struktury
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function NotFound() {
   return (
-    <div className="p-4 bg-red-100">
-      <h2>❌ Wystąpił błąd: {error.message}</h2>
-      <button
-        onClick={() => reset()}
-        className="mt-2 px-3 py-1 bg-red-500"
-      >
-        Spróbuj ponownie
-      </button>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-center text-center p-4">
+      <h1 className="text-4xl font-bold mb-4">404 - Strona nie znaleziona</h1>
+      <p className="mb-6 text-muted-foreground">Przepraszamy, nie mogliśmy znaleźć tej strony.</p>
+
+      <Link href="/">
+        <Button variant="primary" size="md" className="max-w-xs">
+          Wróć na stronę główną
+        </Button>
+      </Link>
+    </main>
   );
 }

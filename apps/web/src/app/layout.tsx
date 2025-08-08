@@ -12,9 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pl" suppressHydrationWarning>
       <body>
         <ClientProviders>
-          <div className='m-4'>
-            <ThemeSwitcher />
-          </div>
+          {/* <div className='m-4'>
+            <ThemeSwitcher /> 
+          </div> */}
           {children}
         </ClientProviders>
       </body>
