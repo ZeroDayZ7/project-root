@@ -25,13 +25,6 @@ declare function Button({ className, variant, size, asChild, ...props }: React.C
     asChild?: boolean;
 }): react_jsx_runtime.JSX.Element;
 
-declare const alertVariants: (props?: ({
-    variant?: "default" | "destructive" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-declare function Alert({ className, variant, ...props }: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>): react_jsx_runtime.JSX.Element;
-declare function AlertTitle({ className, ...props }: React.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-declare function AlertDescription({ className, ...props }: React.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-
 declare function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function DialogTrigger({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
 declare function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>): react_jsx_runtime.JSX.Element;
@@ -50,4 +43,4 @@ declare function Loader({ message, className }: {
     className?: string;
 }): react_jsx_runtime.JSX.Element;
 
-export { Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Loader, buttonVariants };
+export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Loader, buttonVariants };

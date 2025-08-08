@@ -1,7 +1,7 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import env from './config/env.js';
-import logger from './utils/logger.js';
+import { logger } from '@neo/common';
 
 import { requestLoggerDev } from '@neo/common';
 

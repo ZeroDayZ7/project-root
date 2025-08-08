@@ -187,97 +187,35 @@ function AlertDialogCancel({
   );
 }
 
-// src/components/alert.tsx
-import { cva as cva2 } from "class-variance-authority";
-import { jsx as jsx3 } from "react/jsx-runtime";
-var alertVariants = cva2(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
-  {
-    variants: {
-      variant: {
-        default: "bg-card text-card-foreground",
-        destructive: "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90"
-      }
-    },
-    defaultVariants: {
-      variant: "default"
-    }
-  }
-);
-function Alert({
-  className,
-  variant,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx3(
-    "div",
-    {
-      "data-slot": "alert",
-      role: "alert",
-      className: cn(alertVariants({ variant }), className),
-      ...props
-    }
-  );
-}
-function AlertTitle({ className, ...props }) {
-  return /* @__PURE__ */ jsx3(
-    "div",
-    {
-      "data-slot": "alert-title",
-      className: cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function AlertDescription({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx3(
-    "div",
-    {
-      "data-slot": "alert-description",
-      className: cn(
-        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
-        className
-      ),
-      ...props
-    }
-  );
-}
-
 // src/components/dialog.tsx
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
-import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 function Dialog({
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(DialogPrimitive.Root, { "data-slot": "dialog", ...props });
+  return /* @__PURE__ */ jsx3(DialogPrimitive.Root, { "data-slot": "dialog", ...props });
 }
 function DialogTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(DialogPrimitive.Trigger, { "data-slot": "dialog-trigger", ...props });
+  return /* @__PURE__ */ jsx3(DialogPrimitive.Trigger, { "data-slot": "dialog-trigger", ...props });
 }
 function DialogPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(DialogPrimitive.Portal, { "data-slot": "dialog-portal", ...props });
+  return /* @__PURE__ */ jsx3(DialogPrimitive.Portal, { "data-slot": "dialog-portal", ...props });
 }
 function DialogClose({
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(DialogPrimitive.Close, { "data-slot": "dialog-close", ...props });
+  return /* @__PURE__ */ jsx3(DialogPrimitive.Close, { "data-slot": "dialog-close", ...props });
 }
 function DialogOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(
+  return /* @__PURE__ */ jsx3(
     DialogPrimitive.Overlay,
     {
       "data-slot": "dialog-overlay",
@@ -296,7 +234,7 @@ function DialogContent({
   ...props
 }) {
   return /* @__PURE__ */ jsxs2(DialogPortal, { "data-slot": "dialog-portal", children: [
-    /* @__PURE__ */ jsx4(DialogOverlay, {}),
+    /* @__PURE__ */ jsx3(DialogOverlay, {}),
     /* @__PURE__ */ jsxs2(
       DialogPrimitive.Content,
       {
@@ -314,8 +252,8 @@ function DialogContent({
               "data-slot": "dialog-close",
               className: "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
               children: [
-                /* @__PURE__ */ jsx4(XIcon, {}),
-                /* @__PURE__ */ jsx4("span", { className: "sr-only", children: "Close" })
+                /* @__PURE__ */ jsx3(XIcon, {}),
+                /* @__PURE__ */ jsx3("span", { className: "sr-only", children: "Close" })
               ]
             }
           )
@@ -325,7 +263,7 @@ function DialogContent({
   ] });
 }
 function DialogHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx4(
+  return /* @__PURE__ */ jsx3(
     "div",
     {
       "data-slot": "dialog-header",
@@ -335,7 +273,7 @@ function DialogHeader({ className, ...props }) {
   );
 }
 function DialogFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx4(
+  return /* @__PURE__ */ jsx3(
     "div",
     {
       "data-slot": "dialog-footer",
@@ -351,7 +289,7 @@ function DialogTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(
+  return /* @__PURE__ */ jsx3(
     DialogPrimitive.Title,
     {
       "data-slot": "dialog-title",
@@ -364,7 +302,7 @@ function DialogDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx4(
+  return /* @__PURE__ */ jsx3(
     DialogPrimitive.Description,
     {
       "data-slot": "dialog-description",
@@ -376,16 +314,14 @@ function DialogDescription({
 
 // src/features/Loader.tsx
 import { Loader2 } from "lucide-react";
-import { jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 function Loader({ message = "", className }) {
   return /* @__PURE__ */ jsxs3("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
-    /* @__PURE__ */ jsx5(Loader2, { className: "h-5 w-5 animate-spin" }),
-    /* @__PURE__ */ jsx5("span", { children: message })
+    /* @__PURE__ */ jsx4(Loader2, { className: "h-5 w-5 animate-spin" }),
+    /* @__PURE__ */ jsx4("span", { children: message })
   ] });
 }
 export {
-  Alert,
-  AlertDescription,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -397,7 +333,6 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertTitle,
   Button,
   Dialog,
   DialogClose,

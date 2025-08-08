@@ -6,7 +6,8 @@
     "incremental": true, // Szybsza kompilacja
     "isolatedModules": true, // Wymagane przez Next.js
     // "jsx": "react-jsx", // Zachowuje JSX dla Next.js
-    "jsx": "react-jsxdev",
+    "strict": true,
+    "jsx": "preserve",
     "allowImportingTsExtensions": true,
     "baseUrl": "./src",
     "paths": {
@@ -25,6 +26,5 @@
       }
     ]
   },
-  "include": ["src/**/*", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", ".next/types/**/*.ts"]
 }

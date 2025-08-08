@@ -30,8 +30,6 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  Alert: () => Alert,
-  AlertDescription: () => AlertDescription,
   AlertDialog: () => AlertDialog,
   AlertDialogAction: () => AlertDialogAction,
   AlertDialogCancel: () => AlertDialogCancel,
@@ -43,7 +41,6 @@ __export(index_exports, {
   AlertDialogPortal: () => AlertDialogPortal,
   AlertDialogTitle: () => AlertDialogTitle,
   AlertDialogTrigger: () => AlertDialogTrigger,
-  AlertTitle: () => AlertTitle,
   Button: () => Button,
   Dialog: () => Dialog,
   DialogClose: () => DialogClose,
@@ -249,97 +246,35 @@ function AlertDialogCancel({
   );
 }
 
-// src/components/alert.tsx
-var import_class_variance_authority2 = require("class-variance-authority");
-var import_jsx_runtime3 = require("react/jsx-runtime");
-var alertVariants = (0, import_class_variance_authority2.cva)(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
-  {
-    variants: {
-      variant: {
-        default: "bg-card text-card-foreground",
-        destructive: "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90"
-      }
-    },
-    defaultVariants: {
-      variant: "default"
-    }
-  }
-);
-function Alert({
-  className,
-  variant,
-  ...props
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
-    "div",
-    {
-      "data-slot": "alert",
-      role: "alert",
-      className: cn(alertVariants({ variant }), className),
-      ...props
-    }
-  );
-}
-function AlertTitle({ className, ...props }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
-    "div",
-    {
-      "data-slot": "alert-title",
-      className: cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function AlertDescription({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
-    "div",
-    {
-      "data-slot": "alert-description",
-      className: cn(
-        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
-        className
-      ),
-      ...props
-    }
-  );
-}
-
 // src/components/dialog.tsx
 var DialogPrimitive = __toESM(require("@radix-ui/react-dialog"), 1);
 var import_lucide_react = require("lucide-react");
-var import_jsx_runtime4 = require("react/jsx-runtime");
+var import_jsx_runtime3 = require("react/jsx-runtime");
 function Dialog({
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DialogPrimitive.Root, { "data-slot": "dialog", ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(DialogPrimitive.Root, { "data-slot": "dialog", ...props });
 }
 function DialogTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DialogPrimitive.Trigger, { "data-slot": "dialog-trigger", ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(DialogPrimitive.Trigger, { "data-slot": "dialog-trigger", ...props });
 }
 function DialogPortal({
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DialogPrimitive.Portal, { "data-slot": "dialog-portal", ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(DialogPrimitive.Portal, { "data-slot": "dialog-portal", ...props });
 }
 function DialogClose({
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DialogPrimitive.Close, { "data-slot": "dialog-close", ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(DialogPrimitive.Close, { "data-slot": "dialog-close", ...props });
 }
 function DialogOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     DialogPrimitive.Overlay,
     {
       "data-slot": "dialog-overlay",
@@ -357,9 +292,9 @@ function DialogContent({
   showCloseButton = true,
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(DialogPortal, { "data-slot": "dialog-portal", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DialogOverlay, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(DialogPortal, { "data-slot": "dialog-portal", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(DialogOverlay, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
       DialogPrimitive.Content,
       {
         "data-slot": "dialog-content",
@@ -370,14 +305,14 @@ function DialogContent({
         ...props,
         children: [
           children,
-          showCloseButton && /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
+          showCloseButton && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
             DialogPrimitive.Close,
             {
               "data-slot": "dialog-close",
               className: "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react.XIcon, {}),
-                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "Close" })
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_lucide_react.XIcon, {}),
+                /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "sr-only", children: "Close" })
               ]
             }
           )
@@ -387,7 +322,7 @@ function DialogContent({
   ] });
 }
 function DialogHeader({ className, ...props }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     "div",
     {
       "data-slot": "dialog-header",
@@ -397,7 +332,7 @@ function DialogHeader({ className, ...props }) {
   );
 }
 function DialogFooter({ className, ...props }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     "div",
     {
       "data-slot": "dialog-footer",
@@ -413,7 +348,7 @@ function DialogTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     DialogPrimitive.Title,
     {
       "data-slot": "dialog-title",
@@ -426,7 +361,7 @@ function DialogDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     DialogPrimitive.Description,
     {
       "data-slot": "dialog-description",
@@ -438,17 +373,15 @@ function DialogDescription({
 
 // src/features/Loader.tsx
 var import_lucide_react2 = require("lucide-react");
-var import_jsx_runtime5 = require("react/jsx-runtime");
+var import_jsx_runtime4 = require("react/jsx-runtime");
 function Loader({ message = "", className }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_lucide_react2.Loader2, { className: "h-5 w-5 animate-spin" }),
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: message })
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react2.Loader2, { className: "h-5 w-5 animate-spin" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: message })
   ] });
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  Alert,
-  AlertDescription,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -460,7 +393,6 @@ function Loader({ message = "", className }) {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertTitle,
   Button,
   Dialog,
   DialogClose,

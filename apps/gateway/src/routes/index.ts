@@ -4,10 +4,6 @@ import authProxy from './proxies/auth.proxy.js';
 import healthRouter from './endpoints/health.route.js';
 import metricsRouter from './endpoints/metrics.route.js';
 
-import rateLimit from 'express-rate-limit';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import logger from '../utils/logger.js';
-
 // import checkEmailRouter from './checkEmail.route.js';
 // import healthRouter from './health.route.js';
 // import metricsRouter from './metrics.route.js';

@@ -4,7 +4,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "declaration": true,
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true,
     "baseUrl": "./src",
     // "typeRoots": ["./types", "./node_modules/types"],
     "paths": {

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import app from './app.js';
-import logger from './utils/logger.js';
+import { logger } from '@neo/common';
 import env from './config/env.js';
 import { Server } from 'http';
 

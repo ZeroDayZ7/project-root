@@ -1,6 +1,6 @@
 export * from './components/alert-dialog.tsx';
 export * from './components/button.tsx';
-export * from './components/alert.tsx';
+// export * from './components/alert.tsx';
 export * from './components/dialog.tsx';
 // export * from './components/hover-card.tsx';
 // export * from './components/input.tsx';

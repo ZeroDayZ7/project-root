@@ -32,6 +32,7 @@ var index_exports = {};
 __export(index_exports, {
   globalErrorHandler: () => globalErrorHandler,
   globalRateLimiter: () => globalRateLimiter,
+  logger: () => logger_default,
   notFoundHandler: () => notFoundHandler,
   requestLoggerDev: () => requestLoggerDev,
   setupCommonMiddleware: () => setupCommonMiddleware,
@@ -41,13 +42,13 @@ module.exports = __toCommonJS(index_exports);
 
 // src/requestLoggerDev.ts
 var import_uuid = require("uuid");
-function requestLoggerDev({ logger, isDev }) {
+function requestLoggerDev({ logger: logger2, isDev }) {
   if (!isDev) {
     return (req, res, next) => {
       next();
     };
   }
-  const log = logger.info ? logger.info.bind(logger) : console.log;
+  const log = logger2.info ? logger2.info.bind(logger2) : console.log;
   return (req, res, next) => {
     const requestId = (0, import_uuid.v4)();
     const start = process.hrtime();
@@ -150,8 +151,8 @@ var registerRateLimiter = (0, import_express_rate_limit.default)({
 
 // src/middleware/globalErrorHandler.ts
 function globalErrorHandler(options = {}) {
-  const { serviceName = "", isDev = false, logger } = options;
-  const safeLogger = logger ?? {
+  const { serviceName = "", isDev = false, logger: logger2 } = options;
+  const safeLogger = logger2 ?? {
     error: console.error.bind(console)
   };
   return (err, req, res, _next) => {
@@ -166,17 +167,83 @@ function globalErrorHandler(options = {}) {
 
 // src/middleware/notFoundHandler.ts
 function notFoundHandler(options = {}) {
-  const { serviceName = "", isDev = false, logger = console } = options;
+  const { serviceName = "", isDev = false, logger: logger2 = console } = options;
   return (_req, res, _next) => {
     const message = isDev && serviceName ? `[${serviceName}] Not Found` : "Not Found";
-    logger.warn?.(`[${serviceName || "service"}] 404 - ${_req.method} ${_req.originalUrl} - IP: ${_req.ip}`);
+    logger2.warn?.(`[${serviceName || "service"}] 404 - ${_req.method} ${_req.originalUrl} - IP: ${_req.ip}`);
     res.status(404).json({ message });
   };
 }
+
+// src/utils/logger.ts
+var import_winston = require("winston");
+var import_winston_daily_rotate_file = __toESM(require("winston-daily-rotate-file"), 1);
+var import_process = require("process");
+var logLevels = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3
+};
+var customColors = {
+  error: "red",
+  warn: "yellow",
+  info: "green",
+  debug: "cyan"
+};
+import_winston.format.colorize().addColors(customColors);
+var consoleFormat = import_winston.format.combine(
+  import_winston.format.colorize({ all: true }),
+  // Kolory dla wszystkich poziomów
+  import_winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+  import_winston.format.printf(({ timestamp, level, message, ...meta }) => {
+    return `${timestamp} [${level}]: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ""}`;
+  })
+);
+var fileFormat = import_winston.format.combine(
+  import_winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+  import_winston.format.json()
+);
+var logger = (0, import_winston.createLogger)({
+  levels: logLevels,
+  level: import_process.env.NODE_ENV === "development" ? "debug" : "info",
+  format: fileFormat,
+  transports: [
+    new import_winston.transports.Console({
+      format: consoleFormat
+    }),
+    new import_winston_daily_rotate_file.default({
+      filename: "logs/app-%DATE%.log",
+      datePattern: "YYYY-MM-DD",
+      zippedArchive: true,
+      maxSize: "10m",
+      maxFiles: "14d",
+      format: fileFormat
+    }),
+    new import_winston_daily_rotate_file.default({
+      level: "error",
+      filename: "logs/error-%DATE%.log",
+      datePattern: "YYYY-MM-DD",
+      zippedArchive: true,
+      maxSize: "10m",
+      maxFiles: "30d"
+    })
+  ],
+  exceptionHandlers: [new import_winston.transports.File({ filename: "logs/exceptions.log" })],
+  rejectionHandlers: [new import_winston.transports.File({ filename: "logs/rejections.log" })]
+});
+logger.debugObject = (message, object) => {
+  const levelNum = logLevels[logger.level] ?? 2;
+  if (levelNum >= logLevels.debug) {
+    logger.debug(message, { object: JSON.stringify(object, null, 2) });
+  }
+};
+var logger_default = logger;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   globalErrorHandler,
   globalRateLimiter,
+  logger,
   notFoundHandler,
   requestLoggerDev,
   setupCommonMiddleware,

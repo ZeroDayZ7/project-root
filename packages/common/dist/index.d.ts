@@ -3,6 +3,7 @@ import { MinimalLogger as MinimalLogger$1 } from 'types/logger.js';
 import { CorsOptions } from 'cors';
 import { HelmetOptions } from 'helmet';
 import * as express_rate_limit from 'express-rate-limit';
+import { Logger } from 'winston';
 
 interface RequestLoggerOptions {
     logger: MinimalLogger$1;
@@ -46,4 +47,9 @@ interface NotFoundHandlerOptions {
 }
 declare function notFoundHandler(options?: NotFoundHandlerOptions): (_req: Request, res: Response, _next: NextFunction) => void;
 
-export { globalErrorHandler, globalRateLimiter, notFoundHandler, requestLoggerDev, setupCommonMiddleware, setupErrorHandling };
+interface CustomLogger extends Logger {
+    debugObject: (message: string, object: any) => void;
+}
+declare const logger: CustomLogger;
+
+export { globalErrorHandler, globalRateLimiter, logger, notFoundHandler, requestLoggerDev, setupCommonMiddleware, setupErrorHandling };
