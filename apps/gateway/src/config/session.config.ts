@@ -28,5 +28,5 @@ export default function sessionManager(app: Application): void {
   }
 
   app.use(session(sessionConfig));
-  logger.info('Session configured successfully');
+  logger.info('✅ Session configured successfully');
 }

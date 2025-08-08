@@ -24,6 +24,6 @@ export function createSessionStore(): RedisStore {
     });
   });
 
-  logger.info('Redis session store created successfully');
+  logger.info('✅ Redis session store created successfully');
   return store;
 }
