@@ -7,11 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "debug": "DEBUG=express:* tsx src/index.ts",
     "start": "node dist/index.js",
-    "dev": "tsx src/index.ts",
-    "nodemon": "nodemon",
-    "server": "nodemon --exec tsx src/index.ts"
+    "nodemon": "sh scripts/dev.sh",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "ZeroDayZ7",
@@ -19,23 +17,14 @@
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "@neo/common": "workspace:*",
-    "dotenv": "^17.2.1",
-    "envalid": "^8.1.0",
-    "express": "^5.1.0",
     "express-rate-limit": "^8.0.1",
     "http-proxy-middleware": "^3.0.5",
     "prom-client": "^15.1.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
-    "@types/node": "24.1.0",
     "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-express": "^4.1.8",
-    "tsx": "^4.20.3",
-    "typescript": "5.8.3"
+    "@types/swagger-ui-express": "^4.1.8"
   }
 }

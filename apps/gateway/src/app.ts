@@ -24,6 +24,7 @@ app.use(
     isDev: env.NODE_ENV === 'development',
   })
 );
+
 // app.use((req, res, next) => {
 //   logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
 //   next();

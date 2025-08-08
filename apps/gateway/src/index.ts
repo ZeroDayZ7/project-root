@@ -5,7 +5,6 @@ import env from './config/env.js';
 import { AddressInfo } from 'net';
 import { Server } from 'http';
 import { markShuttingDown, isShuttingDown } from './utils/server/shutdown.js';
-import { getAppVersion } from 'utils/server/getAppVersion.js';
 
 let server: Server | null = null;
 
@@ -23,7 +22,7 @@ async function startServer() {
       }
 
       logger.info(`Mode: ${env.NODE_ENV}`);
-      logger.info(`Version: ${getAppVersion()}`);
+      logger.info(`Version: ${env.APP_VERSION}`);
       logger.info(`PID: ${process.pid}`);
     });
 
