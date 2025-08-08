@@ -5,7 +5,6 @@ import SystemUpdates from './SystemUpdates';
 import SystemStatus from './SystemStatus';
 import Footer from './Footer';
 import SystemDescription from './SystemDescription';
-import { Button } from '@neo/ui';
 import ConfirmDialog from '@/components/ConfirmDialog';
 
 export default function HomePage() {

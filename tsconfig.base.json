@@ -18,6 +18,14 @@
       "@types/*": ["./packages/common/src/types/*"]
     }
   },
-  "include": ["packages/*/src/**/*", "apps/*/src/**/*", "types/**/*"],
-  "exclude": ["node_modules", "**/dist", "**/build", "**/logs", "**/scripts"]
+  "include": ["packages/*/src/**/*", "apps/*/src/**/*"],
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/build",
+    "**/logs",
+    "**/scripts",
+    "docker",
+    "docs"
+  ]
 }
