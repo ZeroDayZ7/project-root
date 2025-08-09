@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { client } from '../../metrics/metrics.js';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', async (_req, res) => {
   res.set('Content-Type', client.register.contentType);

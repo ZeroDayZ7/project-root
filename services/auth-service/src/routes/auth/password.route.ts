@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { forgotPasswordRateLimiter, resetPasswordRateLimiter, changePasswordRateLimiter } from '../../config/rateLimiters.config';
-import { forgotPasswordController } from '../../controllers/auth/password.controller';
-import { resetPasswordController } from '../../controllers/auth/password.controller';
-import { changePasswordController } from '../../controllers/auth/password.controller';
+import { forgotPasswordController } from '@/controllers/auth/password.controller.ts';
+import { resetPasswordController } from '@/controllers/auth/password.controller.ts';
+import { changePasswordController } from '@/controllers/auth/password.controller.ts';
 
-const router = Router();
+const router: Router = Router();
 
-router.post('/forgot-password', forgotPasswordRateLimiter, forgotPasswordController);
-router.post('/reset-password', resetPasswordRateLimiter, resetPasswordController);
-router.post('/change-password', changePasswordRateLimiter, changePasswordController);
+router.post('/forgot-password', forgotPasswordController);
+router.post('/reset-password', resetPasswordController);
+router.post('/change-password', changePasswordController);
 
 export default router; 

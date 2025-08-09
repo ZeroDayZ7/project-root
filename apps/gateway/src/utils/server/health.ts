@@ -1,4 +1,5 @@
-import { getAppVersion } from "./getAppVersion.js";
+import env from "@/config/env.js";
+
 /**
  * Typ zwracanego statusu health checka.
  */
@@ -50,7 +51,7 @@ export function getHealthStatus(): HealthStatus {
     status,
     timestamp: new Date().toISOString(),
     uptime: Math.round(process.uptime()), // POPRAWKA: zaokrąglenie
-    version: getAppVersion(),
+    version: env.APP_VERSION,
     environment: process.env.NODE_ENV || 'unknown', // DODANE
     pid: process.pid, // DODANE
     memory: {

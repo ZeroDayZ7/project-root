@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import loginRouter from './login.route';
-import registerRouter from './register.route';
-import passwordRouter from './password.route';
+import loginRouter from '@/routes/auth/login.route.ts';
+import registerRouter from '@/routes/auth/register.route.ts';
+import passwordRouter from '@/routes/auth/password.route.ts';
 
-const router = Router();
+const router: Router = Router();
 
 router.use(loginRouter);
 router.use(registerRouter);

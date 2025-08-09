@@ -6,7 +6,8 @@
     "**/.next": true,
     "**/logs": true,
     "**/pnpm-lock.yaml": true,
-    "**/package.json": true
+    "**/package.json": true,
+    "**/buildcache":true
   },
 
   // Wykluczenie z eksploratora plików
@@ -25,5 +26,6 @@
   // Wyłączenie zawijania linii w edytorze
   "editor.wordWrap": "wordWrapColumn",
   "editor.formatOnPaste": false,
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "CodeGPT.apiKey": "Anthropic"
 }

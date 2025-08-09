@@ -30,7 +30,6 @@ app.use(
 //   next();
 // });
 
-// app.use('/api-docs', ...swaggerMiddleware);
 app.use('/api', routes);
 
 // Obsługa 404

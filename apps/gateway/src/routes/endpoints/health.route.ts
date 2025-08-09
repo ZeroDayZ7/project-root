@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import { getHealthStatus, isShuttingDown } from '@/utils/server/index.js'
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', (req, res) => {
   if (isShuttingDown()) {

@@ -3,8 +3,11 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist",
-    "incremental": true,
-    "tsBuildInfoFile": ".tsbuildinfo",
+    "tsBuildInfoFile": "./buildcache/gateway",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "composite": false,
+    "incremental": false,
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"],
@@ -12,5 +15,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "logs"]
+  "exclude": ["node_modules", "dist", "logs", "buildcache"]
 }

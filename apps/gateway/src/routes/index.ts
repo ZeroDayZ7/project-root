@@ -9,7 +9,7 @@ import metricsRouter from './endpoints/metrics.route.js';
 // import metricsRouter from './metrics.route.js';
 
 
-const router = Router();
+const router: Router = Router();
 
 // router.use('/auth', authProxy);
 router.use('/auth', (req, res, next) => {

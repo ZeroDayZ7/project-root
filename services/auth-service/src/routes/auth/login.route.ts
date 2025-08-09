@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { loginRateLimiter } from '../../config/rateLimiters.config';
-import { loginController } from '../../controllers/auth/login.controller';
+import { loginController } from '@/controllers/auth/login.controller.ts'
 
-const router = Router();
+const router: Router = Router();
 
-router.post('/login', loginRateLimiter, loginController);
+router.post('/login', loginController);
 
 export default router; 

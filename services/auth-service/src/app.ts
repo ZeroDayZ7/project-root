@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Express } from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import env from './config/env.js';
 import { logger } from '@neo/common';
@@ -6,7 +6,7 @@ import { logger } from '@neo/common';
 import { requestLoggerDev } from '@neo/common';
 
 
-const app = express();
+const app: Express = express();
 // wyłączenie X-Powered-By
 app.disable('x-powered-by');
 app.use(express.json()); // parsowanie JSON w body

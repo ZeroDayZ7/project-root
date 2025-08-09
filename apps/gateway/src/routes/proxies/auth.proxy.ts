@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { logger } from '@neo/common';
 
-const authProxy = Router();
+const authProxy: Router = Router();
 
 authProxy.use(
   '/',
