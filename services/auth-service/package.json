@@ -15,6 +15,20 @@
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "@neo/common": "workspace:*"
+    "@neo/common": "workspace:*",
+    "dotenv": "^17.2.1",
+    "envalid": "^8.1.0",
+    "express": "^5.1.0",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/express": "^5.0.3",
+    "@types/node": "24.2.1",
+    "eslint": "^9.33.0",
+    "nodemon": "^3.1.10",
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.3",
+    "typescript": "5.9.2"
   }
 }
