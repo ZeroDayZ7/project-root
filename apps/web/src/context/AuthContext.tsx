@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader } from '@components/ui/Loader';
+import { Loader } from '@/components/ui/Loader';
 import React, {
   createContext,
   useContext,

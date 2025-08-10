@@ -1,4 +1,4 @@
-import { ENDPOINTS } from '@lib/endpoints';
+import { ENDPOINTS } from '@/lib/endpoints';
 
 export interface CsrfResponse {
   csrfToken: string;

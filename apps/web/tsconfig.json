@@ -1,6 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    // "target": "ESNext",
+    // "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"], // Potrzebne dla React/Next.js
     "noEmit": true, // Next.js nie emituje kodu, używa własnego kompilatora
     "incremental": true, // Szybsza kompilacja
@@ -9,13 +11,15 @@
     "strict": true,
     "jsx": "preserve",
     "allowImportingTsExtensions": true,
+    "baseUrl": "./src",
     "paths": {
       "@/components/*": ["./components/*"],
+      "@/config/*": ["./config/*"],
       "@/context/*": ["./context/*"],
-      "@/providers/*": ["./providers/*"],
+      "@/providers/*": ["./providers/*"], 
       "@/lib/*": ["./lib/*"],
-      "@/mocks/*": ["../mocks/*"],
-      "@/services/*": ["./src/services/*"]
+      "@/services/*": ["./services/*"],
+      "@/utils/*": ["./utils/*"],
     },
     "plugins": [
       {

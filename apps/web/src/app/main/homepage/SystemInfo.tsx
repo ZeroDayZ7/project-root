@@ -1,7 +1,7 @@
 'use client';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
-import { prefix } from '@lib/prefix';
+import { prefix } from '@/lib/prefix';
 
 export default function SystemInfo() {
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { LoginStep } from './types';
-import { useCsrfToken } from '@services/useCsrfToken';
+import { useCsrfToken } from '@/services/useCsrfToken';
 
 export interface LoginSystemState {
   loginStep: LoginStep;

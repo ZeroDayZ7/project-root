@@ -2,7 +2,7 @@
 
 import { useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { AuthProvider } from '@context/AuthContext';
+import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 interface ClientProvidersProps {

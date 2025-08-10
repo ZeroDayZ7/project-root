@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { prefix } from '@lib/prefix';
+import { prefix } from '@/lib/prefix';
 
 export default function AppBrand() {
   return (
