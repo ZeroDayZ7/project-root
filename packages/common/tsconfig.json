@@ -6,8 +6,6 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
-    "baseUrl": "./src",
-    // "typeRoots": ["./types", "./node_modules/types"],
     "paths": {
       "@/*": ["./src/*"]
     }

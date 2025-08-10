@@ -9,8 +9,8 @@
     "resolveJsonModule": true, // Importowanie JSON
     "skipLibCheck": true, // Pomija sprawdzanie typów w node_modules
     "forceConsistentCasingInFileNames": true, // Zapobiega problemom z wielkością liter
-    "allowJs": true,
-    "baseUrl": "./src", // Bazowy katalog dla paths
+    "allowJs": false,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@/utils/*": ["./utils/*"],
@@ -27,8 +27,8 @@
     "services/*/src/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "dist",
-    "logs"
+    "**/node_modules",
+    "**/dist",
+    "**/logs"
   ]
 }
