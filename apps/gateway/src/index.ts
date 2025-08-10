@@ -10,7 +10,7 @@ import sessionManager from '@/config/session.config.js';
 import { Socket } from 'net';
 
 // Server instance with proper typing
-let server: Server | null = null;
+let server: Server;
 
 // Configuration constants
 const SERVER_CONFIG = {
@@ -100,9 +100,11 @@ async function startServer(): Promise<Server> {
           return;
         }
         server = serverInstance;
-        setupServerConfiguration(server);
-        logServerInfo(server);
-        resolve(server);
+        // if (server) {
+          setupServerConfiguration(server);
+          logServerInfo(server);
+          resolve(server);
+        // }
       });
     });
   } catch (error) {
