@@ -1,13 +1,13 @@
-// cli
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "noEmit": false,
     "allowImportingTsExtensions": false,
     "composite": false,
     "incremental": false
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*" ],
+  "exclude": ["microservice-template"]
 }
