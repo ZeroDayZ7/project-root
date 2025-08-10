@@ -1,28 +1,65 @@
-import express from 'express';
-import logger from './utils/logger.js';
+import express, { Express } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import env from './config/env.js';
+import { logger } from '@neo/common';
+
+import { requestLoggerDev } from '@neo/common';
 
 
-const app = express();
-
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(requestLoggerDev);
-// }
-
-
-// Middleware
+const app: Express = express();
+// wyłączenie X-Powered-By
+app.disable('x-powered-by');
 app.use(express.json()); // parsowanie JSON w body
-// app.use(morgan('combined')); // logowanie requestów (opcjonalnie)
+app.use(
+  requestLoggerDev({
+    logger,
+    isDev: env.NODE_ENV === 'development',
+  })
+);
+ 
+// Prosty endpoint, który zwraca losową odpowiedź
+app.post('/check-email', (req, res) => {
+  const { email } = req.body;
 
-app.use((req, res, next) => {
-  logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
-  next();
+  // Prosta logika testowa:
+  if (email === 'test@example.com') {
+    return res.json({ success: true });
+  } else {
+    return res.json({ success: false });
+  }
+});
+
+app.post('/check-password', (req, res) => {
+  const { email, password } = req.body;
+
+  // Prosta logika testowa:
+  if (email === 'test@example.com' && password === 'Zaq1@wsx') {
+    return res.json({
+      success: true,
+      has2FA: true, // ustawiasz true, żeby wymusić 2FA dla testów
+    });
+  } else {
+    return res.json({ success: false });
+  }
 });
 
 
+// Obsługa 404
+app.use((req, res, next) => {
+  res.status(404).json({ message: '[Auth-Service] Not Found' });
+});
+
 // Obsługa błędów
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  logger.error('Error: %o', err); // %o - obiekt z info o błędzie
-  res.status(500).json({ message: 'Internal Server Error' });
+app.use((err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) => {
+  logger.error('Error: %o', err);
+
+  const status = err.status || 500;
+  const isDev = env.NODE_ENV === 'development';
+
+  res.status(status).json({
+    message: err.message || 'Internal Server Error',
+    ...(isDev && { stack: err.stack }),
+  });
 });
 
 export default app;

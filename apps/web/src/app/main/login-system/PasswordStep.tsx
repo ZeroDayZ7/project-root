@@ -1,112 +1,58 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import DOMPurify from 'dompurify';
-import { LoginStep } from './types';
-import { useEffect } from 'react';
-import mockData from './mock-data';
+import { usePasswordStep } from './usePasswordStep';
+import Button from '@/components/ui/my/Button';
+import Input from '@/components/ui/my/Input';
+import { useLogin } from './LoginContext';
+import InputError from '@/components/ui/my/InputError';
 
-const passwordSchema = z.object({
-  password: z.string().min(1, 'Hasło jest wymagane'),
-});
-
-type PasswordForm = z.infer<typeof passwordSchema>;
-
-interface PasswordStepProps {
-  email: string;
-  password: string; // Dodano password
-  setPassword: (password: string) => void;
-  setLoginStep: (step: LoginStep) => void;
-}
-
-export default function PasswordStep({
-  email,
-  password,
-  setPassword,
-  setLoginStep,
-}: PasswordStepProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setFocus,
-    setError,
-    setValue,
-  } = useForm<PasswordForm>({
-    resolver: zodResolver(passwordSchema),
-    defaultValues: { password },
-  });
-
-  // Synchronizacja wartości password z props
-  useEffect(() => {
-    setValue('password', password);
-  }, [password, setValue]);
-
-  useEffect(() => {
-    setFocus('password');
-  }, [setFocus]);
-
-  const onSubmit = (data: PasswordForm) => {
-    const sanitizedPassword = DOMPurify.sanitize(data.password);
-    const user = mockData.find(
-      (u) => u.email === email && u.password === sanitizedPassword,
-    );
-    if (!user) {
-      setError('password', { message: 'Nieprawidłowe hasło' });
-      return;
-    }
-    setPassword(sanitizedPassword);
-    setLoginStep(user.has2FA ? 'twoFactor' : 'success');
-  };
+export default function PasswordStep() {
+  const { setLoginStep, user } = useLogin();
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
+    usePasswordStep();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="text-sm text-foreground mb-4">
-        Email zweryfikowany:{' '}
-        <span className="text-accent-foreground">{email}</span>
-      </div>
-      <div>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+      <div className="flex flex-col">
         <label
           htmlFor="password"
-          className="block text-sm text-foreground mb-2"
+          className="mb-2 block text-sm font-medium text-foreground"
           aria-describedby={errors.password ? 'password-error' : undefined}
         >
-          {'>'} HASŁO DOSTĘPU:
+          Hasło
         </label>
-        <input
+        <Input
           id="password"
           type="password"
           {...register('password')}
-          className="w-full bg-black/50 border border-foreground/50 rounded p-3 text-foreground focus:border-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none font-mono"
-          placeholder="••••••••"
-          aria-invalid={errors.password ? 'true' : 'false'}
+          placeholder="Wpisz hasło"
+          inputSize="md"
+          variant="primary"
+          disabled={isSubmitting}
+          isInvalid={!!errors.password}
+          ariaDescribedBy={errors.password ? 'password-error' : undefined}
         />
-        {errors.password && (
-          <p
-            id="password-error"
-            className="text-red-500 text-xs mt-1"
-            role="alert"
-          >
-            {errors.password.message}
-          </p>
-        )}
+        <InputError id="password-error" message={errors.password?.message} />
       </div>
-      <button
+      <p className="text-sm text-foreground/70">E-mail: {user?.email}</p>
+      <Button
         type="submit"
-        className="w-full bg-foreground/20 hover:bg-foreground/30 focus-visible:bg-foreground/30 border border-foreground rounded p-3 text-foreground font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-        disabled={!!errors.password}
+        variant="primary"
+        size="md"
+        disabled={isSubmitting}
+        isLoading={isSubmitting}
       >
-        AUTORYZUJ DOSTĘP
-      </button>
-      <button
+        Dalej
+      </Button>
+      <Button
         type="button"
+        variant="secondary"
+        size="sm"
         onClick={() => setLoginStep('email')}
-        className="w-full text-foreground/70 hover:text-foreground focus-visible:text-foreground text-sm transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+        ariaLabel="Powrót do kroku e-mail"
       >
-        ← ZMIEŃ EMAIL
-      </button>
+        ← Powrót
+      </Button>
     </form>
   );
 }

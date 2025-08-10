@@ -1,9 +1,7 @@
-'use client';
-
 import Image from 'next/image';
-import { prefix } from '@lib/prefix';
+import { prefix } from '@/lib/prefix';
 
-export function AppBrand() {
+export default function AppBrand() {
   return (
     <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 p-4 min-h-[120px] w-full max-w-[800px] mx-auto">
       {/* Subtelne tło */}

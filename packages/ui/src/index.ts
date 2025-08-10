@@ -1,19 +1,18 @@
-export * from './components/alert-dialog';
-export * from './components/button';
-export * from './components/dialog';
-export * from './components/hover-card';
-export * from './components/input';
-export * from './components/hover-card';
-export * from './components/switch';
-export * from './components/separator';
-export * from './components/popover';
-export * from './components/label';
-export * from './components/badge';
-export * from './components/dropdown-menu';
-export * from './components/card';
-export * from './components/form';
-export * from './components/alert';
+export * from './components/alert-dialog.tsx';
+export * from './components/button.tsx';
+// export * from './components/alert.tsx';
+export * from './components/dialog.tsx';
+// export * from './components/hover-card.tsx';
+// export * from './components/input.tsx';
+// export * from './components/hover-card.tsx';
+// export * from './components/switch.tsx';
+// export * from './components/separator.tsx';
+// export * from './components/popover.tsx';
+// export * from './components/label.tsx';
+// export * from './components/badge.tsx';
+// export * from './components/dropdown-menu.tsx';
+// export * from './components/card.tsx';
+// export * from './components/form.tsx';
 
-export * from './features/Loader';
-export * from './features/ThemeToggle';
-export * from './features/ThemeToggleKasandra';
+
+export * from './features/Loader.tsx';

@@ -5,8 +5,9 @@
     "**/node_modules": true,
     "**/.next": true,
     "**/logs": true,
-    "pnpm-lock.yaml": true,
-    "package.json": true,
+    "**/pnpm-lock.yaml": true,
+    "**/package.json": true,
+    "**/buildcache":true
   },
 
   // Wykluczenie z eksploratora plików
@@ -14,8 +15,16 @@
     "**/out": true,
     "**/node_modules": true,
     "**/.next": true,
-    "**/logs": true,
-    "pnpm-lock.yaml": true,
-    // "LICENSE": true,
-  }
+    "**/logs": false,
+    "**/pnpm-lock.yaml": true,
+    "**/LICENSE": true,
+    "**/nginx": true,
+    // "**/nodemon.json": true,
+    "**/README.md": true
+  },
+
+  // Wyłączenie zawijania linii w edytorze
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
 }

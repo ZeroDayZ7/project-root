@@ -1,8 +1,7 @@
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import React from 'react';
-import { cn } from '@lib/utils';
+import { cn } from '@/lib/utils';
 
 interface LoaderProps {
   fullscreen?: boolean;

@@ -1,0 +1,7 @@
+{
+  "logger NEXT": {
+    "prefix": "cs", 
+    "body": ["logger.info(`$1`);"],
+    "description": "Szybki logger"
+  }
+}

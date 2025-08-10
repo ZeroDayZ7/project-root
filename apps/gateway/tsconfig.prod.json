@@ -1,0 +1,15 @@
+// Gateway - prod
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "noEmit": false,
+    "composite": false,
+    "incremental": false,
+    "sourceMap": false,
+    "declaration": false,
+    "removeComments": true,
+  },
+  "include": ["src/**/*"]
+}

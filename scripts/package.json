@@ -1,0 +1,12 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "ce": "check-email.sh",
+    "cee": "powershell -ExecutionPolicy Bypass -File ./check-email.ps1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

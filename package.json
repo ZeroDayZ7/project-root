@@ -1,15 +1,21 @@
 {
   "name": "project-root",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm --filter web run dev",
+    "web": "pnpm --filter web run turbo",
+    "gate": "pnpm --filter gateway run nodemon",
+    "auth": "pnpm --filter auth-service run nodemon",
+    "start-all": "sh scripts/start-all.sh",
     "update-all": "pnpm update --latest --recursive",
+    "update-all-npx": "pnpm dlx npm-check-updates -u",
+    "pnpm:clear": "sh scripts/clear-pnpm.sh",
+    "pnpm:clearlogs": "sh scripts/clear-logs.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "ZeroDayZ7",
   "license": "ISC",
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.14.0"
 }

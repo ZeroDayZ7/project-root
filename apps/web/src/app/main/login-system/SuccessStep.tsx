@@ -15,7 +15,6 @@ export default function SuccessStep() {
       <div className="text-sm text-foreground/70">
         Przekierowanie do panelu głównego...
       </div>
-      {/* <div className="text-accent-foreground"></div> */}
       <Loader message="ŁADOWANIE INTERFEJSU..." />
     </motion.div>
   );

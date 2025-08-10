@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader } from '@components/ui/Loader';
+import { Loader } from '@/components/ui/Loader';
 import React, {
   createContext,
   useContext,
@@ -55,7 +55,7 @@ useEffect(() => {
       timer = setTimeout(() => {
         setUser({ id: '1', name: 'Jan Kowalski', email: 'jan@example.com' });
         setLoading(false);
-      }, 700);
+      }, 50);
     } catch (err) {
       setError('Błąd podczas ładowania danych użytkownika');
       setLoading(false);
