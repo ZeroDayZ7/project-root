@@ -9,6 +9,7 @@
     "auth": "pnpm --filter auth-service run nodemon",
     "start-all": "sh scripts/start-all.sh",
     "update-all": "pnpm update --latest --recursive",
+    "update-all-npx": "pnpm dlx npm-check-updates -u",
     "pnpm:clear": "sh scripts/clear-pnpm.sh",
     "pnpm:clearlogs": "sh scripts/clear-logs.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +17,7 @@
   "keywords": [],
   "author": "ZeroDayZ7",
   "license": "ISC",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -25,11 +26,13 @@
     "express": "^5.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",
-    "zod": "^4.0.15"
+    "zod": "^4.0.17"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
-    "@types/node": "24.2.0",
+    "@types/node": "24.2.1",
+    "nodemon": "^3.1.10",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.20.3",
     "typescript": "5.9.2"
   }

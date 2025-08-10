@@ -1,13 +1,15 @@
-// Auth-service - dev
+// Gateway - prod
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "noEmit": false,
     "composite": false,
     "incremental": false,
+    "sourceMap": false,
+    "declaration": false,
+    "removeComments": true,
     "baseUrl": "./src",
   },
   "include": ["src/**/*"],

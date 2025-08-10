@@ -1,19 +1,15 @@
+// Gateway - dev
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist",
-    "tsBuildInfoFile": "./buildcache/gateway",
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "composite": false,
     "incremental": false,
     "baseUrl": "./src",
-    "paths": {
-      "@/*": ["./*"],
-      "@/utils": ["./utils*"]
-    }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "logs", "buildcache"]
+  "exclude": ["node_modules", "dist", "logs"]
 }

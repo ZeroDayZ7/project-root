@@ -10,8 +10,12 @@
     "skipLibCheck": true, // Pomija sprawdzanie typów w node_modules
     "forceConsistentCasingInFileNames": true, // Zapobiega problemom z wielkością liter
     "allowJs": true,
-    "baseUrl": ".", // Bazowy katalog dla paths
+    "baseUrl": "./src", // Bazowy katalog dla paths
     "paths": {
+      "@/*": ["./*"],
+      "@/controllers/*": ["./controllers/*"],
+      "@/routes/*": ["./routes/*"],
+      "@/utils/*": ["./utils/*"],
       "@neo/*": ["./packages/*/src"],
       "@neo-dist/*": ["./packages/*/dist"],
       "@common/*": ["./packages/common/src/*"],

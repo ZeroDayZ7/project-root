@@ -9,16 +9,15 @@
     "strict": true,
     "jsx": "preserve",
     "allowImportingTsExtensions": true,
-    "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["./components/*"],
-      "@context/*": ["./context/*"],
-      "@config/*": ["./config/*"],
-      "@providers/*": ["./providers/*"],
-      "@lib/*": ["./lib/*"],
-      "@mocks/*": ["../mocks/*"],
-      "@services/*": ["./src/services/*"]
+      "@/components/*": ["./components/*"],
+      "@/context/*": ["./context/*"],
+      "@/config/*": ["./config/*"],
+      "@/providers/*": ["./providers/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/mocks/*": ["../mocks/*"],
+      "@/services/*": ["./src/services/*"]
     },
     "plugins": [
       {

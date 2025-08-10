@@ -5,9 +5,9 @@ import {
   notFoundHandler, 
   setupCommonMiddleware } from '@neo/common';
 
-import { corsOptions } from 'config/cors.config.js';
-import { helmetOptions } from 'config/helmet.config.js';
-
+import { corsOptions } from './config/cors.config.js';
+import { helmetOptions } from './config/helmet.config.js';
+  
 import { logger } from '@neo/common';
 import env from './config/env.js';
 import routes from './routes/index.js';
