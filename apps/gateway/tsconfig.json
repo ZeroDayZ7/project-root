@@ -10,6 +10,5 @@
     "incremental": false,
     "baseUrl": "./src",
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "logs"]
+  "include": ["src/**/*"]
 }

@@ -11,11 +11,6 @@
     "declaration": false,
     "removeComments": true,
     "baseUrl": "./src",
-    "paths": {
-      "@/*": ["./*"],
-      "@/utils": ["./utils*"]
-    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "logs", "buildcache"]
+  "include": ["src/**/*"]
 }

@@ -13,23 +13,22 @@
     "baseUrl": "./src", // Bazowy katalog dla paths
     "paths": {
       "@/*": ["./*"],
-      "@/controllers/*": ["./controllers/*"],
-      "@/routes/*": ["./routes/*"],
       "@/utils/*": ["./utils/*"],
+      "@/config/*": ["./config/*"],
       "@neo/*": ["./packages/*/src"],
       "@neo-dist/*": ["./packages/*/dist"],
       "@common/*": ["./packages/common/src/*"],
       "@types/*": ["./packages/common/src/types/*"]
     }
   },
-  "include": ["packages/*/src/**/*", "apps/*/src/**/*"],
+  "include": [
+    "packages/*/src/**/*",
+    "apps/*/src/**/*",
+    "services/*/src/**/*"
+  ],
   "exclude": [
-    "**/node_modules",
-    "**/dist",
-    "**/build",
-    "**/logs",
-    "**/scripts",
-    "docker",
-    "docs"
+    "node_modules",
+    "dist",
+    "logs"
   ]
 }

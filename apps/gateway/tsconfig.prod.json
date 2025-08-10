@@ -12,6 +12,5 @@
     "removeComments": true,
     "baseUrl": "./src",
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "logs", "buildcache"]
+  "include": ["src/**/*"]
 }
