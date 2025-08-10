@@ -1,18 +1,18 @@
 #!/bin/bash
+set -e
 
-echo "🧹 Usuwanie node_modules, .pnpm i pnpm-lock.yaml..."
+echo "🧹 Cleaning all node_modules, .pnpm and pnpm-lock.yaml files..."
 
-# Główne foldery
+# Usuń główne foldery
 rm -rf node_modules .pnpm pnpm-lock.yaml
 
-# Wszystkie workspace'y
-rm -rf apps/web/node_modules
-rm -rf apps/gateway/node_modules
-rm -rf services/auth-service/node_modules
-rm -rf services/logs-service/node_modules
-rm -rf services/notification-service/node_modules
-rm -rf services/users-service/node_modules
-rm -rf packages/common/node_modules
-rm -rf packages/ui/node_modules
+# Znajdź i usuń wszystkie node_modules w podkatalogach
+find . -type d -name node_modules -prune -exec rm -rf '{}' +
 
-echo "✅ Gotowe!"
+# Usuń wszystkie pnpm-lock.yaml w podkatalogach
+find . -type f -name pnpm-lock.yaml -exec rm -f '{}' +
+
+echo "📦 Installing dependencies..."
+pnpm install
+
+echo "✅ Done!"

@@ -27,5 +27,4 @@
   "editor.wordWrap": "wordWrapColumn",
   "editor.formatOnPaste": false,
   "editor.formatOnSave": false,
-  "CodeGPT.apiKey": "Anthropic"
 }

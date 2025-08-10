@@ -36,6 +36,8 @@ const create = new Command('create')
     }
 
     copyFolderRecursiveSync(templateDir, targetDir);
+    generateTsConfig(targetDir, "../../tsconfig.base.json");
+
     console.log(`✅ Microservice created at: ${targetDir}`);
   });
 
@@ -53,6 +55,25 @@ function copyFolderRecursiveSync(src: string, dest: string) {
       fs.copyFileSync(srcPath, destPath);
     }
   }
+}
+
+function generateTsConfig(targetDir: string, basePath: string) {
+  const content = {
+    extends: basePath,
+    compilerOptions: {
+      rootDir: "./src",
+      outDir: "./dist",
+      noEmit: false,
+      allowImportingTsExtensions: false,
+      composite: false,
+      incremental: false
+    },
+    include: ["src/**/*"]
+  };
+
+  const filePath = path.join(targetDir, 'tsconfig.json');
+  fs.writeFileSync(filePath, JSON.stringify(content, null, 2), 'utf8');
+  console.log(`tsconfig.json wygenerowany w ${filePath}`);
 }
 
 export default create;

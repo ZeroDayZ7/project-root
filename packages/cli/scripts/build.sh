@@ -4,11 +4,11 @@ set -e
 clean_dist() {
   case "$OSTYPE" in
     msys*|cygwin*|linux*|darwin*)
-      # Git Bash, Cygwin, Linux, macOS — rm działa
+      # Git Bash, Cygwin, Linux, macOS
       rm -rf dist
       ;;
     *)
-      # inne systemy — usuwamy przez Node.js (zawsze działa)
+      # inne systemy — usuwamy Node.js
       node -e "require('fs').rmSync('dist', { recursive: true, force: true })"
       ;;
   esac
