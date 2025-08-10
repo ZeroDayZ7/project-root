@@ -8,13 +8,18 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && pnpm link -g"
+    "build": "sh scripts/build.sh"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "inquirer": "^12.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.2.1",
+    "typescript": "5.9.2"
   }
 }
