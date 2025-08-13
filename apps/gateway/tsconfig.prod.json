@@ -10,6 +10,11 @@
     "sourceMap": false,
     "declaration": false,
     "removeComments": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@/config/*": ["./src/config/*"],
+      "@/utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["src/**/*"]
 }

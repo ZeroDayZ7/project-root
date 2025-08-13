@@ -1,6 +1,6 @@
 import { logger } from '@neo/common';
 import { createClient, RedisClientType } from 'redis';
-import env from '@/config/env.js';
+import env from '@/config/env.ts';
 
 // Konfiguracja klienta Redis
 const redisClient: RedisClientType = createClient({

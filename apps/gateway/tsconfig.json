@@ -9,6 +9,11 @@
     "composite": false,
     "incremental": false,
     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"],
+      "@/config/*": ["./src/config/*"],
+      "@/utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["src/**/*"]
 }

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import type { MinimalLogger } from 'types/logger.js';
+import type { MinimalLogger } from './types/logger.ts';
 import { v4 as uuidv4 } from 'uuid';
 
 interface RequestLoggerOptions {
