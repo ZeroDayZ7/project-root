@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build:prod": "sh scripts/build-prod.sh",
+    "build:publish": "sh scripts/build-publish.sh",
     "tsc": "tsc",
     "tsup": "tsup src/index.ts --dts --dts-resolve --format esm,cjs",
     "dev": "tsup src/index.ts --dts --dts-resolve --format esm,cjs --watch"

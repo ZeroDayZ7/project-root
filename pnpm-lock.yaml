@@ -10,9 +10,9 @@ importers:
 
   apps/gateway:
     dependencies:
-      '@neo/common':
-        specifier: workspace:*
-        version: link:../../packages/common
+      '@zerodayz7/common':
+        specifier: ^1.0.1
+        version: 1.0.1(express@5.1.0)
       connect-redis:
         specifier: ^9.0.0
         version: 9.0.0(express-session@1.18.2)(redis@5.8.0)
@@ -318,9 +318,9 @@ importers:
 
   services/auth-service:
     dependencies:
-      '@neo/common':
-        specifier: workspace:*
-        version: link:../../packages/common
+      '@zerodayz7/common':
+        specifier: ^1.0.1
+        version: 1.0.1(express@5.1.0)
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -1826,6 +1826,11 @@ packages:
 
   '@vitest/utils@3.2.4':
     resolution: {integrity: sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==}
+
+  '@zerodayz7/common@1.0.1':
+    resolution: {integrity: sha512-g6AgEmz03CooxsAbw3BzNhRWie0QzWzJ70wPJKK5A/PL17+z2pDepQo5Ydmz2r12pq8Beq7i+UiMZlWhRKYMBg==, tarball: https://npm.pkg.github.com/download/@zerodayz7/common/1.0.1/3482ecc8ef3b56eeac4306f9ac12da4342673a57}
+    peerDependencies:
+      express: ^5.1.0
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -5643,6 +5648,20 @@ snapshots:
       '@vitest/pretty-format': 3.2.4
       loupe: 3.2.0
       tinyrainbow: 2.0.0
+
+  '@zerodayz7/common@1.0.1(express@5.1.0)':
+    dependencies:
+      compression: 1.8.1
+      cors: 2.8.5
+      express: 5.1.0
+      express-rate-limit: 8.0.1(express@5.1.0)
+      helmet: 8.1.0
+      rate-limiter-flexible: 7.2.0
+      uuid: 11.1.0
+      winston: 3.17.0
+      winston-daily-rotate-file: 5.0.0(winston@3.17.0)
+    transitivePeerDependencies:
+      - supports-color
 
   accepts@2.0.0:
     dependencies:
