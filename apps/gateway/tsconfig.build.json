@@ -1,0 +1,14 @@
+// Gateway - tsconfig.build.json
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "dist",
+    "noEmit": false,
+    "declaration": false,
+    "allowImportingTsExtensions": false,
+    "sourceMap": false,
+    "removeComments": true
+  },
+  "include": ["src/**/*"]
+}

@@ -1,4 +1,4 @@
-// routes/health.route.ts
+// routes/health.route.js
 import { Router } from 'express';
 import { getHealthStatus, isShuttingDown } from '@/utils/server/index.js'
 

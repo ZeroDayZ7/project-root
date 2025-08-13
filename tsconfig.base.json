@@ -1,34 +1,22 @@
+// tsconfig.base.json
 {
   "compilerOptions": {
-    "target": "ES2024", // Nowoczesny JavaScript, kompatybilny z Node.js i przeglądarkami
-    "module": "NodeNext", // ESM dla spójności z Express i Next.js
-    "moduleResolution": "NodeNext", // Poprawna obsługa ESM
-    "strict": true, // Wymuszenie ścisłego typowania
-    "esModuleInterop": true, // Wsparcie dla importów CommonJS
-    "allowSyntheticDefaultImports": true, // Dla importów bez default
-    "resolveJsonModule": true, // Importowanie JSON
-    "skipLibCheck": true, // Pomija sprawdzanie typów w node_modules
-    "forceConsistentCasingInFileNames": true, // Zapobiega problemom z wielkością liter
+    "target": "ES2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "allowJs": false,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"],
-      "@/utils/*": ["./utils/*"],
-      "@/config/*": ["./config/*"],
-      "@neo/*": ["./packages/*/src"],
-      "@neo-dist/*": ["./packages/*/dist"],
-      "@common/*": ["./packages/common/src/*"],
-      "@types/*": ["./packages/common/src/types/*"]
-    }
+    "rootDir": ".",
   },
   "include": [
     "packages/*/src/**/*",
     "apps/*/src/**/*",
     "services/*/src/**/*"
   ],
-  "exclude": [
-    "**/node_modules",
-    "**/dist",
-    "**/logs"
-  ]
+  "exclude": ["**/node_modules", "**/dist", "**/logs"]
 }
