@@ -52,7 +52,8 @@ __export(index_exports, {
   DialogPortal: () => DialogPortal,
   DialogTitle: () => DialogTitle,
   DialogTrigger: () => DialogTrigger,
-  Loader: () => Loader,
+  InlineLoader: () => InlineLoader,
+  SplashLoader: () => SplashLoader,
   buttonVariants: () => buttonVariants
 });
 module.exports = __toCommonJS(index_exports);
@@ -371,15 +372,72 @@ function DialogDescription({
   );
 }
 
-// src/features/Loader.tsx
-var import_lucide_react2 = require("lucide-react");
+// src/features/loader-base.tsx
+var import_clsx2 = require("clsx");
 var import_jsx_runtime4 = require("react/jsx-runtime");
-function Loader({ message = "", className }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react2.Loader2, { className: "h-5 w-5 animate-spin" }),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: message })
+var Loader = ({
+  fullscreen = false,
+  size = "w-8 h-8",
+  message,
+  className
+}) => {
+  const spinner = /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+    "div",
+    {
+      className: (0, import_clsx2.clsx)(
+        "animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent",
+        size
+        // Klasa z propa `size`
+      ),
+      role: "status",
+      children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "\u0141adowanie..." })
+    }
+  );
+  if (fullscreen) {
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
+      "div",
+      {
+        className: (0, import_clsx2.clsx)(
+          "fixed inset-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-background backdrop-blur-sm animate-pulse",
+          className
+        ),
+        children: [
+          spinner,
+          message && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "mt-4 text-lg font-medium", children: message })
+        ]
+      }
+    );
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: (0, import_clsx2.clsx)("flex items-center gap-3", className), children: [
+    spinner,
+    message && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { children: message })
   ] });
-}
+};
+
+// src/features/SplashLoader.tsx
+var import_jsx_runtime5 = require("react/jsx-runtime");
+var SplashLoader = () => {
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    Loader,
+    {
+      fullscreen: true,
+      size: "w-16 h-16",
+      message: "Przygotowujemy aplikacj\u0119..."
+    }
+  );
+};
+
+// src/features/InlineLoader.tsx
+var import_jsx_runtime6 = require("react/jsx-runtime");
+var InlineLoader = ({ message, className }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+  Loader,
+  {
+    fullscreen: false,
+    size: "w-6 h-6",
+    message,
+    className
+  }
+);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AlertDialog,
@@ -404,7 +462,8 @@ function Loader({ message = "", className }) {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-  Loader,
+  InlineLoader,
+  SplashLoader,
   buttonVariants
 });
 //# sourceMappingURL=index.cjs.map

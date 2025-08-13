@@ -312,15 +312,72 @@ function DialogDescription({
   );
 }
 
-// src/features/Loader.tsx
-import { Loader2 } from "lucide-react";
+// src/features/loader-base.tsx
+import { clsx as clsx2 } from "clsx";
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
-function Loader({ message = "", className }) {
-  return /* @__PURE__ */ jsxs3("div", { className: cn("flex items-center justify-center gap-2 text-muted-foreground p-4", className), children: [
-    /* @__PURE__ */ jsx4(Loader2, { className: "h-5 w-5 animate-spin" }),
-    /* @__PURE__ */ jsx4("span", { children: message })
+var Loader = ({
+  fullscreen = false,
+  size = "w-8 h-8",
+  message,
+  className
+}) => {
+  const spinner = /* @__PURE__ */ jsx4(
+    "div",
+    {
+      className: clsx2(
+        "animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent",
+        size
+        // Klasa z propa `size`
+      ),
+      role: "status",
+      children: /* @__PURE__ */ jsx4("span", { className: "sr-only", children: "\u0141adowanie..." })
+    }
+  );
+  if (fullscreen) {
+    return /* @__PURE__ */ jsxs3(
+      "div",
+      {
+        className: clsx2(
+          "fixed inset-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-background backdrop-blur-sm animate-pulse",
+          className
+        ),
+        children: [
+          spinner,
+          message && /* @__PURE__ */ jsx4("p", { className: "mt-4 text-lg font-medium", children: message })
+        ]
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxs3("div", { className: clsx2("flex items-center gap-3", className), children: [
+    spinner,
+    message && /* @__PURE__ */ jsx4("p", { children: message })
   ] });
-}
+};
+
+// src/features/SplashLoader.tsx
+import { jsx as jsx5 } from "react/jsx-runtime";
+var SplashLoader = () => {
+  return /* @__PURE__ */ jsx5(
+    Loader,
+    {
+      fullscreen: true,
+      size: "w-16 h-16",
+      message: "Przygotowujemy aplikacj\u0119..."
+    }
+  );
+};
+
+// src/features/InlineLoader.tsx
+import { jsx as jsx6 } from "react/jsx-runtime";
+var InlineLoader = ({ message, className }) => /* @__PURE__ */ jsx6(
+  Loader,
+  {
+    fullscreen: false,
+    size: "w-6 h-6",
+    message,
+    className
+  }
+);
 export {
   AlertDialog,
   AlertDialogAction,
@@ -344,7 +401,8 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-  Loader,
+  InlineLoader,
+  SplashLoader,
   buttonVariants
 };
 //# sourceMappingURL=index.js.map

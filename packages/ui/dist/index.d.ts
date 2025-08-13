@@ -38,9 +38,12 @@ declare function DialogFooter({ className, ...props }: React.ComponentProps<"div
 declare function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>): react_jsx_runtime.JSX.Element;
 declare function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>): react_jsx_runtime.JSX.Element;
 
-declare function Loader({ message, className }: {
+declare const SplashLoader: () => react_jsx_runtime.JSX.Element;
+
+interface InlineLoaderProps {
     message?: string;
     className?: string;
-}): react_jsx_runtime.JSX.Element;
+}
+declare const InlineLoader: ({ message, className }: InlineLoaderProps) => react_jsx_runtime.JSX.Element;
 
-export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Loader, buttonVariants };
+export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, InlineLoader, SplashLoader, buttonVariants };

@@ -15,4 +15,5 @@ export * from './components/dialog.tsx';
 // export * from './components/form.tsx';
 
 
-export * from './features/Loader.tsx';
+export * from './features/SplashLoader.tsx';
+export * from './features/InlineLoader.tsx';

@@ -3,29 +3,29 @@
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider, useLogin } from './LoginContext';
-import { Loader } from '@/components/ui/Loader';
+import { InlineLoader } from '@neo/ui';
 import LoginBoxHeader from './LoginBoxHeader';
 
 const InitialStep = dynamic(() => import('./InitialStep.tsx').then((mod) => mod.default), {
-  loading: () => <Loader aria-label="Ładowanie kroku logowania" />,
+  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
   ssr: false,
 });
 
 const EmailStep = dynamic(() => import('./EmailStep.tsx').then((mod) => mod.default), {
-  loading: () => <Loader aria-label="Ładowanie kroku logowania" />,
+  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
   ssr: false,
 });
 
 const PasswordStep = dynamic(() => import('./PasswordStep.tsx').then((mod) => mod.default), {
-  loading: () => <Loader aria-label="Ładowanie kroku logowania" />,
+  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
 });
 
 const TwoFactorStep = dynamic(() => import('./TwoFactorStep.tsx').then((mod) => mod.default), {
-  loading: () => <Loader aria-label="Ładowanie kroku logowania" />,
+  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
 });
 
 const SuccessStep = dynamic(() => import('./SuccessStep.tsx').then((mod) => mod.default), {
-  loading: () => <Loader aria-label="Ładowanie kroku logowania" />,
+  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
 });
 
 function LoginSystemContent() {
@@ -37,9 +37,9 @@ function LoginSystemContent() {
       <AnimatePresence mode="wait">
         <motion.div
           key={loginStep}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           layout
           style={{ overflow: 'hidden' }}
