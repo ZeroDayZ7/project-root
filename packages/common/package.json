@@ -1,5 +1,5 @@
 {
-  "name": "@neo/common",
+  "name": "@zerodayz7/common",
   "version": "1.0.0",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
