@@ -16,7 +16,6 @@ const app = setupCommonMiddleware({
   cors: corsOptions,
   helmet: helmetOptions,
 });
-const unused = 123;
 
 app.use(globalRateLimiter);
 app.use(

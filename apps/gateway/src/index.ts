@@ -3,9 +3,9 @@ import { AddressInfo } from 'net';
 import { Server } from 'http';
 import app from './app.js';
 import env from './config/env.js';
-import { markShuttingDown, isShuttingDown } from './utils/server/shutdown.js';
+import { markShuttingDown, isShuttingDown } from '@/utils/server/shutdown.js';
 import { logger } from '@neo/common';
-import { initRedis, closeRedis } from './config/redis.config.js';
+import { initRedis, closeRedis } from '@/config/redis.config.js';
 import sessionManager from '@/config/session.config.js';
 import { Socket } from 'net';
 

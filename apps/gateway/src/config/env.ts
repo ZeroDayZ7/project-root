@@ -1,4 +1,4 @@
-// project-root\apps\gateway\src\config\env.ts
+// project-root\apps\gateway\src\config\env.js
 import { cleanEnv, str, port, num } from 'envalid';
 
 const env = cleanEnv(process.env, {

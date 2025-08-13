@@ -6,8 +6,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsup",
-    "tsx": "tsc --emitDeclarationOnly && tsup src/index.ts --format esm,cjs",
+    "build": "sh scripts/build-prod.sh",
     "tsc": "tsc",
     "tsup": "tsup src/index.ts --dts --dts-resolve --format esm,cjs",
     "dev": "tsup src/index.ts --dts --dts-resolve --format esm,cjs --watch"
@@ -19,6 +18,9 @@
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     }
+  },
+  "peerDependencies": {
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@types/compression": "^1.8.1",

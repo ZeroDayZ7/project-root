@@ -1,0 +1,15 @@
+// tsconfig.paths.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/utils/*": ["./utils/*"], 
+      "@/config/*": ["./config/*"],
+      "@neo/*": ["./packages/*/src"],
+      "@neo-dist/*": ["./packages/*/dist"],
+      "@common/*": ["./packages/common/src/*"],
+      "@types/*": ["./packages/common/src/types/*"]
+    }
+  }
+}

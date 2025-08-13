@@ -11,7 +11,7 @@
 //   const routesPath = path.resolve(__dirname, '../routes');
 
 //   const files = readdirSync(routesPath).filter(
-//     (file) => file.endsWith('.route.ts') || file.endsWith('.route.js')
+//     (file) => file.endsWith('.route.js') || file.endsWith('.route.js')
 //   );
 
 //   for (const file of files) {

@@ -8,9 +8,11 @@ set -e
 rm -rf dist
 
 # kompilacja TypeScript
-tsc --project tsconfig.prod.json
+echo "🔄 Kompilacja TypeScript..."
+tsc --project tsconfig.build.json
 
-# zamiana aliasów (jeśli używasz tsc-alias)
-tsc-alias -p tsconfig.prod.json
+# zamiana aliasów
+echo "🔄 Zamiana aliasów za pomocą tsc-alias..."
+tsc-alias -p tsconfig.build.json
 
-echo "✅ Build finished"
+echo "✅ Build zakończony"
