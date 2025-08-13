@@ -1,11 +1,14 @@
-node_modules/
-.next
-dist/
-logs/
-buildcache/
+# Zależności
+**/node_modules/
 
+# Foldery build i cache
+.next/
+**/dist/
+**/logs/
+**/buildcache/
+**/out/
 
-
-out/
+# Pliki środowiskowe
 .env
 .env.local
+*.env*
