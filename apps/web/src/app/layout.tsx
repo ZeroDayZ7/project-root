@@ -3,20 +3,13 @@ export { metadata };
 
 import './globals.css';
 
-import ThemeSwitcher from '@/components/themes/ThemeSwitcher';
 import ClientProviders from '@/providers/ClientProviders';
- 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pl" suppressHydrationWarning>
-      <body className='min-h-screen bg-background text-foreground'>
-        <ClientProviders>
-          <div className='m-2'>
-            <ThemeSwitcher /> 
-          </div>
-          {children}
-        </ClientProviders>
+      <body className="min-h-screen bg-background text-foreground">
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );

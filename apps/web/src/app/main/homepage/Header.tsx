@@ -1,9 +1,13 @@
 import AppBrand from '@/components/layout/AppBrand';
+import ThemeSwitcher from '@/components/themes/ThemeSwitcher';
 
 export default function Header() {
   return (
-    <div className="mb-8">
+    <header className="mb-8">
+      <div className="p-2">
+        <ThemeSwitcher />
+      </div>
       <AppBrand />
-    </div>
+    </header>
   );
 }
