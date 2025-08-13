@@ -15,4 +15,4 @@ tsc --project tsconfig.build.json
 echo "🔄 Zamiana aliasów za pomocą tsc-alias..."
 tsc-alias -p tsconfig.build.json
 
-echo "✅ Build zakończony - gateway"
+echo "✅ Build zakończony - auth-service"

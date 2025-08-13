@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "sh scripts/build-prod.sh",
+    "build:prod": "sh scripts/build-prod.sh",
     "tsc": "tsc",
     "tsup": "tsup src/index.ts --dts --dts-resolve --format esm,cjs",
     "dev": "tsup src/index.ts --dts --dts-resolve --format esm,cjs --watch"

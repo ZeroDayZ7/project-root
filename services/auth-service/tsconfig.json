@@ -1,18 +1,12 @@
 // Auth-service - dev
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": ["../../tsconfig.base.json", "../../tsconfig.paths.json"],
   "compilerOptions": {
-    "rootDir": "./src",
+    "baseUrl": "./src",
     "outDir": "./dist",
     "noEmit": true,
+    "sourceMap": true,
     "allowImportingTsExtensions": true,
-    "composite": false,
-    "incremental": false,
-    "baseUrl": "./src",
-    "paths": {
-      "@/controllers/*": ["./controllers/*"],
-      "@/routes/*": ["./routes/*"],
-    }
   },
   "include": ["src/**/*"],
 }
