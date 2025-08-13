@@ -17,7 +17,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@neo/ui';
-import { Loader } from '@neo/ui';
 
 export default function ConfirmDialog() {
   return (
