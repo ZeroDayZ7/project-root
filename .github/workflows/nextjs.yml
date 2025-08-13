@@ -64,6 +64,10 @@ jobs:
         working-directory: apps/web # <--- Kluczowe: pracuj w katalogu aplikacji
         run: pnpm install # Używamy pnpm install bezpośrednio
 
+      - name: Build UI package
+        working-directory: packages/ui
+        run: pnpm run build
+
       - name: Build with Next.js
         working-directory: apps/web # <--- Kluczowe: buduj w katalogu aplikacji
         env:
