@@ -9,6 +9,7 @@
 **/out/
 
 # Pliki środowiskowe
+.npmrc
 .env
 .env.local
 *.env*

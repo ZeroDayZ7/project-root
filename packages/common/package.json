@@ -5,6 +5,9 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "build:prod": "sh scripts/build-prod.sh",
     "tsc": "tsc",

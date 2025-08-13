@@ -4,9 +4,7 @@ import ThemeSwitcher from '@/components/themes/ThemeSwitcher';
 export default function Header() {
   return (
     <header className="mb-8">
-      <div className="p-2">
-        <ThemeSwitcher />
-      </div>
+      <ThemeSwitcher />
       <AppBrand />
     </header>
   );
