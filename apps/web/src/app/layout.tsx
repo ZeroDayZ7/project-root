@@ -10,11 +10,11 @@ import ClientProviders from '@/providers/ClientProviders';
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pl" suppressHydrationWarning>
-      <body>
+      <body className='min-h-screen bg-background text-foreground'>
         <ClientProviders>
-          {/* <div className='m-4'>
+          <div className='m-2'>
             <ThemeSwitcher /> 
-          </div> */}
+          </div>
           {children}
         </ClientProviders>
       </body>

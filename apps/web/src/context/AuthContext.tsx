@@ -1,6 +1,6 @@
+// context/auth-context.tsx
 'use client';
 
-import { Loader } from '@/components/ui/Loader';
 import React, {
   createContext,
   useContext,
@@ -8,152 +8,110 @@ import React, {
   useEffect,
   useMemo,
   ReactNode,
+  useCallback, // Ważne: dodajemy useCallback
 } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 
+// Zostawiamy interfejsy bez zmian
 interface User {
   id: string;
   name: string;
   email: string;
-  // Dodaj inne pola użytkownika
 }
 
 interface AuthContextType {
-  loading: boolean;
-  error: string | null;
   user: User | null;
+  isInitializing: boolean; // Zmieniona nazwa dla jasności: to jest stan ładowania sesji
+  isLoading: boolean; // Nowy stan dla akcji typu login/logout
   isAuthenticated: boolean;
   login: (credentials: { email: string; password: string }) => Promise<void>;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  loading: true,
-  error: null,
-  user: null,
-  isAuthenticated: false,
-  login: async () => {},
-  logout: () => {},
-});
+// Kontekst z wartościami domyślnymi
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Główny komponent Providera
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true); // TYLKO do sprawdzania sesji przy starcie
+  const [isLoading, setIsLoading] = useState(false); // Do obsługi ładowania w trakcie logowania
 
-useEffect(() => {
-  let timer: ReturnType<typeof setTimeout>; // zdefiniuj zmienną timer w szerszym scope
+  // Efekt uruchamiany raz, aby sprawdzić, czy użytkownik jest już zalogowany (np. na podstawie tokena)
+  useEffect(() => {
+    const checkUserSession = async () => {
+      try {
+        // --- Miejsce na Twoją prawdziwą logikę ---
+        // Tutaj odpytujesz swoje API, np. /api/auth/me, aby sprawdzić token w cookie
+        // const response = await fetch('/api/auth/me');
+        // if (!response.ok) throw new Error('No active session');
+        // const userData = await response.json();
+        // setUser(userData);
 
-  const checkAuth = async () => {
-    try {
-      // Przykład: zapytanie do API w celu sprawdzenia tokena
-      // const response = await fetch('/api/auth/check');
-      // const data = await response.json();
-      // if (data.user) {
-      //   setUser(data.user);
-      // }
-      timer = setTimeout(() => {
-        setUser({ id: '1', name: 'Jan Kowalski', email: 'jan@example.com' });
-        setLoading(false);
-      }, 50);
-    } catch (err) {
-      setError('Błąd podczas ładowania danych użytkownika');
-      setLoading(false);
-    }
-  };
+        // Symulacja udanej weryfikacji po 1.5s
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        setUser({ id: '1', name: 'Zalogowany User', email: 'test@example.com' });
+      } catch (error) {
+        // Jeśli weryfikacja się nie powiedzie, po prostu zostawiamy usera jako null
+        setUser(null);
+      } finally {
+        // Niezależnie od wyniku, kończymy stan inicjalizacji
+        setIsInitializing(false);
+      }
+    };
 
-  checkAuth();
+    checkUserSession();
+  }, []); // Pusta tablica zależności = uruchom tylko raz
 
-  return () => clearTimeout(timer); // teraz timer jest dostępny
-}, []);
-
-
-  const login = async (credentials: { email: string; password: string }) => {
-    setLoading(true);
-    try {
-      // Przykład: logowanie przez API
-      // const response = await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify(credentials) });
-      // const data = await response.json();
-      // setUser(data.user);
-      setTimeout(() => {
+  // Funkcja logowania opakowana w useCallback dla optymalizacji
+  const login = useCallback(
+    async (credentials: { email: string; password: string }) => {
+      setIsLoading(true); // Używamy dedykowanego stanu ładowania
+      try {
+        // --- Logika logowania do API ---
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         setUser({ id: '1', name: 'Jan Kowalski', email: credentials.email });
-        setError(null);
-        setLoading(false);
-      }, 1000);
-    } catch (err) {
-      setError('Nieprawidłowe dane logowania');
-      setLoading(false);
-    }
-  };
+      } catch (err) {
+        // Błędy logowania powinny być obsługiwane w formularzu,
+        // tutaj rzucamy błąd, aby komponent formularza mógł go złapać
+        throw new Error('Nieprawidłowe dane logowania');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  ); // Pusta tablica, bo funkcja nie zależy od stanu komponentu
 
-  const logout = () => {
-    setUser(null);
-    setError(null);
-    // Przykład: wylogowanie przez API
+  // Funkcja wylogowania
+  const logout = useCallback(() => {
+    // --- Logika wylogowania z API ---
     // fetch('/api/auth/logout');
-  };
+    setUser(null);
+  }, []);
 
+  // Memoizowana wartość kontekstu, aby uniknąć niepotrzebnych re-renderów
   const contextValue = useMemo(
-    () => ({ loading, error, user, isAuthenticated: !!user, login, logout }),
-    [loading, error, user],
+    () => ({
+      user,
+      isInitializing,
+      isLoading,
+      isAuthenticated: !!user,
+      login,
+      logout,
+    }),
+    [user, isInitializing, isLoading, login, logout],
   );
 
+  // Provider zwraca teraz TYLKO kontekst. Bez logiki renderowania!
   return (
-    <AuthContext.Provider value={contextValue}>
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-          >
-            <Loader
-              fullscreen
-              message="Ładowanie aplikacji..."
-              srMessage="Trwa ładowanie aplikacji..."
-            />
-          </motion.div>
-        ) : error ? (
-          <motion.div
-            key="error"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="flex items-center justify-center h-screen"
-          >
-            <div role="alert" className="text-red-500">
-              {error}
-              <button
-                onClick={() => setError(null)}
-                className="ml-4 text-blue-500 underline"
-              >
-                Spróbuj ponownie
-              </button>
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
+// Hook do wygodnego korzystania z kontekstu
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+  if (context === undefined) {
+    throw new Error('useAuth musi być używany wewnątrz AuthProvider');
   }
   return context;
 };
