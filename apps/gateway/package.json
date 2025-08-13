@@ -17,7 +17,6 @@
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "@neo/common": "workspace:*",
     "connect-redis": "^9.0.0",
     "dotenv": "^17.2.1",
     "envalid": "^8.1.0",
