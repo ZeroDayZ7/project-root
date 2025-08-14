@@ -1,9 +1,9 @@
 'use client';
 
-import { usePasswordStep } from './usePasswordStep';
+import { usePasswordStep } from '../hooks/usePasswordStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
-import { useLogin } from './LoginContext';
+import { useLogin } from '../LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function PasswordStep() {
@@ -43,6 +43,9 @@ export default function PasswordStep() {
         isLoading={isSubmitting}
       >
         Dalej
+      </Button>
+       <Button type="button" variant="secondary" size="sm" onClick={() => setLoginStep('email')} ariaLabel="Powrót do ekranu email">
+        ← Powrót
       </Button>
     </form>
   );

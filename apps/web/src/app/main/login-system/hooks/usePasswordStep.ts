@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
-import { useLogin } from './LoginContext';
+import { useLogin } from '../LoginContext';
 import { apiFetch } from '@/lib/apiFetch';
 import logger from '@/utils/logger';
 
@@ -48,7 +48,6 @@ export function usePasswordStep(): PasswordStepHookReturn {
     try {
       if (!user?.email) {
         setError('password', { message: 'Brak e-maila użytkownika. Wróć do kroku wprowadzania e-maila.' });
-        setLoginStep('initial');
         return;
       }
 

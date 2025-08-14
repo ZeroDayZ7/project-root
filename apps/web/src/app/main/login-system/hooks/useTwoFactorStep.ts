@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
-import { LoginStep } from './types';
-import { useLogin } from './LoginContext';
+import { LoginStep } from '../types';
+import { useLogin } from '../LoginContext';
 import { apiFetch } from '@/lib/apiFetch';
 
 const twoFactorSchema = z.object({

@@ -1,10 +1,10 @@
 'use client';
 
-import { useEmailStep } from './useEmailStep';
+import { useEmailStep } from '../hooks/useEmailStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
 import Label from '@/components/ui/my/Label';
-import { useLogin } from './LoginContext';
+import { useLogin } from '../LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function EmailStep() {
@@ -40,9 +40,7 @@ export default function EmailStep() {
       >
         Dalej
       </Button>
-      {/* <Button type="button" variant="secondary" size="sm" onClick={() => setLoginStep('initial')} ariaLabel="Powrót do ekranu początkowego">
-        ← Powrót
-      </Button> */}
+     
     </form>
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { useTwoFactorStep } from './useTwoFactorStep';
+import { useTwoFactorStep } from '../hooks/useTwoFactorStep';
 import Button from '@/components/ui/my/Button';
 import Input from '@/components/ui/my/Input';
-import { useLogin } from './LoginContext';
+import { useLogin } from '../LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function TwoFactorStep() {
@@ -16,7 +16,7 @@ export default function TwoFactorStep() {
       <div className="flex flex-col">
         <label
           htmlFor="code"
-          className="mb-2 block text-sm font-medium text-foreground"
+          className="mb-2 block text-sm font-medium"
           aria-describedby={errors.code ? 'code-error' : undefined}
         >
           Kod 2FA
