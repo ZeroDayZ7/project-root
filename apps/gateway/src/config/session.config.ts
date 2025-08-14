@@ -2,7 +2,7 @@ import session from 'express-session';
 import { Application } from 'express';
 import { createSessionStore } from '@/config/session-store.js';
 import env from '@/config/env.js';
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 
 export default function sessionManager(app: Application): void {
   const store = createSessionStore(); // ⬅️ teraz async

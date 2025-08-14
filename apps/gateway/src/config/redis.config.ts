@@ -1,4 +1,4 @@
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 import { createClient, RedisClientType } from 'redis';
 import env from '@/config/env.js';
 

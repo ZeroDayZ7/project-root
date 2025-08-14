@@ -1,10 +1,10 @@
 import express, { Express } from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import env from './config/env.js';
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 
-import { requestLoggerDev } from '@neo/common';
-
+import { requestLoggerDev } from '@zerodayz7/common';
+import { success } from 'zod';
 
 const app: Express = express();
 // wyłączenie X-Powered-By
@@ -14,9 +14,9 @@ app.use(
   requestLoggerDev({
     logger,
     isDev: env.NODE_ENV === 'development',
-  })
+  }),
 );
- 
+
 // Prosty endpoint, który zwraca losową odpowiedź
 app.post('/check-email', (req, res) => {
   const { email } = req.body;
@@ -43,6 +43,18 @@ app.post('/check-password', (req, res) => {
   }
 });
 
+app.post('/check-2fa', (req, res) => {
+  const { email, code } = req.body;
+
+  if (email === 'test@example.com' && code === '123456') {
+    return res.json({
+      success: true,
+      isLoggedIn: true,
+    });
+  } else {
+    return res.json({ success: false });
+  }
+});
 
 // Obsługa 404
 app.use((req, res, next) => {

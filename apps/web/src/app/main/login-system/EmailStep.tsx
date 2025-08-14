@@ -40,9 +40,9 @@ export default function EmailStep() {
       >
         Dalej
       </Button>
-      <Button type="button" variant="secondary" size="sm" onClick={() => setLoginStep('initial')} ariaLabel="Powrót do ekranu początkowego">
+      {/* <Button type="button" variant="secondary" size="sm" onClick={() => setLoginStep('initial')} ariaLabel="Powrót do ekranu początkowego">
         ← Powrót
-      </Button>
+      </Button> */}
     </form>
   );
 }

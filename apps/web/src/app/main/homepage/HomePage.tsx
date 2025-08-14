@@ -4,6 +4,7 @@ import LoginSystem from '../login-system/LoginSystem';
 import SystemStatus from './SystemStatus';
 import Footer from './Footer';
 import SystemDescription from './SystemDescription';
+import LoginModal from '../login-system/LoginModal';
 
 export default function HomePage() {
   return (
@@ -13,7 +14,8 @@ export default function HomePage() {
         <SystemInfo />
         <div className="flex flex-col items-center justify-start">
           <SystemDescription />
-          <LoginSystem />
+          {/* <LoginSystem /> */}
+          <LoginModal />
         </div>
         <div className="space-y-6">
           <SystemStatus />

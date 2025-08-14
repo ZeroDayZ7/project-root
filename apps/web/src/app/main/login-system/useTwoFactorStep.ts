@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useEffect } from 'react';
 import { LoginStep } from './types';
 import { useLogin } from './LoginContext';
+import { apiFetch } from '@/lib/apiFetch';
 
 const twoFactorSchema = z.object({
   code: z
@@ -34,7 +35,7 @@ export function useTwoFactorStep(): TwoFactorStepHookReturn {
     setFocus,
   } = useForm<TwoFactorForm>({
     resolver: zodResolver(twoFactorSchema),
-    defaultValues: { code: '' },
+    defaultValues: { code: '123456' },
     mode: 'onSubmit',
   });
 
@@ -44,7 +45,7 @@ export function useTwoFactorStep(): TwoFactorStepHookReturn {
 
   const onSubmit = async (data: TwoFactorForm) => {
     try {
-      const res = await fetch('/api/check-2fa', {
+      const res = await apiFetch('/api/auth/check-2fa', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user?.email, code: data.code }),

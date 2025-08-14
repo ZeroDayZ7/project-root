@@ -44,15 +44,6 @@ export default function TwoFactorStep() {
       >
         Weryfikuj kod
       </Button>
-      <Button
-        type="button"
-        variant="secondary"
-        size="sm"
-        onClick={() => setLoginStep('password')}
-        ariaLabel="Powrót do kroku hasła"
-      >
-        ← Powrót
-      </Button>
     </form>
   );
 }

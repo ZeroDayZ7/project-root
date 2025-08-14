@@ -4,53 +4,74 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider, useLogin } from './LoginContext';
 import { InlineLoader } from '@neo/ui';
-import LoginBoxHeader from './LoginBoxHeader';
+import { Loader } from '@/components/ui/Loader';
+import { useEffect, useRef, useState } from 'react';
 
-const InitialStep = dynamic(() => import('./InitialStep.tsx').then((mod) => mod.default), {
-  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
-  ssr: false,
-});
+const EmailStep = dynamic(() => import('./EmailStep.tsx').then((mod) => mod.default), { loading: () => <Loader />, ssr: false });
+const PasswordStep = dynamic(() => import('./PasswordStep.tsx').then((mod) => mod.default), { loading: () => <InlineLoader />, ssr: false });
+const TwoFactorStep = dynamic(() => import('./TwoFactorStep.tsx').then((mod) => mod.default), { loading: () => <InlineLoader />, ssr: false });
+const SuccessStep = dynamic(() => import('./SuccessStep.tsx').then((mod) => mod.default), { loading: () => <InlineLoader />, ssr: false });
 
-const EmailStep = dynamic(() => import('./EmailStep.tsx').then((mod) => mod.default), {
-  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
-  ssr: false,
-});
+function StepWrapper({ children, onHeightChange }: { children: React.ReactNode; onHeightChange: (h: number) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
 
-const PasswordStep = dynamic(() => import('./PasswordStep.tsx').then((mod) => mod.default), {
-  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
-});
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new ResizeObserver(() => {
+      if (ref.current) onHeightChange(ref.current.offsetHeight);
+    });
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [children, onHeightChange]);
 
-const TwoFactorStep = dynamic(() => import('./TwoFactorStep.tsx').then((mod) => mod.default), {
-  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
-});
-
-const SuccessStep = dynamic(() => import('./SuccessStep.tsx').then((mod) => mod.default), {
-  loading: () => <InlineLoader aria-label="Ładowanie kroku logowania" />,
-});
+  return <div ref={ref}>{children}</div>;
+}
 
 function LoginSystemContent() {
   const { loginStep } = useLogin();
+  const [height, setHeight] = useState(0);           // aktualna wysokość animowana
+  const [targetHeight, setTargetHeight] = useState(0); // wysokość nowego kroku dopiero po załadowaniu
+
+  const StepComponent = (() => {
+    switch (loginStep) {
+      case 'email':
+        return <EmailStep key="email" />;
+      case 'password':
+        return <PasswordStep key="password" />;
+      case 'twoFactor':
+        return <TwoFactorStep key="twoFactor" />;
+      case 'success':
+        return <SuccessStep key="success" />;
+      default:
+        return null;
+    }
+  })();
+
+  // callback z StepWrapper
+  const handleHeightChange = (h: number) => {
+    setTargetHeight(h);
+  };
+
+  // synchronizujemy height dopiero gdy targetHeight się zmieni
+  useEffect(() => {
+    if (targetHeight > 0) {
+      setHeight(targetHeight);
+    }
+  }, [targetHeight]);
 
   return (
-    <div className="w-full max-w-md rounded-lg border border-foreground/30 p-6" role="region" aria-labelledby="login-system-title">
-      <LoginBoxHeader />
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={loginStep}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          layout
-          style={{ overflow: 'hidden' }}
-        >
-          {loginStep === 'initial' && <InitialStep />}
-          {loginStep === 'email' && <EmailStep />}
-          {loginStep === 'password' && <PasswordStep />}
-          {loginStep === 'twoFactor' && <TwoFactorStep />}
-          {loginStep === 'success' && <SuccessStep />}
-        </motion.div>
-      </AnimatePresence>
+    <div className="w-full max-w-md mx-auto p-2" role="region" aria-labelledby="login-system-title">
+      <motion.div
+        style={{ height, overflow: 'hidden' }}
+        animate={{ height }}
+        transition={{ type: 'spring', stiffness: 135, damping: 40 }}
+      >
+        <AnimatePresence mode="wait">
+          <StepWrapper key={loginStep} onHeightChange={handleHeightChange}>
+            {StepComponent}
+          </StepWrapper>
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

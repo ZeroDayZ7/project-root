@@ -44,15 +44,6 @@ export default function PasswordStep() {
       >
         Dalej
       </Button>
-      <Button
-        type="button"
-        variant="secondary"
-        size="sm"
-        onClick={() => setLoginStep('email')}
-        ariaLabel="Powrót do kroku e-mail"
-      >
-        ← Powrót
-      </Button>
     </form>
   );
 }
