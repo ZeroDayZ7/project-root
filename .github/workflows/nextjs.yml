@@ -41,12 +41,11 @@ jobs:
           restore-keys: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
       - name: Install web dependencies
         working-directory: apps/web
-        run: pnpm install --no-frozen-lockfile --filter ./apps/web...
+        run: pnpm install --no-frozen-lockfile
 
       - name: Install and build UI package
         working-directory: packages/ui
         run: |
-          pnpm install --no-frozen-lockfile --filter ./packages/ui...
           pnpm run build:prod
 
       - name: Build Next.js site
