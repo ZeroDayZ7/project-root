@@ -11,8 +11,8 @@ importers:
   apps/gateway:
     dependencies:
       '@zerodayz7/common':
-        specifier: ^1.0.1
-        version: 1.0.1(express@5.1.0)
+        specifier: workspace:*
+        version: link:../../packages/common
       connect-redis:
         specifier: ^9.0.0
         version: 9.0.0(express-session@1.18.2)(redis@5.8.0)
@@ -359,11 +359,9 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
-  services/logs-service: {}
+  services/log-service: {}
 
   services/notification-service: {}
-
-  services/users-service: {}
 
 packages:
 
