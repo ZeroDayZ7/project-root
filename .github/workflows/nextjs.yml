@@ -39,7 +39,6 @@ jobs:
           path: apps/web/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('apps/web/**/*.{js,ts,jsx,tsx}') }}
           restore-keys: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
       - name: Install web dependencies
         working-directory: apps/web
         run: pnpm install --no-frozen-lockfile --filter ./apps/web...
