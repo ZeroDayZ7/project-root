@@ -21,7 +21,7 @@
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "@hookform/resolvers": "5.2.1",
-    "@zerodayz7/ui": "workspace:*",
+    "@neo/ui": "workspace:*",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
