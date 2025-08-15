@@ -20,14 +20,14 @@ export interface LoginSystemState {
 }
 
 export function useLoginSystem(): LoginSystemState {
-  const [loginStep, setLoginStep] = useState<LoginStep>('initial');
+  const [loginStep, setLoginStep] = useState<LoginStep>('email');
   const [email, setEmail] = useState('test@test.com');
   const [password, setPassword] = useState('Zaq1@wsx');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const { csrfToken, isLoading, error } = useCsrfToken();
 
   function resetLogin() {
-    setLoginStep('initial');
+    setLoginStep('email');
     setEmail('');
     setPassword('');
     setIsValidEmail(false);
