@@ -11,7 +11,7 @@ export default function LoginModal() {
         <button className="btn">Rozpocznij logowanie</button>
       </DialogTrigger>
       <DialogContent className="w-full">
-        <DialogDescription>Zaloguj się</DialogDescription>
+        <DialogDescription></DialogDescription>
         <DialogTitle>
           <LoginBoxHeader />
         </DialogTitle>
