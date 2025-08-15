@@ -3,7 +3,6 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -20,7 +19,6 @@ func NewUserHandler(service *service.UserService) *UserHandler {
 
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
     log.Printf("Odebrano żądanie POST /users od %s", r.RemoteAddr)
-
     // Odczytaj surową treść żądania
     bodyBytes, err := io.ReadAll(r.Body)
     if err != nil {
