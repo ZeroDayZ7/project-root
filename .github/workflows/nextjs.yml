@@ -60,6 +60,7 @@ jobs:
 
       - name: Build UI package
         working-directory: packages/ui
+        run: pnpm install --no-frozen-lockfile --filter ./packages/ui...
         run: pnpm run build:prod
 
       - name: Build with Next.js
