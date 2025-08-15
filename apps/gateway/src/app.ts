@@ -3,12 +3,12 @@ import {
   globalErrorHandler, 
   globalRateLimiter, 
   notFoundHandler, 
-  setupCommonMiddleware } from '@neo/common';
+  setupCommonMiddleware } from '@zerodayz7/common';
 
 import { corsOptions } from './config/cors.config.js';
 import { helmetOptions } from './config/helmet.config.js';
   
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 import env from './config/env.js';
 import routes from './routes/index.js';
 

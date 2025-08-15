@@ -2,7 +2,7 @@
 // import path from 'path';
 // import { readdirSync } from 'fs';
 // import { pathToFileURL, fileURLToPath } from 'url';
-// import { logger } from '@neo/common'; // lub gdzie masz logger
+// import { logger } from '@zerodayz7/common'; // lub gdzie masz logger
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);

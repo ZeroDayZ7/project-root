@@ -27,6 +27,7 @@ export default function ThemeSwitcher() {
 
   return (
     <DropdownMenu
+      className='py-2'
       items={themes}
       selectedId={currentTheme.id}
       onSelect={setTheme}

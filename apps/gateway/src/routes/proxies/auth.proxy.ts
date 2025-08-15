@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 
 const authProxy: Router = Router();
 

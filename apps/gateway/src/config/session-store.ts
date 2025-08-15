@@ -1,6 +1,6 @@
 import { RedisStore } from 'connect-redis';
 import { redisClient } from '@/config/redis.config.js';
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 import env from '@/config/env.js';
 
 export function createSessionStore(): RedisStore {

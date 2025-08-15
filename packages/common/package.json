@@ -1,12 +1,16 @@
 {
-  "name": "@neo/common",
-  "version": "1.0.0",
+  "name": "@zerodayz7/common",
+  "version": "1.0.3",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "build:prod": "sh scripts/build-prod.sh",
+    "build:publish": "sh scripts/build-publish.sh",
     "tsc": "tsc",
     "tsup": "tsup src/index.ts --dts --dts-resolve --format esm,cjs",
     "dev": "tsup src/index.ts --dts --dts-resolve --format esm,cjs --watch"

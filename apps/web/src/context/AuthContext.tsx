@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // setUser(userData);
 
         // Symulacja udanej weryfikacji po 1.5s
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // await new Promise((resolve) => setTimeout(resolve, 1500));
         setUser({ id: '1', name: 'Zalogowany User', email: 'test@example.com' });
       } catch (error) {
         // Jeśli weryfikacja się nie powiedzie, po prostu zostawiamy usera jako null

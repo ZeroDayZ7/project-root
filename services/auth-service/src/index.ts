@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import app from './app.js';
-import { logger } from '@neo/common';
+import { logger } from '@zerodayz7/common';
 import env from './config/env.js';
 import { Server } from 'http';
 
