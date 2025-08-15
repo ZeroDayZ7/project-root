@@ -31,7 +31,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -40,15 +39,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
-          # Automatically inject basePath in your Next.js configuration file and disable
-          # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
-          #
-          # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: next
-          # Base path będzie automatycznie dodany do next.config.js
-          # Przykład: next.config.js będzie zawierał: basePath: '/your-repo-name'
-          # Co jest kluczowe dla GitHub Pages, jeśli nie jest to repozytorium typu project.github.io
-
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -62,8 +53,8 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/web # <--- Kluczowe: pracuj w katalogu aplikacji
-        run: pnpm install --frozen-lockfile --filter ./apps/web...
-        # run: pnpm install # Używamy pnpm install bezpośrednio
+        # run: pnpm install --frozen-lockfile --filter ./apps/web...
+        run: pnpm install # Używamy pnpm install bezpośrednio
 
       - name: Build UI package
         working-directory: packages/ui
