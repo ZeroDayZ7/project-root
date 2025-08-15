@@ -8,7 +8,6 @@ import { useLogin } from '../LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function EmailStep() {
-  const { setLoginStep } = useLogin();
   const { register, handleSubmit, errors, isSubmitting, onSubmit } = useEmailStep();
 
   return (

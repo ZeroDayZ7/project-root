@@ -1,42 +1,91 @@
 'use client';
-import dynamic from 'next/dynamic';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthProvider, useLogin } from './LoginContext';
-import { InlineLoader } from '@neo/ui';
-import { Loader } from '@/components/ui/Loader';
+import { useEffect, useRef, useState } from 'react';
 import EmailStep from './components/EmailStep';
 import PasswordStep from './components/PasswordStep';
 import TwoFactorStep from './components/TwoFactorStep';
 import SuccessStep from './components/SuccessStep';
 
+function StepWrapper({ children, onHeightChange }: { children: React.ReactNode; onHeightChange: (h: number) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new ResizeObserver(() => {
+      if (ref.current) onHeightChange(ref.current.offsetHeight);
+    });
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [children, onHeightChange]);
+
+  return <div ref={ref}>{children}</div>;
+}
+
 function LoginSystemContent() {
   const { loginStep } = useLogin();
+  const [height, setHeight] = useState(0);
+  const [targetHeight, setTargetHeight] = useState(0);
 
-  const getStepComponent = () => {
+  const StepComponent = (() => {
     switch (loginStep) {
-      case 'email': return <EmailStep />;
-      case 'password': return <PasswordStep />;
-      case 'twoFactor': return <TwoFactorStep />;
-      case 'success': return <SuccessStep />;
-      default: return null;
+      case 'email':
+        return <EmailStep key="email" />;
+      case 'password':
+        return <PasswordStep key="password" />;
+      case 'twoFactor':
+        return <TwoFactorStep key="twoFactor" />;
+      case 'success':
+        return <SuccessStep key="success" />;
+      default:
+        return null;
     }
-  };
+  })();
 
-return (
-    <div className="w-full h-full flex items-center justify-center">
-        <AnimatePresence mode="wait">
+  const handleHeightChange = (h: number) => setTargetHeight(h);
+
+  useEffect(() => {
+    if (targetHeight > 0) setHeight(targetHeight);
+  }, [targetHeight]);
+
+  // ===== Animacje dla slide left/right =====
+  const slideVariants = {
+    initial: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    animate: { x: 0, opacity: 1 },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -300 : 300,
+      opacity: 0,
+    }),
+  };
+  const [direction, setDirection] = useState(1); // 1 = next, -1 = back
+
+  return (
+    <div className="w-full max-w-md mx-auto p-2" role="region" aria-labelledby="login-system-title">
+      <motion.div
+        style={{ height, overflow: 'hidden' }}
+        animate={{ height }}
+        transition={{ type: 'spring', stiffness: 1500, damping: 50 }}
+      >
+        <AnimatePresence custom={direction} mode="wait">
           <motion.div
-            className='w-full max-w-md'
             key={loginStep}
-            initial={{ opacity: 0, filter: "blur(4px)", rotateX: 10 }}
-            animate={{ opacity: 1, filter: "blur(0px)", rotateX: 0 }}
-            exit={{ opacity: 0, filter: "blur(4px)", rotateX: -10 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            style={{ transformStyle: "preserve-3d" }}
+            custom={direction}
+            variants={slideVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
           >
-            {getStepComponent()}
+            <StepWrapper key={loginStep} onHeightChange={handleHeightChange}>
+              {StepComponent}
+            </StepWrapper>
           </motion.div>
         </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

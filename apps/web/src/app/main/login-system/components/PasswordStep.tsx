@@ -7,7 +7,7 @@ import { useLogin } from '../LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function PasswordStep() {
-  const { setLoginStep, user } = useLogin();
+  const { user } = useLogin();
   const { register, handleSubmit, errors, isSubmitting, onSubmit } =
     usePasswordStep();
 
@@ -43,9 +43,6 @@ export default function PasswordStep() {
         isLoading={isSubmitting}
       >
         Dalej
-      </Button>
-       <Button type="button" variant="secondary" size="sm" onClick={() => setLoginStep('email')} ariaLabel="Powrót do ekranu email">
-        ← Powrót
       </Button>
     </form>
   );

@@ -7,7 +7,7 @@ import { useLogin } from '../LoginContext';
 import InputError from '@/components/ui/my/InputError';
 
 export default function TwoFactorStep() {
-  const { setLoginStep, user } = useLogin();
+  const { user } = useLogin();
   const { register, handleSubmit, errors, isSubmitting, onSubmit } =
     useTwoFactorStep();
 
