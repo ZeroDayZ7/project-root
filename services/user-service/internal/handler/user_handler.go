@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"bytes"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -18,6 +20,17 @@ func NewUserHandler(service *service.UserService) *UserHandler {
 
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
     log.Printf("Odebrano żądanie POST /users od %s", r.RemoteAddr)
+
+    // Odczytaj surową treść żądania
+    bodyBytes, err := io.ReadAll(r.Body)
+    if err != nil {
+        log.Printf("Błąd odczytu treści żądania: %v", err)
+        http.Error(w, "Cannot read request body", http.StatusBadRequest)
+        return
+    }
+    // Przywróć body, aby można je było dekodować
+    r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+    log.Printf("Treść żądania: %s", string(bodyBytes))
 
     var input struct {
         Username string `json:"username"`

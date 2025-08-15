@@ -62,7 +62,8 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/web # <--- Kluczowe: pracuj w katalogu aplikacji
-        run: pnpm install # Używamy pnpm install bezpośrednio
+        run: pnpm install --frozen-lockfile --filter ./apps/web...
+        # run: pnpm install # Używamy pnpm install bezpośrednio
 
       - name: Build UI package
         working-directory: packages/ui
