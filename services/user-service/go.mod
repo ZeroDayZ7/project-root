@@ -1,4 +1,3 @@
-// module github.com/zerodayz7/project-root/services/users-services
 module user-service
 
 go 1.25.0

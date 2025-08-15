@@ -12,7 +12,7 @@ import (
 
 func main() {
     // Wczytaj konfigurację
-    config, err := config.LoadGodotenv() // lub LoadViper()
+    config, err := config.LoadConfig()
     if err != nil {
         log.Fatal("Błąd konfiguracji:", err)
     }

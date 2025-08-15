@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-    DBPath string
+    DBConn string
     Port   string
     Env    string
 }
@@ -20,12 +20,12 @@ func LoadConfig() (Config, error) {
     }
 
     config := Config{
-        DBPath: os.Getenv("DB_PATH"),
+        DBConn: os.Getenv("DB_PATH"),
         Port:   os.Getenv("PORT"),
         Env:    os.Getenv("ENV"),
     }
 
-    if config.DBPath == "" {
+    if config.DBConn == "" {
         return Config{}, fmt.Errorf("zmienna DB_PATH jest wymagana")
     }
     if config.Port == "" {
