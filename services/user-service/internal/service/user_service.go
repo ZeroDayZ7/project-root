@@ -1,32 +1,15 @@
 package service
 
-import (
-	"time"
-	"user-service/internal/model"
-	"user-service/internal/repository"
-)
+import "user-service/internal/repository/postgres"
 
 type UserService struct {
-    repo repository.UserRepository
+	repo *postgres.UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) *UserService {
-    return &UserService{repo: repo}
+func NewUserService(repo *postgres.UserRepository) *UserService {
+	return &UserService{repo: repo}
 }
 
-func (s *UserService) CreateUser(username, email string) (*model.User, error) {
-    user := &model.User{
-        Username:  username,
-        Email:     email,
-        CreatedAt: time.Now().Format(time.RFC3339),
-    }
-    err := s.repo.Create(user)
-    if err != nil {
-        return nil, err
-    }
-    return user, nil
-}
-
-func (s *UserService) GetUser(id int) (*model.User, error) {
-    return s.repo.GetByID(id)
+func (s *UserService) IsEmailExists(email string) (bool, error) {
+	return s.repo.EmailExists(email)
 }
