@@ -2,8 +2,6 @@
 import { cleanEnv, str, port, bool, num } from 'envalid';
 
 const env = cleanEnv(process.env, {  
-  JWT_SECRET: str(),
-  DATABASE_URL: str(),
   ENABLE_DEBUG: bool({ default: false }),
 
   APP_VERSION: str({ default: 'X.X.X' }),

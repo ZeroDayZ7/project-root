@@ -1,13 +1,13 @@
 import 'dotenv/config';
 import { AddressInfo } from 'net';
 import { Server } from 'http';
+import { Socket } from 'net';
 import app from './app.js';
 import env from './config/env.js';
-import { markShuttingDown, isShuttingDown } from '@/utils/server/shutdown.js';
-import { logger } from '@zerodayz7/common';
+import { markShuttingDown, isShuttingDown, logger } from '@zerodayz7/common';
 import { initRedis, closeRedis } from '@/config/redis.config.js';
 import sessionManager from '@/config/session.config.js';
-import { Socket } from 'net';
+
 
 // Server instance with proper typing
 let server: Server;
@@ -78,7 +78,7 @@ function setupServerConfiguration(server: Server): void {
 // Initialize services
 async function initializeServices(): Promise<void> {
   try {
-    logger.info('🔧 Initializing services...');
+    logger.info(`🔧 Initializing services... [ ${env.NAME} ]`);
     await initRedis();
     logger.info('✅ Connected to Redis');
     sessionManager(app);

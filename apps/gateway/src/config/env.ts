@@ -17,7 +17,8 @@ const env = cleanEnv(process.env, {
 
   MAX_CONNECTIONS: num({ default: 1000 }),
   REQUEST_TIMEOUT: num({ default: 30000 }),
-
+  
+  NAME: str({default: 'No Name'}),
   PORT: port({ default: 4000 }),
   NODE_ENV: str({ choices: ['development', 'production', 'test'], default: 'development' }),
 });
