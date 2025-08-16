@@ -1,3 +1,12 @@
+
+Uruchomienie:
+
+```bash
+go run main.go
+```
+
+---
+
 | Komenda               | Opis                                                               | Przykład                        |
 | --------------------- | ------------------------------------------------------------------ | ------------------------------- |
 | `go version`          | Sprawdza zainstalowaną wersję Go.                                  | `go version`                    |
@@ -12,29 +21,3 @@
 | `go clean`            | Usuwa pliki tymczasowe po kompilacji.                              | `go clean`                      |
 
 ---
-
-💡 **Minimalny przykład uruchomienia serwera w Go**
-
-```go
-package main
-
-import (
-    "fmt"
-    "net/http"
-)
-
-func main() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintln(w, "Hello, Go server!")
-    })
-
-    fmt.Println("Server running on http://localhost:8080")
-    http.ListenAndServe(":8080", nil)
-}
-```
-
-Uruchomienie:
-
-```bash
-go run main.go
-```
