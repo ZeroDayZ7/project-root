@@ -2,6 +2,7 @@ import env from './config/env.js';
 import { globalErrorHandler, logger, notFoundHandler, setupCommonMiddleware } from '@zerodayz7/common';
 
 import { requestLoggerDev } from '@zerodayz7/common';
+import router from './routes/index.ts';
 
 const app = setupCommonMiddleware();
 app.use(
@@ -10,6 +11,7 @@ app.use(
     isDev: env.NODE_ENV === 'development',
   }),
 );
+app.use(router);
 
 // Prosty endpoint, który zwraca losową odpowiedź
 app.post('/check-email', (req, res) => {

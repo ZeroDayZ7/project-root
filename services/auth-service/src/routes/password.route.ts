@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { forgotPasswordController } from '@/controllers/auth/password.controller.ts';
-import { resetPasswordController } from '@/controllers/auth/password.controller.ts';
-import { changePasswordController } from '@/controllers/auth/password.controller.ts';
+import { forgotPasswordController } from '@/controllers/password.controller.ts';
+import { resetPasswordController } from '@/controllers/password.controller.ts';
+import { changePasswordController } from '@/controllers/password.controller.ts';
 
 const router: Router = Router();
 
