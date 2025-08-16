@@ -25,4 +25,4 @@ func (r *UserRepository) EmailExists(email string) (bool, error) {
         return false, err
     }
     return exists, nil
-}
+}c
