@@ -29,7 +29,6 @@ func main() {
         log.Error("Błąd ładowania konfiguracji", zap.Error(err))
         return
     }
-    log.Info("Konfiguracja wczytana", zap.String("env", cfg.Env), zap.String("port", cfg.Port))
 
     // Połączenie z bazą danych
     dbConn, err := db.NewDB(cfg.DBConn, log)
