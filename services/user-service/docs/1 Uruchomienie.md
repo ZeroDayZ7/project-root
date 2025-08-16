@@ -1,10 +1,16 @@
-
-Uruchomienie:
+## Uruchomienie:
+### DEV
 
 ```bash
-go run main.go
+make run
+go run cmd/main.go
+```
+### PROD
+
+```bash
 PS project-root\services\user-service> .\bin\user-service.exe
 ```
+
 ### Budowanie
 
 ```bash

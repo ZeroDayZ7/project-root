@@ -1,11 +1,15 @@
 include .env
 DB_URL=$(DB_PATH)
 MIGRATIONS_DIR=database/migrations
+MAIN_FILE =cmd/main.go
 
 
-.PHONY: migrate-up migrate-down migrate-create
+.PHONY: run migrate-up migrate-down migrate-create
 
 DB_URL=$(DB_PATH)
+
+run:
+	go run ${MAIN_FILE}
 
 migrate-up:
 	migrate -path database/migrations -database "$(DB_URL)" -verbose up
