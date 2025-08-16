@@ -3,6 +3,7 @@ Uruchomienie:
 
 ```bash
 go run main.go
+PS C:\Users\Neo\Desktop\WWW\react\project-root\services\user-service> .\bin\user-service.exe
 ```
 
 ---
