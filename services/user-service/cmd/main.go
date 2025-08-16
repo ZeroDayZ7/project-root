@@ -2,39 +2,37 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"user-service/config"
 	"user-service/internal/handler"
 	"user-service/internal/repository/postgres"
 	"user-service/internal/service"
 	"user-service/internal/shared/db"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func main() {
-    // Wczytaj konfigurację
-    config, err := config.LoadConfig()
-    if err != nil {
-        log.Fatal("Błąd konfiguracji:", err)
-    }
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatal("Błąd konfiguracji:", err)
+	}
 
-    // Połącz z PostgreSQL
-    db, err := db.NewDB(config.DBConn)
-    if err != nil {
-        log.Fatal("Błąd połączenia z bazą:", err)
-    }
-    defer db.Close()
+	dbConn, err := db.NewDB(cfg.DBConn)
+	if err != nil {
+		log.Fatal("Błąd połączenia z bazą:", err)
+	}
+	defer dbConn.Close()
 
-    // Inicjalizuj warstwy
-    repo := postgres.NewUserRepository(db)
-    svc := service.NewUserService(repo)
-    handler := handler.NewUserHandler(svc)
+	repo := postgres.NewUserRepository(dbConn)
+	svc := service.NewUserService(repo)
+	h := handler.NewUserHandler(svc)
 
-    // Ustaw router HTTP
-    http.HandleFunc("/users", handler.CreateUser)
-    http.HandleFunc("/users/", handler.GetUser)
+	app := fiber.New()
+	app.Use(logger.New())
 
-    // Uruchom serwer
-    addr := ":" + config.Port
-    log.Printf("Serwer działa na %s", addr)
-    log.Fatal(http.ListenAndServe(addr, nil))
+	app.Post("/check-email", h.CheckEmail)
+
+	log.Printf("Serwer działa na :%s", cfg.Port)
+	log.Fatal(app.Listen(":" + cfg.Port))
 }

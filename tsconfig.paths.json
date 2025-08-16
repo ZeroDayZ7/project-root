@@ -4,8 +4,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
+
       "@/utils/*": ["./utils/*"], 
       "@/config/*": ["./config/*"],
+      "@/controllers/*": ["./controllers/*"],
+      "@/services/*": ["./services/*"],
+
       "@neo/*": ["./packages/*/src"],
       "@neo-dist/*": ["./packages/*/dist"],
       "@common/*": ["./packages/common/src/*"],

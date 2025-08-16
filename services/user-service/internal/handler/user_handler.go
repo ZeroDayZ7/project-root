@@ -1,77 +1,33 @@
 package handler
 
 import (
-	"bytes"
-	"encoding/json"
-	"log"
-	"net/http"
-	"strconv"
 	"user-service/internal/service"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type UserHandler struct {
-    service *service.UserService
+	service *service.UserService
 }
 
 func NewUserHandler(service *service.UserService) *UserHandler {
-    return &UserHandler{service: service}
+	return &UserHandler{service: service}
 }
 
-func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
-    log.Printf("Odebrano żądanie POST /users od %s", r.RemoteAddr)
-    // Odczytaj surową treść żądania
-    bodyBytes, err := io.ReadAll(r.Body)
-    if err != nil {
-        log.Printf("Błąd odczytu treści żądania: %v", err)
-        http.Error(w, "Cannot read request body", http.StatusBadRequest)
-        return
-    }
-    // Przywróć body, aby można je było dekodować
-    r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-    log.Printf("Treść żądania: %s", string(bodyBytes))
+// POST /check-email
+func (h *UserHandler) CheckEmail(c *fiber.Ctx) error {
+	var input struct {
+		Email string `json:"email"`
+	}
 
-    var input struct {
-        Username string `json:"username"`
-        Email    string `json:"email"`
-    }
-    if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-        log.Printf("Błąd dekodowania JSON: %v", err)
-        http.Error(w, "Invalid request body", http.StatusBadRequest)
-        return
-    }
+	if err := c.BodyParser(&input); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
 
-    log.Printf("Tworzenie użytkownika: username=%s, email=%s", input.Username, input.Email)
-    user, err := h.service.CreateUser(input.Username, input.Email)
-    if err != nil {
-        log.Printf("Błąd tworzenia użytkownika: %v", err)
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	exists, err := h.service.IsEmailExists(input.Email)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
 
-    log.Printf("Utworzono użytkownika: id=%d", user.ID)
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(user)
-}
-
-func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
-    log.Printf("Odebrano żądanie GET /users/%s od %s", r.URL.Path, r.RemoteAddr)
-
-    idStr := r.URL.Path[len("/users/"):]
-    id, err := strconv.Atoi(idStr)
-    if err != nil {
-        log.Printf("Błąd parsowania ID: %v", err)
-        http.Error(w, "Invalid user ID", http.StatusBadRequest)
-        return
-    }
-
-    user, err := h.service.GetUser(id)
-    if err != nil {
-        log.Printf("Błąd pobierania użytkownika o ID %d: %v", id, err)
-        http.Error(w, err.Error(), http.StatusNotFound)
-        return
-    }
-
-    log.Printf("Pobrano użytkownika: id=%d", user.ID)
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(user)
+	return c.JSON(fiber.Map{"success": exists})
 }

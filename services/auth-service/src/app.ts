@@ -1,21 +1,17 @@
-import express, { Express } from 'express';
-import type { Request, Response, NextFunction } from 'express';
 import env from './config/env.js';
-import { logger } from '@zerodayz7/common';
+import { globalErrorHandler, logger, notFoundHandler, setupCommonMiddleware } from '@zerodayz7/common';
 
 import { requestLoggerDev } from '@zerodayz7/common';
-import { success } from 'zod';
+import router from './routes/index.ts';
 
-const app: Express = express();
-// wyłączenie X-Powered-By
-app.disable('x-powered-by');
-app.use(express.json()); // parsowanie JSON w body
+const app = setupCommonMiddleware();
 app.use(
   requestLoggerDev({
     logger,
     isDev: env.NODE_ENV === 'development',
   }),
 );
+app.use(router);
 
 // Prosty endpoint, który zwraca losową odpowiedź
 app.post('/check-email', (req, res) => {
@@ -57,21 +53,21 @@ app.post('/check-2fa', (req, res) => {
 });
 
 // Obsługa 404
-app.use((req, res, next) => {
-  res.status(404).json({ message: '[Auth-Service] Not Found' });
-});
+app.use(
+  notFoundHandler({
+    serviceName: env.NAME,
+    isDev: env.NODE_ENV === 'development',
+    logger,
+  }),
+);
 
 // Obsługa błędów
-app.use((err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) => {
-  logger.error('Error: %o', err);
-
-  const status = err.status || 500;
-  const isDev = env.NODE_ENV === 'development';
-
-  res.status(status).json({
-    message: err.message || 'Internal Server Error',
-    ...(isDev && { stack: err.stack }),
-  });
-});
+app.use(
+  globalErrorHandler({
+    serviceName: env.NAME,
+    isDev: env.NODE_ENV === 'development',
+    logger,
+  }),
+);
 
 export default app;

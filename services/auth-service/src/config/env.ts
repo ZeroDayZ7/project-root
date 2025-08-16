@@ -1,12 +1,11 @@
 // src/config/env.ts
-import { cleanEnv, str, port, bool } from 'envalid';
+import { COMMON_CONFIG } from '@zerodayz7/common';
+import { cleanEnv, str, port } from 'envalid';
 
-const env = cleanEnv(process.env, {  
-  JWT_SECRET: str(),
-  DATABASE_URL: str(),
-  ENABLE_DEBUG: bool({ default: false }),
+const env = cleanEnv(process.env, {
+  ...COMMON_CONFIG,
+  NAME: str({default: 'No Name'}),
   PORT: port({ default: 5000 }),
-  NODE_ENV: str({ choices: ['development', 'production', 'test'], default: 'development' }),
 });
 
 export default env;
