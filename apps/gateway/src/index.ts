@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { AddressInfo } from 'net';
 import { Server } from 'http';
 import { Socket } from 'net';
-import app from './app.js';
+import app, { startInternalMetrics } from './app.js';
 import env from './config/env.js';
 import { markShuttingDown, isShuttingDown, logger } from '@zerodayz7/common';
 import { initRedis, closeRedis } from '@/config/redis.config.js';
@@ -88,6 +88,9 @@ async function initializeServices(): Promise<void> {
     throw error;
   }
 }
+
+// uruchom internal metrics **przed startem głównego serwera**
+startInternalMetrics();
 
 // Start server
 async function startServer(): Promise<Server> {

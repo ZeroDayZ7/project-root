@@ -33,7 +33,3 @@ export const COMMON_CONFIG = {
   REQUEST_TIMEOUT: num({ default: 30000 }),
   NODE_ENV: str({ choices: ['development', 'production', 'test'], default: 'development' }),
 };
-
-export const CM = {
-   METRICS_TOKEN: 'your-metrics-token',
-};

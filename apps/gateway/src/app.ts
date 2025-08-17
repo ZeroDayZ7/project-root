@@ -1,3 +1,4 @@
+import express from 'express';
 import { 
   requestLoggerDev, 
   globalErrorHandler, 
@@ -5,11 +6,10 @@ import {
   notFoundHandler, 
   setupCommonMiddleware, 
   healthRouter,
-  metricsRouter} from '@zerodayz7/common';
-
+  metricsRouter
+} from '@zerodayz7/common';
 import { corsOptions } from './config/cors.config.js';
 import { helmetOptions } from './config/helmet.config.js';
-  
 import { logger } from '@zerodayz7/common';
 import env from './config/env.js';
 import routes from './routes/index.js';
@@ -27,29 +27,24 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
-//   next();
-// });
-app.use('/health', healthRouter)
-app.use('/metrics', metricsRouter);
+app.use('/health', healthRouter);
 app.use('/api', routes);
 
-// Obsługa 404
 app.use(
-  notFoundHandler({
-    serviceName: 'gateway',
-    isDev: env.NODE_ENV === 'development',
-    logger,
-  }),
+  notFoundHandler({ serviceName: 'gateway', isDev: env.NODE_ENV === 'development', logger }),
 );
-// Obsługa globalna błędów
 app.use(
-  globalErrorHandler({
-    serviceName: 'gateway',
-    isDev: env.NODE_ENV === 'development',
-    logger,
-  }),
+  globalErrorHandler({ serviceName: 'gateway', isDev: env.NODE_ENV === 'development', logger }),
 );
+
+// --- funkcja do uruchomienia internal metrics ---
+export function startInternalMetrics(): void {
+  const metricsApp = express();
+  metricsApp.use('/metrics', metricsRouter);
+  const METRICS_PORT = 9100;
+  metricsApp.listen(METRICS_PORT, '127.0.0.1', () => {
+    logger.info(`✅ Internal metrics listening on http://127.0.0.1:${METRICS_PORT}/metrics`);
+  });
+}
 
 export default app;

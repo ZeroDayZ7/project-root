@@ -1,5 +1,4 @@
-
-
+#!/bin/sh
 APP_VERSION=$(node -p "require('./package.json').version")
 export APP_VERSION
 
