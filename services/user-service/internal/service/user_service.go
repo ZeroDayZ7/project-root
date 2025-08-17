@@ -5,7 +5,6 @@ import (
 	"user-service/internal/shared/logger"
 
 	"go.uber.org/zap"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService struct {
@@ -17,7 +16,6 @@ func NewUserService(repo *postgres.UserRepository, logger *logger.Logger) *UserS
 	return &UserService{repo: repo, logger: logger}
 }
 
-// Sprawdza, czy email istnieje
 func (s *UserService) IsEmailExists(email string) (bool, error) {
 	s.logger.Debug("Wywołanie IsEmailExists", zap.String("email", email))
 	exists, err := s.repo.EmailExists(email)
@@ -29,19 +27,20 @@ func (s *UserService) IsEmailExists(email string) (bool, error) {
 	return exists, nil
 }
 
-// Sprawdza hasło i zwraca, czy poprawne oraz czy włączone 2FA
 func (s *UserService) CheckPassword(email, password string) (bool, bool, error) {
 	s.logger.Debug("Sprawdzanie hasła", zap.String("email", email))
-
 	storedPassword, twoFactorEnabled, _, err := s.repo.GetUserByEmail(email)
 	if err != nil {
-		s.logger.Error("Błąd pobierania hasła", zap.Error(err), zap.String("email", email))
+		s.logger.Error("Błąd pobierania danych użytkownika", zap.Error(err), zap.String("email", email))
 		return false, false, err
 	}
 
-	// Porównanie hashów bcrypt
-	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	valid, err := VerifyPassword(password, storedPassword, s.logger)
 	if err != nil {
+		s.logger.Error("Błąd weryfikacji hasła", zap.Error(err), zap.String("email", email))
+		return false, false, err
+	}
+	if !valid {
 		s.logger.Info("Nieprawidłowe hasło", zap.String("email", email))
 		return false, twoFactorEnabled, nil
 	}
@@ -50,28 +49,23 @@ func (s *UserService) CheckPassword(email, password string) (bool, bool, error) 
 	return true, twoFactorEnabled, nil
 }
 
-// Weryfikacja kodu 2FA
 func (s *UserService) Verify2FACode(email, code string) (bool, error) {
 	s.logger.Debug("Weryfikacja kodu 2FA", zap.String("email", email))
-
 	_, twoFactorEnabled, twoFactorSecret, err := s.repo.GetUserByEmail(email)
 	if err != nil {
 		s.logger.Error("Błąd pobierania danych 2FA", zap.Error(err), zap.String("email", email))
 		return false, err
 	}
-
 	if !twoFactorEnabled {
 		s.logger.Warn("2FA nie jest włączone", zap.String("email", email))
 		return false, nil
 	}
-
-	// Uproszczona walidacja 2FA (dla TOTP użyj github.com/pquerna/otp)
-	valid := code == twoFactorSecret // W produkcji zamień na TOTP
+	// Uproszczona walidacja (dla TOTP użyj github.com/pquerna/otp)
+	valid := code == twoFactorSecret
 	if !valid {
 		s.logger.Info("Nieprawidłowy kod 2FA", zap.String("email", email))
 		return false, nil
 	}
-
 	s.logger.Info("Kod 2FA poprawny", zap.String("email", email))
 	return true, nil
 }
