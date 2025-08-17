@@ -3,7 +3,9 @@ import {
   globalErrorHandler, 
   globalRateLimiter, 
   notFoundHandler, 
-  setupCommonMiddleware } from '@zerodayz7/common';
+  setupCommonMiddleware, 
+  healthRouter,
+  metricsRouter} from '@zerodayz7/common';
 
 import { corsOptions } from './config/cors.config.js';
 import { helmetOptions } from './config/helmet.config.js';
@@ -29,7 +31,8 @@ app.use(
 //   logger.info(`HTTP ${req.method} ${req.url} - IP: ${req.ip}`);
 //   next();
 // });
-
+app.use('/health', healthRouter)
+app.use('/metrics', metricsRouter);
 app.use('/api', routes);
 
 // Obsługa 404

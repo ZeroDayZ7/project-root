@@ -12,7 +12,7 @@ authProxy.use(
     xfwd: true,
     pathRewrite: { '^/auth': '' },
     on: {
-      proxyReq: (proxyReq, req: Request, res: Response) => {
+      proxyReq: (proxyReq, req: Request, _res: Response) => {
         logger.info(`Proxying request: ${req.method} ${req.url} -> ${proxyReq.path}`);
         proxyReq.setHeader('X-Gateway', 'API-Gateway');
         if (req.body) {
