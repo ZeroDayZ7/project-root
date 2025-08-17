@@ -15,17 +15,17 @@ authProxy.use(
       proxyReq: (proxyReq, req: Request, _res: Response) => {
         logger.info(`Proxying request: ${req.method} ${req.url} -> ${proxyReq.path}`);
         proxyReq.setHeader('X-Gateway', 'API-Gateway');
-        if (req.body) {
-          const bodyData = JSON.stringify(req.body);
-          proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-          proxyReq.setHeader('Content-Type', 'application/json');
-          proxyReq.write(bodyData);
-        }
+        // if (req.body) {
+        //   const bodyData = JSON.stringify(req.body);
+        //   proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+        //   proxyReq.setHeader('Content-Type', 'application/json');
+        //   proxyReq.write(bodyData);
+        // }
       },
       proxyRes: (proxyRes, req: Request, res: Response) => {
         logger.info(`Received response from auth microservice: Status ${proxyRes.statusCode}`);
       },
-      error: (err, req, res) => {
+      error: (err, _req, res) => {
         const response = res as import('express').Response;
         response.status(500).json({ message: 'Proxy error', error: err.message });
       },

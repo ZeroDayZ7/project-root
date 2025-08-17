@@ -20,12 +20,12 @@ const app = setupCommonMiddleware({
 });
 
 app.use(globalRateLimiter);
-app.use(
-  requestLoggerDev({
-    logger,
-    isDev: env.NODE_ENV === 'development',
-  })
-);
+// app.use(
+//   requestLoggerDev({
+//     logger,
+//     isDev: env.NODE_ENV === 'development',
+//   })
+// );
 
 app.use('/health', healthRouter);
 app.use('/api', routes);

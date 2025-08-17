@@ -1,3 +1,4 @@
+import express from 'express';
 import env from './config/env.js';
 import { globalErrorHandler, logger, notFoundHandler, setupCommonMiddleware } from '@zerodayz7/common';
 
@@ -5,6 +6,7 @@ import { requestLoggerDev } from '@zerodayz7/common';
 import router from './routes/index.ts';
 
 const app = setupCommonMiddleware();
+app.use(express.json({ limit: '1mb' })); 
 app.use(
   requestLoggerDev({
     logger,

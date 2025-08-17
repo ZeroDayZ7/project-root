@@ -9,7 +9,6 @@ export async function checkEmailController(req: Request, res: Response) {
   if (!email) {
     return res.status(400).json({ success: false, message: "Email is required" });
   }
-  logger.warn(`[Auth][Controller]Checking if email exists: ${email}`);
 
   const exists = await checkEmailService(email);
   logger.warn(`[Auth][Controller]Email exists: ${JSON.stringify(exists, null, 2)}`);
