@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { LoginStep } from '../types';
 import { useLogin } from '../LoginContext';
 import { apiFetch } from '@/lib/apiFetch';
+import logger from '@/utils/logger';
 
 const twoFactorSchema = z.object({
   code: z
@@ -56,7 +57,9 @@ export function useTwoFactorStep(): TwoFactorStepHookReturn {
       }
 
       const result = await res.json();
-      if (!result.valid) {
+      if (!result.success) {
+        logger.error(`[2FA check failed] Invalid code for user ${result.valid}`);
+        // Ustaw
         setError('code', { message: 'Nieprawidłowy kod 2FA' });
         return;
       }

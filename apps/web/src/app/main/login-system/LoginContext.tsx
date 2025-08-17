@@ -17,9 +17,7 @@ const LoginContext = createContext<LoginContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loginStep, setLoginStep] = useState<LoginStep>('email');
   const [email, setEmail] = useState('');
-  const [user, setUser] = useState<{ email: string; has2FA: boolean } | null>(
-    null,
-  );
+  const [user, setUser] = useState<{ email: string; has2FA: boolean } | null>(null);
 
   return (
     <LoginContext.Provider

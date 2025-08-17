@@ -44,6 +44,12 @@ export function usePasswordStep(): PasswordStepHookReturn {
     setFocus('password');
   }, [setFocus]);
 
+  useEffect(() => {
+  if (user) {
+    logger.info('User zaktualizowany:', user);
+  }
+}, [user]);
+
   const onSubmit = async (data: PasswordForm) => {
     try {
       if (!user?.email) {
@@ -62,18 +68,17 @@ export function usePasswordStep(): PasswordStepHookReturn {
       }
 
       const result = await res.json();
-      logger.info(`[usePasswordStep] result: ${JSON.stringify(result), null, 2}`);
+      logger.info(`[usePasswordStep] result: ${(JSON.stringify(result), null, 2)}`);
       if (!result.success) {
         setError('password', { message: result.message || 'Nieprawidłowe hasło' });
         return;
       }
 
-      setUser({
-        email: user.email,
-        has2FA: result.has2FA as boolean,
-      });
+      const newUser = { email: user.email, has2FA: !!result.has2FA as boolean };
+
+      setUser(newUser);
       logger.info(`[usePasswordStep] result: ${JSON.stringify(result, null, 2)}`);
-      logger.info(`[usePasswordStep] user: ${JSON.stringify(user)}`);
+      logger.info(`[usePasswordStep] updated user: ${JSON.stringify(user, null, 2)}`);
 
       setLoginStep(result.has2FA ? 'twoFactor' : 'success');
     } catch (error: any) {
