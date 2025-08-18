@@ -19,7 +19,7 @@ export default function sessionManager(app: Application): void {
       maxAge: env.SESSION_EXPIRES,
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: env.NODE_ENV === 'production' ? 'lax' : 'none',
+      sameSite: env.NODE_ENV === 'production' ? 'lax' : 'lax',
     },
   };
 

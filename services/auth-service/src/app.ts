@@ -4,8 +4,11 @@ import { requestLoggerDev } from '@zerodayz7/common';
 import { globalErrorHandler, logger, notFoundHandler, setupCommonMiddleware } from '@zerodayz7/common';
 
 import router from './routes/index.ts';
+import { corsOptions } from './config/cors.config.ts';
 
-const app = setupCommonMiddleware();
+const app = setupCommonMiddleware({
+  cors: { corsOptions },
+});
 app.use(express.json());
 app.use(
   requestLoggerDev({

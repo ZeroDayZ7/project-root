@@ -14,7 +14,7 @@ export const sessionInitHandler = (req: Request, res: Response, next: NextFuncti
     const csrfToken = generateCsrfToken();
     req.session.csrfToken = csrfToken;
 
-    logger.info(`[SESSION INIT] Nowa sesja: ${req.session.id}, CSRF token: ${csrfToken}`);
+    logger.info(`[SESSION INIT]: \n Nowa sesja: ${req.session.id} \n CSRF token: ${csrfToken}`);
 
     // Wyślij token do klienta
     res.status(200).json({ csrfToken });

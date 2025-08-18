@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { useLogin } from '../LoginContext';
 import { apiFetch } from '@/lib/apiFetch';
 import logger from '@/utils/logger';
+import { api } from '@/lib/http/httpClientInstance';
+import { useAuth } from '@/context/AuthContext';
 
 const emailSchema = z.object({
   email: z.string().email('Podaj prawidłowy adres e-mail'),
@@ -23,6 +25,7 @@ interface EmailStepHookReturn {
 }
 
 export function useEmailStep(): EmailStepHookReturn {
+  const { csrfToken } = useAuth(); // zwraca aktualny CSRF token
   const { setLoginStep, setEmail, setUser } = useLogin();
   const {
     register,
@@ -40,37 +43,32 @@ export function useEmailStep(): EmailStepHookReturn {
     setFocus('email');
   }, [setFocus]);
 
-  const onSubmit = async (data: EmailForm) => {
-    try {
-      // const res = await apiFetch('/check-email', {
-      const res = await fetch('http://localhost:4000/api/auth/check-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.email }),
-      });
+interface Response {
+  success: boolean;
+}
 
-      if (!res.ok) {
-        throw new Error('Błąd serwera przy sprawdzaniu e-maila');
-      }
+const onSubmit = async (data: EmailForm) => {
+  logger.info('[Email Step] Submitting email:', data.email);
+  try {
+    const res = await api.post<Response, { email: string }>(
+      '/api/auth/check-email',
+      { email: data.email },
+      { headers: { 'X-CSRF-Token': csrfToken ?? ''} } // dynamiczny CSRF
+    );
 
-      const result = await res.json();
-      logger.info(`result: ${JSON.stringify(result, null, 2)}`);
-      if (!result.success) {
-        setError('email', { message: 'Taki e-mail nie istnieje' });
-        return;
-      }
-      
-      setEmail(data.email);
-      setUser({ email: data.email, has2FA: false });
-      setLoginStep('password');
-    } catch (error) {
-      logger.error('[Email check failed]', error);
-      setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
-    } finally {
-      //  console.error('[Email check failed]', error);
-      // setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
+    if (!res.success) {
+      setError('email', { message: 'Taki e-mail nie istnieje' });
+      return;
     }
-  };
+
+    setEmail(data.email);
+    setUser({ email: data.email, has2FA: false });
+    setLoginStep('password');
+  } catch (error) {
+    logger.error('[Email check failed]', error);
+    setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
+  }
+};
 
   return { register, handleSubmit, errors, isSubmitting, onSubmit };
 }

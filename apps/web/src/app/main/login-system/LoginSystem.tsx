@@ -46,13 +46,12 @@ function LoginSystemContent() {
         return null;
     }
   })();
-
+  
   const handleHeightChange = (h: number) => setTargetHeight(h);
 
   useEffect(() => {
     if (targetHeight > 0) setHeight(targetHeight);
-  }, [targetHeight]);
-
+  }, [targetHeight]); 
   // ===== Animacje dla slide left/right =====
   const slideVariants = {
     initial: (direction: number) => ({
