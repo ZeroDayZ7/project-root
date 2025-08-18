@@ -1,10 +1,10 @@
 import 'dotenv/config';
+import env from './config/env.js';
 import { registerErrorHandlers, setupServer } from '@zerodayz7/common';
 import { logger } from '@zerodayz7/common';
-import env from './config/env.js';
 import { createApp } from './setup/setupInit.ts';
 import { setupRoutes } from './setup/setupRoutes.ts';
- 
+
 const serverConfig = {
   port: env.PORT,
   name: env.NAME,

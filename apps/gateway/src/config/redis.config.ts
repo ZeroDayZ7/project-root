@@ -41,6 +41,7 @@ export const initRedis = async (): Promise<void> => {
   if (!redisClient.isOpen) {
     try {
       await redisClient.connect();
+      logger.info('✅ Connected to Redis');
     } catch (err) {
       logger.error('❌ Failed to connect to Redis:', err);
       throw err;

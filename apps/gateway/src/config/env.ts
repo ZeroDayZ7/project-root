@@ -1,5 +1,6 @@
 // project-root\apps\gateway\src\config\env.js
-import { COMMON_CONFIG, CommonEnv } from '@zerodayz7/common';
+import 'dotenv/config';
+import { COMMON_CONFIG, CommonEnv, logger } from '@zerodayz7/common';
 import { cleanEnv, str, port, num } from 'envalid';
 
 type GatewayEnv = CommonEnv & {
@@ -31,3 +32,4 @@ const env: GatewayEnv = cleanEnv(process.env, {
 });
 
 export default env;
+ 

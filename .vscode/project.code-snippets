@@ -3,5 +3,22 @@
     "prefix": "cs", 
     "body": ["logger.info(`$1`);"],
     "description": "Szybki logger"
-  }
+  },
+
+  // Node Http Server Snippet
+  "HttpClient request snippet": {
+  "prefix": "hcReq",
+  "body": [
+    "try {",
+    "  const data = await ${1:client}.${2|get,post,put,patch,delete|}<$3>('$4',$5);",
+    "  console.log(data);",
+    "} catch (err) {",
+    "  console.error(err);",
+    "}"
+  ],
+  "description": "Quick HttpClient request"
+}
+
+
+
 }

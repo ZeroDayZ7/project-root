@@ -47,16 +47,54 @@ interface Response {
   success: boolean;
 }
 
+// const onSubmit = async (data: EmailForm) => {
+//   logger.info('[Email Step] Submitting email:', data.email);
+//   try {
+//     const res = await api.post<Response, { email: string }>(
+//       '/api/auth/check-email',
+//       { email: data.email },
+//       { headers: { 'X-CSRF-Token': csrfToken ?? ''} } // dynamiczny CSRF
+//     );
+
+//     if (!res.success) {
+//       setError('email', { message: 'Taki e-mail nie istnieje' });
+//       return;
+//     }
+
+//     setEmail(data.email);
+//     setUser({ email: data.email, has2FA: false });
+//     setLoginStep('password');
+//   } catch (error) {
+//     logger.error('[Email check failed]', error);
+//     setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
+//   }
+// };
+
 const onSubmit = async (data: EmailForm) => {
   logger.info('[Email Step] Submitting email:', data.email);
-  try {
-    const res = await api.post<Response, { email: string }>(
-      '/api/auth/check-email',
-      { email: data.email },
-      { headers: { 'X-CSRF-Token': csrfToken ?? ''} } // dynamiczny CSRF
-    );
+  logger.info('[Email Step] CSRF Token:', csrfToken);
 
-    if (!res.success) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:4000'}/api/auth/check-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-Token': csrfToken ?? '',
+      },
+      body: JSON.stringify({ email: data.email }),
+      credentials: 'include', // ważne: cookies polecą
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || `Request failed with status ${res.status}`);
+    }
+
+    const json: Response = await res.json();
+    logger.info('[Email Step] Response:', json);
+
+    if (!json.success) {
       setError('email', { message: 'Taki e-mail nie istnieje' });
       return;
     }
@@ -69,6 +107,7 @@ const onSubmit = async (data: EmailForm) => {
     setError('email', { message: 'Błąd podczas weryfikacji e-maila' });
   }
 };
+
 
   return { register, handleSubmit, errors, isSubmitting, onSubmit };
 }

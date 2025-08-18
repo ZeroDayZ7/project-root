@@ -7,6 +7,7 @@ export interface CommonEnv {
   GATEWAY_URL: string;
   AUTH_SERVICE_URL: string;
   USER_SERVICE_URL: string;
+  SESSION_SECRET_KEY: string;
 
   SECRET_KEY: string;
 
@@ -25,6 +26,7 @@ export const COMMON_CONFIG = {
   USER_SERVICE_URL: str({ default: 'http://localhost:6000' }),
 
   SECRET_KEY: str({ default: '000000000000000000000000000000000000000000000000000000000000000' }),
+  SESSION_SECRET_KEY: str({ default: 'session_secret_key' }),
 
   ENABLE_DEBUG: bool({ default: false }),
   APP_VERSION: str({ default: 'X.X.X' }),

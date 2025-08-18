@@ -12,3 +12,4 @@ export { COMMON_CONFIG, CommonEnv } from './config/env.ts';
 export { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 export { setupServer } from './server-utils/index.ts';
 export { registerErrorHandlers } from './server-utils/middleware/registerErrorHandlers.ts';
+export { HttpClient } from './utils/http-client.ts';

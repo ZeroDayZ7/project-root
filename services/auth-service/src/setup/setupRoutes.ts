@@ -16,7 +16,7 @@ export function setupRoutes(app: Application) {
   // Health endpoint
   app.use('/health', healthRouter);
   // Główne API
-  app.use(routes);
+  // app.use(routes);
 
   // Prosty endpoint, który zwraca losową odpowiedź
   app.post('/check-email', (req, res) => {

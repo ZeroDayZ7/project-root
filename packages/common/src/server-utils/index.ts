@@ -20,10 +20,10 @@ export async function setupServer(app: any, config: ServerConfig, options: Serve
             reject(err);
             return;
           }
-          const server: Server = serverInstance; // Poprawna deklaracja z typem
+          const server: Server = serverInstance;
           setupServerConfiguration(server, config);
           logServerInfo(server, config);
-          setupGracefulShutdown(server, config); // Przeniesione tutaj
+          setupGracefulShutdown(server, config, options); // Przekazujemy options
           resolve(server);
         });
       });

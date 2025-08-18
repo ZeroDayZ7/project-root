@@ -4,7 +4,7 @@ import { logger } from "@zerodayz7/common";
 
 export async function checkEmailController(req: Request, res: Response) {
   const { email } = req.body;
-  logger.warn(`[Auth][Controller]Received email for check: ${email}`);
+  logger.info(`[Auth][Controller]Received email for check: ${email}`);
 
   if (!email) {
     return res.status(400).json({ success: false, message: "Email is required" });

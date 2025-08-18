@@ -1,9 +1,9 @@
 import { Server } from 'http';
 import logger from '../utils/logger.ts';
 import { isShuttingDown, markShuttingDown } from '../utils/server/shutdown.ts';
-import { ServerConfig } from './types.js';
+import { ServerConfig, ServerOptions } from './types.js';
 
-export function setupGracefulShutdown(server: Server, config: ServerConfig): () => Promise<void> {
+export function setupGracefulShutdown(server: Server, config: ServerConfig, options: ServerOptions = {}): () => Promise<void> {
   const DEFAULT_SHUTDOWN_TIMEOUT = config.shutdownTimeout || 30_000;
 
   async function gracefulShutdown(signal?: string): Promise<void> {
@@ -22,6 +22,12 @@ export function setupGracefulShutdown(server: Server, config: ServerConfig): () 
         await new Promise<void>((resolve, reject) => server.close((err) => (err ? reject(err) : resolve())));
         logger.info('✅ Server closed');
       }
+
+      if (options.closeServices) {
+        logger.info(`🔧 Closing services... [ ${config.name} ]`);
+        await options.closeServices(); // Wywołanie specyficznych operacji zamykania
+      }
+
       clearTimeout(timer);
       logger.info('👋 Graceful shutdown complete. Goodbye!');
       process.exit(0);

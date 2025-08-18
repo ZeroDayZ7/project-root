@@ -12,4 +12,5 @@ export interface ServerConfig {
 
 export interface ServerOptions {
   initializeServices?: () => Promise<void>;
+  closeServices?: () => Promise<void>;
 }
