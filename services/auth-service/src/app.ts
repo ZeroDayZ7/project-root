@@ -1,8 +1,8 @@
 import express from 'express';
 import env from './config/env.js';
+import { requestLoggerDev } from '@zerodayz7/common';
 import { globalErrorHandler, logger, notFoundHandler, setupCommonMiddleware } from '@zerodayz7/common';
 
-import { requestLoggerDev } from '@zerodayz7/common';
 import router from './routes/index.ts';
 
 const app = setupCommonMiddleware();

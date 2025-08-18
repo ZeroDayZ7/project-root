@@ -2,13 +2,15 @@ import 'dotenv/config';
 import { AddressInfo } from 'net';
 import { Server } from 'http';
 import { Socket } from 'net';
-import app, { startInternalMetrics } from './app.js';
+import { createApp } from './setup/setupInit.ts';
 import env from './config/env.js';
 import { markShuttingDown, isShuttingDown, logger } from '@zerodayz7/common';
 import { initRedis, closeRedis } from '@/config/redis.config.js';
 import sessionManager from '@/config/session.config.js';
+import { setupRoutes } from './setup/setupRoutes.ts';
+import { setupErrorHandlers } from './setup/setupErrorHandlers.ts';
 
-
+const app = createApp();
 // Server instance with proper typing
 let server: Server;
 
@@ -82,15 +84,16 @@ async function initializeServices(): Promise<void> {
     await initRedis();
     logger.info('✅ Connected to Redis');
     sessionManager(app);
-    logger.info('✅ Session manager configured');
+    logger.info('✅ Session manager configured - 7');
+    setupRoutes(app);
+    logger.info('✅ Routes setup completed');
+    setupErrorHandlers(app);
+    logger.info('✅ Error handlers setup completed'); 
   } catch (error) {
     logger.error('Failed to initialize services:', error);
     throw error;
   }
 }
-
-// uruchom internal metrics **przed startem głównego serwera**
-startInternalMetrics();
 
 // Start server
 async function startServer(): Promise<Server> {

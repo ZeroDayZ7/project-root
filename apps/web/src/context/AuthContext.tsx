@@ -20,6 +20,8 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  csrfToken: string | null; // Dodajemy stan dla CSRF tokena
+  setCsrfToken: (token: string | null) => void; // Setter dla CSRF tokena
   isInitializing: boolean; // Zmieniona nazwa dla jasności: to jest stan ładowania sesji
   isLoading: boolean; // Nowy stan dla akcji typu login/logout
   isAuthenticated: boolean;
@@ -33,6 +35,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Główny komponent Providera
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null); // Dodajemy stan dla CSRF tokena
   const [isInitializing, setIsInitializing] = useState(true); // TYLKO do sprawdzania sesji przy starcie
   const [isLoading, setIsLoading] = useState(false); // Do obsługi ładowania w trakcie logowania
 
@@ -97,8 +100,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isAuthenticated: !!user,
       login,
       logout,
+      setCsrfToken, // Dodajemy setter dla CSRF tokena
+      csrfToken
     }),
-    [user, isInitializing, isLoading, login, logout],
+    [user, isInitializing, isLoading, login, logout, setCsrfToken, csrfToken],
   );
 
   // Provider zwraca teraz TYLKO kontekst. Bez logiki renderowania!

@@ -1,6 +1,6 @@
 import { HttpClient } from './httpClient';
 
-const USE_MOCK = 'true';
+const USE_MOCK = false;
 const MOCKS_BASE_URL = '/mocks';
 const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:4000';
 

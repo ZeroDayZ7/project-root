@@ -32,15 +32,9 @@ export class HttpClient {
     };
   }
 
-  private async request<TResponse = unknown, TBody = unknown>(
-    endpoint: string,
-    options: RequestOptions<TBody> = {}
-  ): Promise<TResponse> {
+  private async request<TResponse = unknown, TBody = unknown>(endpoint: string, options: RequestOptions<TBody> = {}): Promise<TResponse> {
     const controller = new AbortController();
-    const timeout = setTimeout(
-      () => controller.abort(),
-      this.config.timeout
-    );
+    const timeout = setTimeout(() => controller.abort(), this.config.timeout);
 
     const headers: Record<string, string> = {
       ...this.config.defaultHeaders,
@@ -58,15 +52,13 @@ export class HttpClient {
       headers['X-CSRF-Token'] = this.config.csrfToken;
     }
 
-    const res = await fetch(
-      `${this.config.baseURL || ''}${endpoint}`,
-      {
-        method: options.method || 'GET',
-        headers,
-        body: options.body ? JSON.stringify(options.body) : undefined,
-        signal: options.signal ?? controller.signal,
-      }
-    ).finally(() => clearTimeout(timeout));
+    const res = await fetch(`${this.config.baseURL || ''}${endpoint}`, {
+      method: options.method || 'GET',
+      headers,
+      body: options.body ? JSON.stringify(options.body) : undefined,
+      signal: options.signal ?? controller.signal,
+      credentials: 'include', // wysyłaj cookies
+    }).finally(() => clearTimeout(timeout));
 
     if (!res.ok) {
       let errMsg = `Request failed with status ${res.status}`;

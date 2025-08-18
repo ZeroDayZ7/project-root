@@ -5,8 +5,8 @@ import env from '@/config/env.js';
 import { logger } from '@zerodayz7/common';
 
 export default function sessionManager(app: Application): void {
-  const store = createSessionStore(); // ⬅️ teraz async
-
+  const store = createSessionStore();
+   
   const sessionConfig: session.SessionOptions = {
     name: env.SESSION_COOKIE_NAME,
     secret: env.SESSION_SECRET_KEY,
@@ -28,5 +28,5 @@ export default function sessionManager(app: Application): void {
   }
 
   app.use(session(sessionConfig));
-  logger.info('✅ Session configured successfully');
+  logger.info('✅ Session configured successfully - 7');
 }

@@ -7,7 +7,10 @@ import EmailStep from './components/EmailStep';
 import PasswordStep from './components/PasswordStep';
 import TwoFactorStep from './components/TwoFactorStep';
 import SuccessStep from './components/SuccessStep';
-
+import { useAuth } from '@/context/AuthContext';
+import logger from '@/utils/logger';
+import { api } from '@/lib/http/httpClientInstance';
+import type { Session }  from '@/types/session';
 function StepWrapper({ children, onHeightChange }: { children: React.ReactNode; onHeightChange: (h: number) => void }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,6 +27,7 @@ function StepWrapper({ children, onHeightChange }: { children: React.ReactNode; 
 }
 
 function LoginSystemContent() {
+  const { setCsrfToken } = useAuth();
   const { loginStep } = useLogin();
   const [height, setHeight] = useState(0);
   const [targetHeight, setTargetHeight] = useState(0);
@@ -63,23 +67,24 @@ function LoginSystemContent() {
   };
   const [direction, setDirection] = useState(1); // 1 = next, -1 = back
 
+  useEffect(() => {
+    const initSession = async () => {
+      try {
+        const session = await api.get<Session>('/api/session-init');
+        logger.info('Pobrano sesję:', session);
+        setCsrfToken(session.csrfToken || '');
+      } catch (error) {
+        logger.error('Błąd pobierania sesji:', error);
+      }
+    };
+    initSession();
+  }, []);
+
   return (
     <div className="w-full max-w-md mx-auto p-2" role="region" aria-labelledby="login-system-title">
-      <motion.div
-        style={{ height, overflow: 'hidden' }}
-        animate={{ height }}
-        transition={{ type: 'spring', stiffness: 1500, damping: 50 }}
-      >
+      <motion.div style={{ height, overflow: 'hidden' }} animate={{ height }} transition={{ type: 'spring', stiffness: 1500, damping: 50 }}>
         <AnimatePresence custom={direction} mode="wait">
-          <motion.div
-            key={loginStep}
-            custom={direction}
-            variants={slideVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
-          >
+          <motion.div key={loginStep} custom={direction} variants={slideVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.4, ease: 'easeInOut' }}>
             <StepWrapper key={loginStep} onHeightChange={handleHeightChange}>
               {StepComponent}
             </StepWrapper>

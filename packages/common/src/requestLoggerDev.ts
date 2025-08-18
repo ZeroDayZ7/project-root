@@ -23,7 +23,7 @@ export function requestLoggerDev({ isDev }: RequestLoggerOptions) {
 
     const start = process.hrtime();
     // console.clear();
-    log(`🔹 ===== 📥 REQUEST 📥 =====`);
+    log(`🔹 ================== 📥 REQUEST 📥 ================== `);
     log(`🔹 Request ID: ${requestId}`);
     log(`🔹 Method: ${req.method}`);
     log(`🔹 URL: ${req.originalUrl}`);
@@ -33,15 +33,14 @@ export function requestLoggerDev({ isDev }: RequestLoggerOptions) {
     log(`🔹 Params: ${ JSON.stringify(req.params, null, 2)}`);
     log(`🔹 Body: ${ JSON.stringify(req.body, null, 2)}`);
     log('🔹 Session:', (req as any).session ?? 'No session');
-    log('====================================================');
-
+    log('🔹 ==================================================== ');
     const originalSend = res.send;
 
     res.send = function (body: any): Response {
       const diff = process.hrtime(start);
       const timeMs = (diff[0] * 1e3 + diff[1] / 1e6).toFixed(2);
 
-      log(`\n==================== 📤 RESPONSE  ====================`);
+      log(`🔹 ================== 📤 RESPONSE  =================== `);
       log(`🔹 Request ID: ${requestId}`);
       log(`🔹 Status: ${res.statusCode}`);
       log(`🔹 Response Time: ${timeMs}ms`);
@@ -52,7 +51,7 @@ export function requestLoggerDev({ isDev }: RequestLoggerOptions) {
       } catch {
         log('🔹 Body: [Cannot stringify response body]');
       }
-      log('====================================================\n');
+      log('🔹 ==================================================== ');
 
       return originalSend.call(res, body);
     };
