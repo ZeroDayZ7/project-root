@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import type { MinimalLogger } from '../types/logger.js';
+import logger from '../../utils/logger.ts';
 
 interface NotFoundHandlerOptions {
   serviceName?: string;
   isDev?: boolean;
-  logger?: MinimalLogger;
 }
 
 export function notFoundHandler(options: NotFoundHandlerOptions = {}) {
-  const { serviceName = '', isDev = false, logger = console } = options;
+  logger.info(`🔧 Initializing 404 not found handler...`);
+  const { serviceName = '', isDev = false } = options;
 
   return (_req: Request, res: Response, _next: NextFunction) => {
     const message = isDev && serviceName ? `[${serviceName}] Not Found` : 'Not Found';
