@@ -1,6 +1,5 @@
 #!/bin/sh
 
-pnpm --filter web run turbo &
-pnpm --filter gateway run nodemon &
-pnpm --filter auth-service run nodemon &
+pnpm --filter gateway run start:dev &&
+pnpm --filter auth-service run start:dev &&
 wait

@@ -1,6 +1,6 @@
 // routes/health.route.ts
 import { Router, Request, Response } from "express";
-import { isShuttingDown } from "@/utils/server/shutdown.ts";
+import { isShuttingDown } from "../../utils/server/shutdown.ts";
 import { getHealthStatus } from "./health.service.js";
 import { HealthStatus } from "./health.types.js";
 

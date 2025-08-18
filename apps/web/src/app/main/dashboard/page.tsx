@@ -21,7 +21,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="p-8 bg-background min-h-screen text-white"
+          className="p-4"
         >
           <h1 className="text-2xl font-bold mb-6">Witaj w dashboardzie!</h1>
 

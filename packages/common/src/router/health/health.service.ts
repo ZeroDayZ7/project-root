@@ -1,5 +1,5 @@
 import { HealthStatus } from "./health.types.ts";
-import { isShuttingDown } from "@/utils/server/shutdown.ts";
+import { isShuttingDown } from "../../utils/server/shutdown.ts";
 
 export const getHealthStatus = (): HealthStatus => {
   return {

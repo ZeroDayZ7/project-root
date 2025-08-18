@@ -6,10 +6,9 @@ import { requestLoggerDev } from '@zerodayz7/common';
 import router from './routes/index.ts';
 
 const app = setupCommonMiddleware();
-app.use(express.json({ limit: '1mb' })); 
+app.use(express.json());
 app.use(
   requestLoggerDev({
-    logger,
     isDev: env.NODE_ENV === 'development',
   }),
 );
