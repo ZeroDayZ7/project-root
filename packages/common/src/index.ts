@@ -11,4 +11,4 @@ export { metricsRouter } from './router/metrics/metrics.route.ts';
 export { COMMON_CONFIG, CommonEnv } from './config/env.ts';
 // re-export UUID
 export { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
-
+export { setupServer } from './server-utils/index.ts';
