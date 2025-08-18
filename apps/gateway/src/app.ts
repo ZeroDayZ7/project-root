@@ -13,6 +13,7 @@ import { helmetOptions } from './config/helmet.config.js';
 import { logger } from '@zerodayz7/common';
 import env from './config/env.js';
 import routes from './routes/index.js';
+import { uuidv4 } from '@zerodayz7/common';
 
 const app = setupCommonMiddleware({
   cors: corsOptions,
@@ -20,11 +21,15 @@ const app = setupCommonMiddleware({
 });
 
 app.use(globalRateLimiter);
-app.use(
-  requestLoggerDev({
-    isDev: env.NODE_ENV === 'development',
-})
-);
+app.use(requestLoggerDev({isDev: env.NODE_ENV === 'development'}));
+
+app.use((req, res, next) => {
+  const requestId = uuidv4();
+  req.headers['X-Request-ID'] = requestId; // dodajemy do nagłówków
+  res.setHeader('X-Request-ID', requestId); // opcjonalnie do odpowiedzi 
+  next();
+});
+ 
 
 app.use('/health', healthRouter);
 app.use('/api', routes);

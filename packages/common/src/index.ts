@@ -9,3 +9,6 @@ export * from './utils/server/shutdown.ts';
 export { healthRouter } from  './router/health/health.route.ts';
 export { metricsRouter } from './router/metrics/metrics.route.ts';
 export { COMMON_CONFIG, CommonEnv } from './config/env.ts';
+// re-export UUID
+export { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
+

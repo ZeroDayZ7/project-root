@@ -12,19 +12,17 @@ authProxy.use(
     xfwd: true,
     pathRewrite: { '^/auth': '' },
     on: {
-  proxyReq: (proxyReq, req: Request, _res: Response) => {
-    logger.info(`Proxying request: ${req.method} ${req.url} -> ${proxyReq.path}`);
-    logger.info('Request body in proxy:', req.body); // Logowanie dla debugowania
-    proxyReq.setHeader('X-Gateway', 'API-Gateway');
-    if (req.body && Object.keys(req.body).length > 0) {
-      const bodyData = JSON.stringify(req.body);
-      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-      proxyReq.setHeader('Content-Type', 'application/json');
-      proxyReq.write(bodyData);
-    } else {
-      logger.warn('No body provided in request');
-    }
-  },
+      proxyReq: (proxyReq, req: Request, _res: Response) => {
+        proxyReq.setHeader('X-Gateway', 'API-Gateway');
+        if (req.body && Object.keys(req.body).length > 0) {
+          const bodyData = JSON.stringify(req.body);
+          proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+          proxyReq.setHeader('Content-Type', 'application/json');
+          proxyReq.write(bodyData);
+        } else {
+          logger.warn('No body provided in request');
+        }
+      },
       proxyRes: (proxyRes, _req: Request, _res: Response) => {
         logger.info(`Received response from auth microservice: Status ${proxyRes.statusCode}`);
       },
