@@ -16,7 +16,7 @@ export default function SuccessStep() {
     if (user) {
       timeout = setTimeout(() => {
       router.replace('/main/dashboard'); 
-      }, 700); // 700 ms delay
+      }, 1700); // 700 ms delay
     }
     return () => clearTimeout(timeout);
   }, [user, router]);
