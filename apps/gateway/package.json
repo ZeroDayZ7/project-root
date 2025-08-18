@@ -9,6 +9,7 @@
     "build:prod": "sh scripts/build-prod.sh",
     "start:prod": "node dist/index.js",
     "start:dev": "sh scripts/start-dev.sh",
+    "nodemon": "nodemon",
     "lint:dev": "eslint ./src --ext .ts",
     "lint:debug": "eslint ./src --ext .ts --debug"
   },

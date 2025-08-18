@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "web": "pnpm --filter web run turbo",
-    "gate": "pnpm --filter gateway run start:dev",
-    "auth": "pnpm --filter auth-service run start:dev",
+    "web": "pnpm --filter web turbo",
+    "gate": "pnpm --filter gateway start:dev",
+    "auth": "pnpm --filter auth-service start:dev",
     "start-all": "sh scripts/start-all.sh",
     "update-all": "pnpm update --latest --recursive",
     "update-all-npx": "pnpm dlx npm-check-updates -u",
     "update-check": "pnpm dlx npm-check-updates",
     "pnpm:clear": "sh scripts/clear-pnpm.sh",
     "pnpm:clearlogs": "sh scripts/clear-logs.sh",
+
+    "killport": "sh scripts/kill-port.sh",
+
+    "pack": "pnpm pack --filter @zerodayz7/common",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
