@@ -11,7 +11,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": false,
-    "rootDir": ".",
   },
   "include": [
     "packages/*/src/**/*",
