@@ -2,18 +2,20 @@
 import { Router } from "express";
 import { logger } from "@zerodayz7/common";
 import env from "@/config/env.js";
+import { validateRequest } from "@/common/middlerware/validate.middleware.ts";
+import { emailSchema, EmailPayload } from "@zerodayz7/common";
 
 const authRouter: Router = Router();
 const AUTH_URL = env.AUTH_SERVICE_URL || "http://localhost:5000";
 
-authRouter.post("/check-email", async (req, res, next) => {
+authRouter.post("/check-email", validateRequest<EmailPayload>(emailSchema), async (req, res, next) => {
   try {
     const { email } = req.body;
     if (!email) {
       return res.status(400).json({ success: false, message: "Email is required" });
     }
 
-    logger.info(`Checking if email exists: ${email}`);
+    logger.info(`[AUTH]: Checking if email exists: ${email}`);
 
     const response = await fetch(`${AUTH_URL}/check-email`, {
       method: "POST",
