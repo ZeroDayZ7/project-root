@@ -1,5 +1,6 @@
 package service
 
+<<<<<<< HEAD
 import (
 	"user-service/internal/repository/postgres"
 	"user-service/internal/shared/logger"
@@ -69,3 +70,18 @@ func (s *UserService) Verify2FACode(email, code string) (bool, error) {
 	s.logger.Info("Kod 2FA poprawny", zap.String("email", email))
 	return true, nil
 }
+=======
+import "user-service/internal/repository/postgres"
+
+type UserService struct {
+	repo *postgres.UserRepository
+}
+
+func NewUserService(repo *postgres.UserRepository) *UserService {
+	return &UserService{repo: repo}
+}
+
+func (s *UserService) IsEmailExists(email string) (bool, error) {
+	return s.repo.EmailExists(email)
+}
+>>>>>>> main

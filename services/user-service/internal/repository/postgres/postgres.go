@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+<<<<<<< HEAD
 	"user-service/internal/shared/logger"
 
 	"go.uber.org/zap"
@@ -22,10 +23,28 @@ func (r *UserRepository) EmailExists(email string) (bool, error) {
 	err := r.db.QueryRow("SELECT EXISTS(SELECT 1 FROM users WHERE email=$1)", email).Scan(&exists)
 	if err != nil {
 		r.logger.Error("Błąd zapytania SQL", zap.Error(err), zap.String("email", email))
+=======
+)
+
+type UserRepository struct {
+	db *sql.DB
+}
+
+func NewUserRepository(db *sql.DB) *UserRepository {
+	return &UserRepository{db: db}
+}
+
+// Sprawdza czy email istnieje
+func (r *UserRepository) EmailExists(email string) (bool, error) {
+	var exists bool
+	err := r.db.QueryRow("SELECT EXISTS(SELECT 1 FROM users WHERE email=$1)", email).Scan(&exists)
+	if err != nil {
+>>>>>>> main
 		return false, err
 	}
 	return exists, nil
 }
+<<<<<<< HEAD
 
 func (r *UserRepository) GetUserByEmail(email string) (string, bool, string, error) {
 	var password string
@@ -38,3 +57,5 @@ func (r *UserRepository) GetUserByEmail(email string) (string, bool, string, err
 	}
 	return password, twoFactorEnabled, twoFactorSecret, nil
 }
+=======
+>>>>>>> main

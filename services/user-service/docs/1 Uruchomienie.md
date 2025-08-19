@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Uruchomienie:
 ### DEV
 
@@ -11,6 +12,15 @@ go run cmd/main.go
 PS project-root\services\user-service> .\bin\user-service.exe
 ```
 
+=======
+
+Uruchomienie:
+
+```bash
+go run main.go
+PS project-root\services\user-service> .\bin\user-service.exe
+```
+>>>>>>> main
 ### Budowanie
 
 ```bash
