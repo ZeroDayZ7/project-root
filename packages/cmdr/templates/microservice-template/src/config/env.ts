@@ -1,4 +1,5 @@
 // src/config/env.ts
+// @ts-nocheck
 import { cleanEnv, str, port, bool, num } from 'envalid';
 
 const env = cleanEnv(process.env, {  

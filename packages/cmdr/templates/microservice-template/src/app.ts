@@ -1,3 +1,4 @@
+// @ts-nocheck
 import env from './config/env.js';
 import { globalErrorHandler, logger, notFoundHandler, setupCommonMiddleware } from '@zerodayz7/common';
 

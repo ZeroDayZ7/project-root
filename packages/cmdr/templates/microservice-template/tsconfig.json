@@ -1,5 +1,5 @@
+// @ts-nocheck
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",

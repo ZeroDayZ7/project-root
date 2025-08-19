@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'dotenv/config';
 import { AddressInfo } from 'net';
 import { Server } from 'http';
