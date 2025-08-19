@@ -1,43 +1,29 @@
 // packages/gateway/src/routes/auth.ts
 import { Router } from "express";
 import { logger } from "@zerodayz7/common";
-import env from "@/config/env.js";
 import { validateRequest } from "@/common/middlerware/validate.middleware.ts";
-import { emailSchema, EmailPayload } from "@zerodayz7/common";
+import { checkEmailSchema, EmailPayload, checkPasswordSchema, PasswordPayload } from "@zerodayz7/common";
+import { checkEmailController, checkPasswordController, check2FaController } from "@/controllers/auth/auth.controller.ts";
 
 const authRouter: Router = Router();
-const AUTH_URL = env.AUTH_SERVICE_URL || "http://localhost:5000";
 
-authRouter.post("/check-email", validateRequest<EmailPayload>(emailSchema), async (req, res, next) => {
-  try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ success: false, message: "Email is required" });
-    }
+authRouter.post(
+  "/check-email",
+  validateRequest<EmailPayload>(checkEmailSchema),
+  checkEmailController
+);
 
-    logger.info(`[AUTH]: Checking if email exists: ${email}`);
-
-    const response = await fetch(`${AUTH_URL}/check-email`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Auth service error: ${response.status}`);
-    }
-
-    const data = await response.json(); // np. { exists: true }
-
-    res.json({ success: data.exists, ...data });
-  } catch (err) {
-    logger.error("Error in check-email endpoint:", err);
-    next(err);
-  }
-});
+authRouter.post(
+  "/check-password",
+  validateRequest<PasswordPayload>(checkPasswordSchema),
+  checkPasswordController
+);
+  
+authRouter.post(
+  "/check-2fa",
+  validateRequest<EmailPayload>(checkEmailSchema),
+  check2FaController
+);
+ 
 
 export default authRouter;

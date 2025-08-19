@@ -14,3 +14,4 @@ export { setupServer } from './server-utils/index.ts';
 export { registerErrorHandlers } from './server-utils/middleware/registerErrorHandlers.ts';
 export { HttpClient } from './utils/http-client.ts';
 export * from './validators/email.validator.ts'
+export * from './validators/password.validator.ts'
